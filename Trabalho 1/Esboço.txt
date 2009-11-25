@@ -1,0 +1,41 @@
+//Interface a ser implementada por todos os jogadores
+IPlayer
+	- hashTable<Point,Element> myBoard
+	- ArrayList<Point> myMoves
+
+	- setBoard (Board b) : boolean
+	- play () : Point
+	- getTarget (Point p) : Type
+
+//Clase que implementa IPlayer e que possuiu IA
+IAPlayer
+	- ArrayList<Point> availMoves
+	- ArrayList<Point> planedMoves
+	
+	- getRandomPoint () : Point
+	- generatePossibiliy (Type t)
+	- play () : Point
+	- setBoard (Board b) : boolean
+
+Board
+	- int lines
+	- int cols
+	- ArrayList<GameElementRules> list
+	
+	- isPossible (Point p) : boolean
+	- isUseable () : boolean //O board responder se é possível colocar as peças actuais na área actual
+	
+// Esta classe serve para se definirem as regras acerca de quantos elementos deverão existir e de que tipo
+GameElementRules
+	- int quant
+	- Type elem
+
+Game
+	- Board gameBoard
+	- Player[] players
+	
+GameElement
+	- int size
+	
+	static getPoints (Point initial, Point direction) : Point[]
+	
