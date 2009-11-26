@@ -53,7 +53,10 @@ public abstract class GameBoard {
 
     /**
      * Associa uma jogada ao tabuleiro de jogo.<br>
-     * Retorna o elemento que se encontra no ponto passado como parâmetro.<br>
+     * Retorna o elemento que se encontra no ponto passado como parâmetro ou,
+     *  caso não exista nenhum nessa localização, retorna água.<br>
+     * Em qualquer um dos casos a jogada é guardada e, no caso de se ter acertado
+     *  num elemento, esta posição é transitada para a estrutura _receivedShots.<br>
      *
      * @param p Ponto onde deverá ser feita a jogada.
      * @return IElement Elemento alvo da jogada.
@@ -62,8 +65,10 @@ public abstract class GameBoard {
 
         IElement elem = _board.get(p);
         if (elem == null) {
+            _receivedShots.put(p, _water);
             return _water;
         }
+        _receivedShots.put(p,_board.remove(p));
         return elem;
     }
 
@@ -133,8 +138,6 @@ public abstract class GameBoard {
                     _board.get(temp).draw();
                 } else if (_receivedShots.contains(temp)) {
                     _receivedShots.get(temp).draw();
-                } else {
-                    _water.draw();
                 }
             }
             System.out.println("O");
@@ -142,6 +145,5 @@ public abstract class GameBoard {
         for (int i = 0; i < _end.x; i++) {
             System.out.println("O");
         }
-
     }
 }

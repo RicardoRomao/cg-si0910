@@ -1,9 +1,7 @@
 package Player;
 
-
 import java.awt.Point;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -23,6 +21,10 @@ public class Player implements IPlayer {
     }
 
     public Point play() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void draw() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
