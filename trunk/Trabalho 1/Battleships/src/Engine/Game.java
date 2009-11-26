@@ -15,14 +15,12 @@ public class Game {
         //Iniciar os boards
     }
 
-    }
-    private void setPlayerBoard(IPlayer player)
+    private void setPlayer(IPlayer player)
     {
         throw new UnsupportedOperationException();
     }
 
     private void play(){
+    
     }
-
-
 }

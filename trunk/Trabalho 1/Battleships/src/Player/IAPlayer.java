@@ -6,28 +6,28 @@ import java.util.ArrayList;
 
 /*
  * IAPlayer tem de saber adicionalmente o tamanho
- * do game board para poder gerar os pontos que estão
- * dísponiveis.
+ * do game board para poder gerar os pontos que estï¿½o
+ * dï¿½sponiveis.
  */
 public class IAPlayer implements IPlayer {
     ArrayList<Point> availMoves;
     ArrayList<Point> planedMoves;
-	Point lastPlay; // Auxiliar para no caso de ter um hit tentar calcular direcções
+	Point lastPlay; // Auxiliar para no caso de ter um hit tentar calcular direcï¿½ï¿½es
 
     private Point getRandomPoint() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-	// Método tem de ser publico para num hit com sucesso
-	// o game obrigar o IAPlayer a planear as próximas
+	// Mï¿½todo tem de ser publico para num hit com sucesso
+	// o game obrigar o IAPlayer a planear as prï¿½ximas
 	// jogadas
     public void planMoves(Type t) {
 		// Se planedMoves estiver vazio
 		//   gera os pontos para o tipo t
-		// Senão
-		//   tenta calcular a direcção
+		// Senï¿½o
+		//   tenta calcular a direcï¿½ï¿½o
 		//   Se sucesso
-		//     elimina pontos não pertencentes à direcção
+		//     elimina pontos nï¿½o pertencentes ï¿½ direcï¿½ï¿½o
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -36,10 +36,14 @@ public class IAPlayer implements IPlayer {
     }
 
     public Point play() {
-		// Se planedMoves não estiver vazio
-		//   escolhe um ponto aleatório do array
-		// Senão
-		//   gera um ponto aleatório
+		// Se planedMoves nï¿½o estiver vazio
+		//   escolhe um ponto aleatï¿½rio do array
+		// Senï¿½o
+		//   gera um ponto aleatï¿½rio
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void draw() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
