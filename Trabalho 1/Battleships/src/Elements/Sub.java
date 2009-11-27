@@ -1,7 +1,6 @@
 package Elements;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.Collection;
 
 public class Sub extends Element {
@@ -12,14 +11,17 @@ public class Sub extends Element {
     }
 
     public static Collection<Point> getPoints(Point p, Point dir) {
+        return null;
     }
 
-    public Object hit() {
+    public void draw() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void isSunk() {
+    public void drawDamage() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+
 
 }
