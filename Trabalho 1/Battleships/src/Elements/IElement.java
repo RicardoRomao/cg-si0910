@@ -12,8 +12,8 @@ public interface IElement {
      * Desenha o elemento atingido
      */
     void drawDamage();
-    boolean hit();
-
+    /**
+     * Devolve os pontos osupados pelo Element
+     */
     Collection<Point> getPoints();
-
 }

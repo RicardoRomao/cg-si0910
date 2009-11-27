@@ -16,5 +16,5 @@ package Elements;
  */
 @SuppressWarnings("serial")
 public enum ElementType {
-    Water, Submarine , Patrol_Boat, Destroyer, Battleship, Aircraft;
+    WATER, SUBMARINE , PATROL_BOAT, DESTROYER, BATTLESHIP, AIRCRAFT;
 }
