@@ -12,30 +12,33 @@ import java.util.Iterator;
  * Contém informação acerca do ponto de fim, considerando-se sempre o ponto inicial (0,0).<br>
  * Guarda também informação acerca do número de elementos "alive" contidos no mesmo.<br>
  */
-public abstract class GameBoard {
+public class GameBoard {
+
+// Atributos
 
     /**
      * Coordenadas de fim do tabuleiro.<br>
      */
-    Point _end;
-    /**
-     * Número de elementos "alive", i.e., elementos que ainda nao foram afundados.<br>
-     */
-    int _nElems;
+    private Point _end;
+
     /**
      * Referência para um objecto do tipo Water, evitando assim instanciação
      *  de vários objectos deste tipo.<br>
      */
     private static final Water _water = new Water();
+
     /**
      * Estrutura que guarda estado de todos os Pontos em que já foram feitos disparos,
      *  bem como, as referencias para os objectos que ocupavam essas posições.<br>
      */
     private Hashtable<Point, IElement> _receivedShots;
+
     /**
      * Estrutura que guarda estado de todos os elementos em jogo no tabuleiro.<br>
      */
     private Hashtable<Point, IElement> _board;
+
+// Construtor
 
     /**
      * Construtor que recebe o número de linhas e colunas do tabuleiro,
@@ -44,32 +47,22 @@ public abstract class GameBoard {
      * @param lines Número de linhas do tabuleiro.
      * @param cols Número de colunas do tabuleiro.
      */
-    public GameBoard(int lines, int cols) {
+    public GameBoard(Point bounds) {
         _board = new Hashtable<Point, IElement>();
         _receivedShots = new Hashtable<Point, IElement>();
-        _nElems = 0;
-        _end = new Point(cols - 1, lines - 1);
+        _end = bounds;
     }
 
-    /**
-     * Associa uma jogada ao tabuleiro de jogo.<br>
-     * Retorna o elemento que se encontra no ponto passado como parâmetro ou,
-     *  caso não exista nenhum nessa localização, retorna água.<br>
-     * Em qualquer um dos casos a jogada é guardada e, no caso de se ter acertado
-     *  num elemento, esta posição é transitada para a estrutura _receivedShots.<br>
-     *
-     * @param p Ponto onde deverá ser feita a jogada.
-     * @return IElement Elemento alvo da jogada.
-     */
-    private IElement shoot(Point p) {
+// Métodos Privados
 
-        IElement elem = _board.get(p);
-        if (elem == null) {
-            _receivedShots.put(p, _water);
-            return _water;
-        }
-        _receivedShots.put(p,_board.remove(p));
-        return elem;
+    /**
+     * Verifica se o ponto está dentro dos limites do tabuleiro.
+     *
+     * @param p Ponto sobre o qual se vai fazer a verificação.
+     * @return True caso o ponto esteja dentro dos limites.
+     */
+    private boolean isInBounds(Point p) {
+        return (p.x <= _end.x && p.y <= _end.y && p.x >= 0 && p.y >= 0);
     }
 
     /**
@@ -84,21 +77,50 @@ public abstract class GameBoard {
         Collection<Point> elemPts = e.getPoints();
         Iterator<Point> it = elemPts.iterator();
         while (it.hasNext()) {
-            if (_board.contains(it.next())) {
+            Point p = it.next();
+            if (_board.contains(p) || !isInBounds(p)) {
                 return false;
             }
         }
         return true;
     }
 
+// Métodos Públicos
+
     /**
-     * Retorna informação acerca da existência de elementos não afundados
-     *  no tabuleiro.<br>
+     * Associa uma jogada ao tabuleiro de jogo.<br>
+     * Retorna o elemento que se encontra no ponto passado como parâmetro ou,
+     *  caso não exista nenhum nessa localização, retorna água.<br>
+     * Em qualquer um dos casos a jogada é guardada e, no caso de se ter acertado
+     *  num elemento, esta posição é transitada para a estrutura _receivedShots.<br>
      *
-     * @return boolean True caso existam elementos não afundados.
+     * @param p Ponto onde deverá ser feita a jogada.
+     * @return IElement Elemento alvo da jogada ou null, caso o ponto não esteja nos
+     *          limites do tabuleiro
      */
-    private boolean isAlive() {
-        return (_nElems == 0);
+
+    public IElement shoot(Point p) {
+        if (!isInBounds(p)) {
+            return null;
+        }
+        IElement elem = _board.get(p);
+        if (elem == null) {
+            _receivedShots.put(p, _water);
+            return _water;
+        }
+        elem.hit();
+        _receivedShots.put(p, _board.remove(p));
+        return elem;
+    }
+
+    /**
+     * Verifica se existem mais jogadas disponíveis no tabuleiro.<br>
+     * Esta resposta passa por verificar se existem elementos em jogo.<br>
+     *
+     * @return True caso existam elementos em jogo no tabuleiro.
+     */
+    public boolean hasMoreMoves() {
+        return (!_board.isEmpty());
     }
 
     /**
@@ -108,16 +130,12 @@ public abstract class GameBoard {
      * @return boolean True caso o elemento tenha sido adicionado.
      */
     public boolean addElement(IElement e) {
-
-        //Verify how to pass callback to isPlaceable.
-
         if (isPlaceable(e)) {
             Collection<Point> elemPts = e.getPoints();
             Iterator<Point> it = elemPts.iterator();
             while (it.hasNext()) {
                 _board.put(it.next(), e);
             }
-            _nElems += 1;
             return true;
         }
         return false;
@@ -126,15 +144,15 @@ public abstract class GameBoard {
     /**
      * Desenha o tabuleiro de jogo.
      */
-    public void draw() {
-        for (int i = 0; i < _end.x; i++) {
+    public void draw(boolean drawAll) {
+        for (int i = 0; i <= _end.x; i++) {
             System.out.println("O");
         }
-        for (int x = 0; x < _end.x; x++) {
+        for (int x = 0; x <= _end.x; x++) {
             System.out.println("O");
-            for (int y = 0; y < _end.x; y++) {
+            for (int y = 0; y <= _end.x; y++) {
                 Point temp = new Point(x, y);
-                if (_board.contains(temp)) {
+                if (drawAll & _board.contains(temp)) {
                     _board.get(temp).draw();
                 } else if (_receivedShots.contains(temp)) {
                     _receivedShots.get(temp).draw();
@@ -142,7 +160,7 @@ public abstract class GameBoard {
             }
             System.out.println("O");
         }
-        for (int i = 0; i < _end.x; i++) {
+        for (int i = 0; i <= _end.x; i++) {
             System.out.println("O");
         }
     }

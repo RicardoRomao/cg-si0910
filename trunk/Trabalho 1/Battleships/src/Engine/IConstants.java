@@ -10,9 +10,15 @@ public interface IConstants {
     static final int battleshipSize = 4;
     static final int aircraftCarrierSize = 5;
 
+    static final int NUM_PLAYERS = 2;
+
     static final Point NORTH = new Point(0,1);
     static final Point SOUTH = new Point(0,-1);
     static final Point EAST = new Point(-1,0);
     static final Point WEST = new Point(1,0);
+
+    static final Point BOUNDS = new Point(20,20);
+
+    static enum GameStatus { Invalid, Ready, Started, Ended }
 
 }

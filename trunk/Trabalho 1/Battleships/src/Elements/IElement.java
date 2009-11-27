@@ -16,4 +16,8 @@ public interface IElement {
      * Devolve os pontos osupados pelo Element
      */
     Collection<Point> getPoints();
+    /**
+     * Representa a acção de acertar no Element
+     */
+    void hit();
 }

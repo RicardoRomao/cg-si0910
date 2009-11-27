@@ -3,19 +3,19 @@ package Elements;
 import java.awt.Point;
 import java.util.Collection;
 
-public class Water implements IElement{
+public class Water implements IElement {
 
     private ElementType _type;
 
-    public Water(){
+    public Water() {
         _type = ElementType.WATER;
     }
 
-    public ElementType getType(){
+    public ElementType getType() {
         return _type;
     }
 
-    public void draw(){
+    public void draw() {
         System.out.print(" ");
     }
 
@@ -27,4 +27,6 @@ public class Water implements IElement{
         return null;
     }
 
+    public void hit() {
+    }
 }
