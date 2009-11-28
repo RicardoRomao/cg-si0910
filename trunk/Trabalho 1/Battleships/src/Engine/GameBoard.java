@@ -1,5 +1,6 @@
 package Engine;
 
+import Elements.Empty;
 import Elements.IElement;
 import Elements.Water;
 import java.awt.Point;
@@ -15,31 +16,31 @@ import java.util.Iterator;
 public class GameBoard {
 
 // Atributos
-
     /**
      * Coordenadas de fim do tabuleiro.<br>
      */
     private Point _end;
-
     /**
      * Referência para um objecto do tipo Water, evitando assim instanciação
      *  de vários objectos deste tipo.<br>
      */
     private static final Water _water = new Water();
-
+    /**
+     * Referência para um objecto do tipo Empty, por forma a poder desenhar
+     * &nbsp;espaços vazios.<br>
+     */
+    private static final Empty _empty = new Empty();
     /**
      * Estrutura que guarda estado de todos os Pontos em que já foram feitos disparos,
      *  bem como, as referencias para os objectos que ocupavam essas posições.<br>
      */
     private Hashtable<Point, IElement> _receivedShots;
-
     /**
      * Estrutura que guarda estado de todos os elementos em jogo no tabuleiro.<br>
      */
     private Hashtable<Point, IElement> _board;
 
 // Construtor
-
     /**
      * Construtor que recebe o número de linhas e colunas do tabuleiro,
      *  traduzindo-se no ponto de fim do mesmo.<br>
@@ -54,7 +55,6 @@ public class GameBoard {
     }
 
 // Métodos Privados
-
     /**
      * Verifica se o ponto está dentro dos limites do tabuleiro.
      *
@@ -86,7 +86,6 @@ public class GameBoard {
     }
 
 // Métodos Públicos
-
     /**
      * Associa uma jogada ao tabuleiro de jogo.<br>
      * Retorna o elemento que se encontra no ponto passado como parâmetro ou,
@@ -98,7 +97,6 @@ public class GameBoard {
      * @return IElement Elemento alvo da jogada ou null, caso o ponto não esteja nos
      *          limites do tabuleiro
      */
-
     public IElement shoot(Point p) {
         if (!isInBounds(p)) {
             return null;
@@ -145,23 +143,27 @@ public class GameBoard {
      * Desenha o tabuleiro de jogo.
      */
     public void draw(boolean drawAll) {
-        for (int i = 0; i <= _end.x; i++) {
-            System.out.println("O");
-        }
-        for (int x = 0; x <= _end.x; x++) {
-            System.out.println("O");
-            for (int y = 0; y <= _end.x; y++) {
+        //for (int i = 0; i <= _end.x; i++) {
+        //    System.out.print("O");
+        //}
+        System.out.print("\n");
+        for (int y = 0; y <= _end.y; y++) {
+            //System.out.print("O");
+            for (int x = 0; x <= _end.x; x++) {
                 Point temp = new Point(x, y);
-                if (drawAll & _board.contains(temp)) {
+                if (drawAll & _board.containsKey(temp)) {
                     _board.get(temp).draw();
-                } else if (_receivedShots.contains(temp)) {
-                    _receivedShots.get(temp).draw();
+                } else if (_receivedShots.containsKey(temp)) {
+                    _receivedShots.get(temp).drawDamage();
+                } else {
+                    _empty.draw();
                 }
             }
-            System.out.println("O");
+            System.out.print("\n");
         }
-        for (int i = 0; i <= _end.x; i++) {
-            System.out.println("O");
-        }
+        //for (int i = 0; i <= _end.x; i++) {
+        //    System.out.print("O");
+        //}
+        System.out.println("\n");
     }
 }

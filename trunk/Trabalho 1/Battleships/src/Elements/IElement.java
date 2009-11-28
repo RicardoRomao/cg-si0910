@@ -20,4 +20,8 @@ public interface IElement {
      * Representa a acção de acertar no Element
      */
     void hit();
+    
+    ElementType getType();
+
+    ElementStatus getStatus();
 }

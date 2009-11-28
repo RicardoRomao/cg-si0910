@@ -15,6 +15,10 @@ public class Water implements IElement {
         return _type;
     }
 
+    public ElementStatus getStatus(){
+        return ElementStatus.ALIVE;
+    }
+
     public void draw() {
         System.out.print(" ");
     }

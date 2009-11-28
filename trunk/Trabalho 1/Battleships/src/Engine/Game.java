@@ -4,11 +4,13 @@ import Elements.Element;
 import Player.IPlayer;
 import Elements.ElementType;
 import Elements.IElement;
+import Player.IAPlayer;
+import Player.Player;
 import java.awt.Point;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-public class Game implements IConstants {
+public class Game extends Constants {
 
     GameBoard[] _boards;
     IPlayer[] _players;
@@ -31,8 +33,10 @@ public class Game implements IConstants {
     public void init() {
 
         Hashtable<ElementType, Integer> elemRules = Settings.getElemRules();
-        setPlayer(0, _players[0], elemRules);
-        setPlayer(1, _players[1], elemRules);
+        for (int i = 0; i < 2; i++) {
+            _players[i] = getPlayer(i);
+            setPlayer(i, _players[i], elemRules);
+        }
 
 
         _currPlayer = 0;
@@ -77,8 +81,22 @@ public class Game implements IConstants {
                     Point[] plResp = player.getElement(e);
                     newElem = new Element(e, plResp[0], plResp[1]);
                 } while (!_boards[id].addElement(newElem));
+                drawBoard();
             }
         }
+    }
+
+    /**
+     * Retorna um jogador mediante o id recebido.<br>
+     * Caso id = 0 retorna um Player, caso id = 1 retorna um IAPlayer.
+     *
+     * @param  id Id do jogador.
+     */
+    public IPlayer getPlayer(int id) {
+        if (id == 0) {
+            return new Player();
+        }
+        return new IAPlayer();
     }
 
     /**
@@ -98,11 +116,12 @@ public class Game implements IConstants {
     /**
      * Mostra informação acerca de quem ganhou o jogo e coloca o estado do jogo a ENDED.
      */
-    private void gameOver(){
-        if (!_boards[1].hasMoreMoves())
+    private void gameOver() {
+        if (!_boards[1].hasMoreMoves()) {
             System.out.println("Human player won!");
-        else
+        } else {
             System.out.println("Computer player won!");
+        }
         _status = GameStatus.Ended;
     }
 
@@ -110,10 +129,15 @@ public class Game implements IConstants {
      * Recolhe jogadas dos jogadores, informando-os do seu alvo.
      */
     public void play() {
+        if (_status != GameStatus.Ready) {
+            System.out.println("Game not ready! Make sure init occurred.");
+            return;
+        }
+        _currPlayer = 0;
         while (_boards[0].hasMoreMoves() && _boards[1].hasMoreMoves()) {
             Point shot = _players[_currPlayer].play();
             IElement target = _boards[currPlayerTarget()].shoot(shot);
-            //_players[_currPlayer].notify(target);
+            _players[_currPlayer].notifyHit(target);
             drawBoard();
             nextPlayer();
         }
