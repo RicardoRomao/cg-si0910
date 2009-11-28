@@ -98,7 +98,7 @@ public class Element implements IElement {
      * Desenha um ponto por atingir
      */
     public void draw() {
-        System.out.print(" ");
+        System.out.print(_type.ordinal());
     }
 
     /**

@@ -1,7 +1,7 @@
 package Player;
 
-import Elements.Element;
 import Elements.ElementType;
+import Elements.IElement;
 import java.awt.Point;
 
 /**
@@ -13,5 +13,5 @@ public interface IPlayer {
     Point[] getElement(ElementType elem);
     Point play();
     void draw();
-    void notifyHit(Element shot);
+    void notifyHit(IElement shot);
 }

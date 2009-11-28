@@ -1,12 +1,12 @@
 package Player;
 
-import Elements.Element;
 import Elements.ElementStatus;
 import Elements.ElementType;
+import Elements.IElement;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
-import Engine.IConstants;
+import Engine.Constants;
 
 /**
  * Classe que representa o jogador "inteligente"
@@ -31,8 +31,8 @@ public class IAPlayer implements IPlayer {
     private void initAI() {
 	availMoves = new ArrayList<Point>();
 	planedMoves = new ArrayList<Point>();
-	for(int x=0;x<IConstants.BOUNDS.x;x++) {
-	    for(int y=0;y<IConstants.BOUNDS.y;y++) {
+	for(int x=0;x<Constants.BOUNDS.x;x++) {
+	    for(int y=0;y<Constants.BOUNDS.y;y++) {
 		availMoves.add(new Point(x, y));
 	    }
 	}
@@ -75,8 +75,8 @@ public class IAPlayer implements IPlayer {
     public Point[] getElement(ElementType elem) {
 	Point[] pos = new Point[2];
 	Random rnd = new Random();
-	pos[pos.length] = new Point(rnd.nextInt(IConstants.BOUNDS.x), rnd.nextInt(IConstants.BOUNDS.y));
-	pos[pos.length] = DirectionDescriptor(rnd.nextInt(4)+1);
+	pos[0] = new Point(rnd.nextInt(Constants.BOUNDS.x), rnd.nextInt(Constants.BOUNDS.y));
+	pos[1] = DirectionDescriptor(rnd.nextInt(4)+1);
         return pos;
     }
 
@@ -88,13 +88,13 @@ public class IAPlayer implements IPlayer {
     private Point DirectionDescriptor(int direction) {
 	switch (direction) {
 	    case 1:
-		return IConstants.NORTH;
+		return Constants.NORTH;
 	    case 2:
-		return IConstants.SOUTH;
+		return Constants.SOUTH;
 	    case 3:
-		return IConstants.EAST;
+		return Constants.EAST;
 	    case 4:
-		return IConstants.WEST;
+		return Constants.WEST;
 	}
 	return null;
     }
@@ -121,7 +121,7 @@ public class IAPlayer implements IPlayer {
      * Notificação lançada quando existe hit num navio
      * @param shot Elemento acertado
      */
-    public void notifyHit(Element shot) {
+    public void notifyHit(IElement shot) {
 	if (shot.getStatus() == ElementStatus.SUNK) {
 	    planedMoves = new ArrayList<Point>();
 	    lastHit = null;
@@ -129,6 +129,6 @@ public class IAPlayer implements IPlayer {
 	    return;
 	}
 	planMoves(shot.getType());
-	throw new UnsupportedOperationException("Not supported yet.");
+	//throw new UnsupportedOperationException("Not supported yet.");
     }
 }
