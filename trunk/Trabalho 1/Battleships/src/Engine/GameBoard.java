@@ -136,28 +136,42 @@ public class GameBoard {
     /**
      * Desenha o tabuleiro de jogo.
      */
+    private void drawLetters(){
+        System.out.print(" ");
+        System.out.print(" ");
+        char [] a  = new char[1];
+        a[0] = 'A' - 1;
+        for (int i = 0; i <= _end.x; i++) {
+            a[0]++;
+            System.out.print(new String(a));
+        }
+        System.out.println(" ");
+    }
     public void draw(boolean drawAll) {
-        //for (int i = 0; i <= _end.x; i++) {
-        //    System.out.print("O");
-        //}
-        System.out.print("\n");
+        drawLetters();
         for (int y = 0; y <= _end.y; y++) {
-            //System.out.print("O");
-            for (int x = 0; x <= _end.x; x++) {
+            //Imprime a coluna dos numeros
+            System.out.print((y + 1)<10?" " + (y + 1):y + 1);
+            for (int x = 0; x <= _end.x; x++) {                
                 Point temp = new Point(x, y);
-                if (drawAll & _board.containsKey(temp)) {
+                if (drawAll & _board.containsKey(temp)) {                
                     _board.get(temp).draw();
                 } else if (_receivedShots.containsKey(temp)) {
                     _receivedShots.get(temp).drawDamage();
                 } else {
-                    _water.drawDamage();
+                    _water.draw();
                 }
             }
             System.out.print("\n");
-        }
-        //for (int i = 0; i <= _end.x; i++) {
-        //    System.out.print("O");
-        //}
+        }        
         System.out.println("\n");
+        //Temos que de alguma forma saber se estamos a desenhar os elementos
+        //do Human Player ou do Computer, porque queremos que:
+        //quando estamos a desenhar o Human Board representar os barcos com
+        //os numeros e os já atingidos com, por exemplo "o", para sabermos
+        //onde é que o computer já acertou, enquanto que ao imprimirmos o board
+        //do Computer queremos que ele mostre os atingidos com o seu número
+
+        //Se ninguém aqui vier mexer entretanto, vou tentar agilizar isto.
     }
 }

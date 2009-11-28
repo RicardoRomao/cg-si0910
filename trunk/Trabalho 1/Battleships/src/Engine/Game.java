@@ -81,8 +81,7 @@ public class Game {
             for (int i = 0; i < elemRules.get(e).intValue(); i++) {
                 IElement newElem;
                 do {
-                    //Point[] plResp = player.getElement(e);
-                    Point[] plResp = Arrays.copyOf(player.getElement(e), 2);
+                    Point[] plResp = player.getElement(e);                    
                     newElem = new Element(e, plResp[0], plResp[1]);
                 } while (!_boards[id].addElement(newElem));
                 drawBoard();

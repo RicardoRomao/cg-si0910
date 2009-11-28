@@ -105,7 +105,7 @@ public class Element implements IElement {
      * Desenha um ponto atingido
      */
     public void drawDamage() {
-        System.out.print(_type.ordinal());
+        System.out.print("o");
     }
 
     /**
