@@ -1,6 +1,5 @@
 package Engine;
 
-import Elements.Empty;
 import Elements.IElement;
 import Elements.Water;
 import java.awt.Point;
@@ -25,11 +24,6 @@ public class GameBoard {
      *  de vários objectos deste tipo.<br>
      */
     private static final Water _water = new Water();
-    /**
-     * Referência para um objecto do tipo Empty, por forma a poder desenhar
-     * &nbsp;espaços vazios.<br>
-     */
-    private static final Empty _empty = new Empty();
     /**
      * Estrutura que guarda estado de todos os Pontos em que já foram feitos disparos,
      *  bem como, as referencias para os objectos que ocupavam essas posições.<br>
@@ -156,7 +150,7 @@ public class GameBoard {
                 } else if (_receivedShots.containsKey(temp)) {
                     _receivedShots.get(temp).drawDamage();
                 } else {
-                    _empty.draw();
+                    _water.drawDamage();
                 }
             }
             System.out.print("\n");

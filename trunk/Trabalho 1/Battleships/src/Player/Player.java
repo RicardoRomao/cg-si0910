@@ -1,8 +1,8 @@
 package Player;
 
 import Elements.ElementType;
+import Engine.Settings;
 import Elements.IElement;
-import Engine.Constants;
 import java.awt.Point;
 import java.util.Scanner;
 
@@ -19,6 +19,7 @@ public class Player implements IPlayer {
     {
 	Point[] pos = new Point[2];
 	System.out.println("Posicione o seu " + TypeDescriptor(elem));
+        System.out.println("Tamanho do array " + pos.length);
 	pos[0] = chooseAnchor();
 	pos[1] = DirectionDescriptor(chooseDirection());
         return pos;
@@ -32,13 +33,13 @@ public class Player implements IPlayer {
     private Point DirectionDescriptor(int direction) {
 	switch (direction) {
 	    case 1:
-		return Constants.NORTH;
+		return Settings.NORTH;
 	    case 2:
-		return Constants.SOUTH;
+		return Settings.SOUTH;
 	    case 3:
-		return Constants.EAST;
+		return Settings.EAST;
 	    case 4:
-		return Constants.WEST;
+		return Settings.WEST;
 	}
 	return null;
     }

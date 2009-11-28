@@ -6,7 +6,7 @@ import Elements.IElement;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
-import Engine.Constants;
+import Engine.Settings;
 
 /**
  * Classe que representa o jogador "inteligente"
@@ -31,8 +31,8 @@ public class IAPlayer implements IPlayer {
     private void initAI() {
 	availMoves = new ArrayList<Point>();
 	planedMoves = new ArrayList<Point>();
-	for(int x=0;x<Constants.BOUNDS.x;x++) {
-	    for(int y=0;y<Constants.BOUNDS.y;y++) {
+	for(int x=0;x<Settings.BOUNDS.x;x++) {
+	    for(int y=0;y<Settings.BOUNDS.y;y++) {
 		availMoves.add(new Point(x, y));
 	    }
 	}
@@ -75,7 +75,7 @@ public class IAPlayer implements IPlayer {
     public Point[] getElement(ElementType elem) {
 	Point[] pos = new Point[2];
 	Random rnd = new Random();
-	pos[0] = new Point(rnd.nextInt(Constants.BOUNDS.x), rnd.nextInt(Constants.BOUNDS.y));
+	pos[0] = new Point(rnd.nextInt(Settings.BOUNDS.x), rnd.nextInt(Settings.BOUNDS.y));
 	pos[1] = DirectionDescriptor(rnd.nextInt(4)+1);
         return pos;
     }
@@ -88,13 +88,13 @@ public class IAPlayer implements IPlayer {
     private Point DirectionDescriptor(int direction) {
 	switch (direction) {
 	    case 1:
-		return Constants.NORTH;
+		return Settings.NORTH;
 	    case 2:
-		return Constants.SOUTH;
+		return Settings.SOUTH;
 	    case 3:
-		return Constants.EAST;
+		return Settings.EAST;
 	    case 4:
-		return Constants.WEST;
+		return Settings.WEST;
 	}
 	return null;
     }
