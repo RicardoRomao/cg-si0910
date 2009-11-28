@@ -7,11 +7,14 @@ import Elements.IElement;
 import Player.IAPlayer;
 import Player.Player;
 import java.awt.Point;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-public class Game extends Constants {
+public class Game {
 
+    static final int NUM_PLAYERS = 2;
+    
     GameBoard[] _boards;
     IPlayer[] _players;
     int _currPlayer;
@@ -21,7 +24,7 @@ public class Game extends Constants {
      * Construtor sem parâmetros.
      */
     public Game() {
-        _boards = new GameBoard[]{new GameBoard(BOUNDS), new GameBoard(BOUNDS)};
+        _boards = new GameBoard[]{new GameBoard(Settings.BOUNDS), new GameBoard(Settings.BOUNDS)};
         _players = new IPlayer[2];
     }
 
@@ -78,7 +81,8 @@ public class Game extends Constants {
             for (int i = 0; i < elemRules.get(e).intValue(); i++) {
                 IElement newElem;
                 do {
-                    Point[] plResp = player.getElement(e);
+                    //Point[] plResp = player.getElement(e);
+                    Point[] plResp = Arrays.copyOf(player.getElement(e), 2);
                     newElem = new Element(e, plResp[0], plResp[1]);
                 } while (!_boards[id].addElement(newElem));
                 drawBoard();
