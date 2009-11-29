@@ -51,20 +51,87 @@ public class IAPlayer implements IPlayer {
     }
 
     /**
+     * Verfica de um determinado Ponto está dentro 
+     * dos limites da arena.<br />
+     * Auxiliar na previsão da localização de um navio
+     * @param p Ponto a verficar
+     * @return <code>True</code> se o Ponto está na arena, 
+     * <code>False</code> se o contrário
+     */
+    private boolean isInBounds(Point p) {
+        if (((p.x >= 0) && (p.x < Settings.BOUNDS.x)) &&
+            ((p.y >= 0) && (p.y < Settings.BOUNDS.y))) {
+            return true;
+        }
+        return false;
+    }
+    /**
      * Gera os pontos possíveis da previsão da localização
      * do elemento de tipo <em>t</em>
      * @param t Tipo de Elemento
      */
     private void planMoves(ElementType t) {
 	if (planedMoves.isEmpty()) {
-	    // gera os pontos para o tipo t
-	}
+            int limit = t.ordinal() - 1;
+            int init;
+            Point gen;
+            if (t == ElementType.AIRCRAFT) {
+                limit /= 2;
+                init = -(limit);
+                int offset;
+                for(int x=init;x<=limit;x++) {
+                    offset = ((x==init) || x==limit)?1:0;
+                    for(int y=(init+offset);y<=(limit-offset);y++) {
+                        gen = new Point(lastPlay.x + x, lastPlay.y + y);
+                        if (isInBounds(gen) && !gen.equals(lastPlay)) {
+                            planedMoves.add(gen);
+                        } // if
+                    } // for
+                } // for
+            } // if
+            else {
+                init = -limit;
+                for(int n=init;n<=limit;n++) {
+                    gen = new Point(lastPlay.x + n, lastPlay.y);
+                    if (isInBounds(gen) && !gen.equals(lastPlay)) {
+                        planedMoves.add(gen);
+                    } // if
+                    gen = new Point(lastPlay.x, lastPlay.y + n);
+                    if (isInBounds(gen) && !gen.equals(lastPlay)) {
+                        planedMoves.add(gen);
+                    } // if
+                } // for
+            } // else
+	} // if
 	else {
-	    // tenta calcular a direcção
-	    // Se sucesso
-	    //   elimina pontos não pertencentes à direcção
-	}
-    }
+            int limit = t.ordinal() - 1;
+            int init;
+            Point gen;
+            if (t == ElementType.AIRCRAFT) {
+                // AIRCRAFT
+            } // if
+            else {
+                boolean vertical = false;
+                init = -limit;
+                Point dir = new Point(lastHit.x - lastPlay.x, lastHit.y - lastPlay.y);
+                vertical = (Math.abs(dir.x) == 0);
+                if (vertical) {
+                    // Eliminar todos os pontos horizontais
+                    for(int n=init;n<=limit;n++) {
+                        gen = new Point(lastPlay.x + n, lastPlay.y);
+                        planedMoves.remove(gen);
+                    } // for
+                } // if
+                else {
+                    // Eliminar todos os pontos verticais
+                    for(int n=init;n<=limit;n++) {
+                        gen = new Point(lastPlay.x, lastPlay.y + n);
+                        planedMoves.remove(gen);
+                    } // for
+                } // else
+            } // else
+	} // else
+    } // function
 
     /**
      * Gera aleatoriamente uma localização e direcção para
@@ -122,6 +189,9 @@ public class IAPlayer implements IPlayer {
      * @param shot Elemento acertado
      */
     public void notifyHit(IElement shot) {
+        if (shot.getType() == ElementType.WATER) {
+            return;
+        }
 	if (shot.getStatus() == ElementStatus.SUNK) {
 	    planedMoves = new ArrayList<Point>();
 	    lastHit = null;
@@ -129,6 +199,6 @@ public class IAPlayer implements IPlayer {
 	    return;
 	}
 	planMoves(shot.getType());
-	//throw new UnsupportedOperationException("Not supported yet.");
+        lastHit = lastPlay;
     }
 }
