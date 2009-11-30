@@ -30,6 +30,9 @@ public class Water implements IElement {
     public Collection<Point> getPoints() {
         return null;
     }
+    public Collection<Point> getPointsWithAdjacent() {
+        return null;
+    }
 
     public void hit() {
     }

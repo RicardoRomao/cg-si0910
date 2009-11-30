@@ -13,9 +13,13 @@ public interface IElement {
      */
     void drawDamage();
     /**
-     * Devolve os pontos osupados pelo Element
+     * Devolve os pontos ocupados pelo Element
      */
     Collection<Point> getPoints();
+    /**
+     * Devolve os pontos ocupados pelo Element mais os pontos adjacentes
+     */
+    Collection<Point> getPointsWithAdjacent();
     /**
      * Representa a acção de acertar no Element
      */

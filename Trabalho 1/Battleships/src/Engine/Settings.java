@@ -18,9 +18,13 @@ public class Settings {
         return elemRules;
     }
 
-    public static final Point BOUNDS = new Point(20,20);
+    public static final Point BOUNDS = new Point(10,10);
     public static final Point NORTH = new Point(0,1);
     public static final Point SOUTH = new Point(0,-1);
     public static final Point EAST = new Point(-1,0);
     public static final Point WEST = new Point(1,0);
+
+    public static boolean isInBounds(Point p) {
+        return (p.x < BOUNDS.x && p.y < BOUNDS.y && p.x >= 0 && p.y >= 0);
+    }
 }
