@@ -1,6 +1,6 @@
 package Player;
 
-import Elements.ElementType;
+import Engine.Settings.ElementType;
 import Engine.Settings;
 import Elements.IElement;
 import java.awt.Point;

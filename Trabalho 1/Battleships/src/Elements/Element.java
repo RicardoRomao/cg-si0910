@@ -5,6 +5,8 @@ package Elements;
  * Qualquer barco é construído com recurso e esta classe
  */
 import Engine.Settings;
+import Engine.Settings.ElementType;
+import Engine.Settings.ElementStatus;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +27,7 @@ public class Element implements IElement {
     /**
      * Construtor de elementos do jogo a juntar ao tabuleiro
      *
-     * @param type ElementType
+     * @param type Engine.Settings.ElementType
      *      O Tipo de Elemento a construir.
      * @param anchor
      *      O ponto inicial do Elemento

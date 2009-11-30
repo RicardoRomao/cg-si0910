@@ -2,14 +2,14 @@ package Engine;
 
 import Elements.Element;
 import Player.IPlayer;
-import Elements.ElementType;
 import Elements.IElement;
 import Player.IAPlayer;
 import Player.Player;
 import java.awt.Point;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import Engine.Settings.GameStatus;
+import Engine.Settings.ElementType;
 
 public class Game {
 
@@ -24,7 +24,7 @@ public class Game {
      * Construtor sem parâmetros.
      */
     public Game() {
-        _boards = new GameBoard[]{new GameBoard(Settings.BOUNDS), new GameBoard(Settings.BOUNDS)};
+        _boards = new GameBoard[]{new GameBoard(), new GameBoard()};
         _players = new IPlayer[2];
     }
 
@@ -77,7 +77,7 @@ public class Game {
     private void setPlayer(int id, IPlayer player, Hashtable<ElementType, Integer> elemRules) {
         Enumeration<ElementType> elems = elemRules.keys();
         while (elems.hasMoreElements()) {
-            ElementType e = elems.nextElement();
+            Settings.ElementType e = elems.nextElement();
             for (int i = 0; i < elemRules.get(e).intValue(); i++) {
                 IElement newElem;
                 do {

@@ -1,12 +1,12 @@
 package Player;
 
-import Elements.ElementStatus;
-import Elements.ElementType;
 import Elements.IElement;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 import Engine.Settings;
+import Engine.Settings.ElementStatus;
+import Engine.Settings.ElementType;
 
 /**
  * Classe que representa o jogador "inteligente"
