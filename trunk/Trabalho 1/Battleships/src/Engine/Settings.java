@@ -5,14 +5,22 @@ import java.awt.Point;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+/**
+ * Classe que contém as definições do jogo.<br>
+ * Guarda informação acerca das regras do jogo, limites, pontos cardeais
+ * e enumerados de estado de jogo, estado dos elementos e tipos de elementos.<br>
+ */
 public class Settings {
 
-
+    /**
+     * Estrutura que guarda as regras do jogo, ou seja, que e quantos elementos
+     * cada jogador deve ter no seu tabuleiro.<br>
+     */
     public static Hashtable<ElementType,Integer> getElemRules()
     {
         Hashtable<ElementType,Integer> elemRules = new Hashtable<ElementType, Integer>();
-        elemRules.put(ElementType.SUBMARINE, 2);
-        elemRules.put(ElementType.PATROL_BOAT, 2);
+        elemRules.put(ElementType.SUBMARINE, 4);
+        elemRules.put(ElementType.PATROL_BOAT, 3);
         elemRules.put(ElementType.DESTROYER, 2);
         elemRules.put(ElementType.BATTLESHIP, 1);
         elemRules.put(ElementType.AIRCRAFT, 1);
