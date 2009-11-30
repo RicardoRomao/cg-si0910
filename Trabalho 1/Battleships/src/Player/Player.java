@@ -108,9 +108,9 @@ public class Player implements IPlayer {
         Point p = new Point();
         Scanner in = new Scanner(System.in);
         System.out.print("\nCoordenada x: ");
-        p.x = in.nextInt();
+        p.x = in.nextInt() - 1;
         System.out.print("\nCoordenada y: ");
-        p.y = in.nextInt();
+        p.y = in.next().charAt(0) - 'A';
 	return p;
     }
 
