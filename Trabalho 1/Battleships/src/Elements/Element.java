@@ -1,9 +1,5 @@
 package Elements;
 
-/**
- * Classe constructora de Elemento do jogo.
- * Qualquer barco é construído com recurso e esta classe
- */
 import Engine.Settings;
 import Engine.Settings.ElementType;
 import Engine.Settings.ElementStatus;
@@ -13,7 +9,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- *
+ * Classe constructora de Elemento do jogo.
+ * Qualquer barco é construído com recurso e esta classe.<br>
  * @author RNR
  */
 public class Element implements IElement {
@@ -74,6 +71,11 @@ public class Element implements IElement {
         }
         return retPoints;
     }
+    /**
+     * Método responsável por retornar os pontos adjacentes ao Element
+     * @return
+     * Retorna uma collection de Point
+     */
     private Collection<Point> GetAdjacentCells(Point p)
     {
         ArrayList retList = new ArrayList();

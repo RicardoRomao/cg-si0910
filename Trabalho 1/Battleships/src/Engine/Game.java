@@ -11,6 +11,13 @@ import java.util.Hashtable;
 import Engine.Settings.GameStatus;
 import Engine.Settings.ElementType;
 
+/**
+ * Classe representativa de um jogo.<br>
+ * Contém estruturas de suporte ao jogo, nomeadamente, contentor de
+ * players, contentor de boards, estado do jogo e obtenção das regras
+ * relativas ao posicionamento de elementos.<br>
+ * @author RNR
+ */
 public class Game {
 
     static final int NUM_PLAYERS = 2;
@@ -29,9 +36,7 @@ public class Game {
     }
 
     /**
-     * Iniciação das estruturas de suporte ao jogo, nomeadamente, contentor de
-     * &nbsp;players, contentor de boards, estado do jogo <i>(READY)</i> e
-     * &nbsp;obtenção das regras relativas ao posicionamento de elementos.<br>
+     * Iniciação das estruturas de suporte ao jogo.<br>
      */
     public void init() {
 
@@ -40,8 +45,6 @@ public class Game {
             _players[i] = getPlayer(i);
             setPlayer(i, _players[i], elemRules);
         }
-
-
         _currPlayer = 0;
         _status = GameStatus.Ready;
     }
@@ -96,16 +99,16 @@ public class Game {
      * @param  id Id do jogador.
      */
     public IPlayer getPlayer(int id) {
-        if (id == 0) {
+        if (id == 0)
             return new Player();
-        }
+        
         return new IAPlayer();
     }
 
     /**
      * No caso do jogador actual ser o jogador humano manda desenhar o seu
-     * &nbsp;tabuleiro com todos os elementos visíveis, bem como, o tabuleiro do
-     * &nbsp;jogador do computador, apenas com os "tiros" efectuados sobre o mesmo.
+     * tabuleiro com todos os elementos visíveis, bem como, o tabuleiro do
+     * jogador do computador, apenas com os "tiros" efectuados sobre o mesmo.
      */
     private void drawBoard() {
         if (_currPlayer == 0) {

@@ -5,6 +5,11 @@ import java.util.Collection;
 import Engine.Settings.ElementStatus;
 import Engine.Settings.ElementType;
 
+    /**
+     * Interface IElement, representação do contrato de um Elemento
+     * para com o jogo.<br>
+     * @author RNR
+     */
 public interface IElement {
     /**
      * Desenha o elemento "camuflado"
@@ -26,8 +31,14 @@ public interface IElement {
      * Representa a acção de acertar no Element
      */
     void hit();
-    
+    /**
+     * Devolve o tipo do Element
+     *
+     */
     ElementType getType();
 
+    /**
+     * Devolve o estado do elemento
+     */
     ElementStatus getStatus();
 }

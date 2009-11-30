@@ -69,7 +69,7 @@ public class Player implements IPlayer {
 	Point p = new Point();
 	Scanner in = new Scanner(System.in);        
         System.out.print("\nCoordenada x: "); p.x = in.nextInt() - 1;
-        System.out.print("\nCoordenada y: "); p.y = in.next().charAt(0) - 'A';
+        System.out.print("\nCoordenada y: "); p.y = in.next().toUpperCase().charAt(0) - 'A';
 	return p;
     }
 
