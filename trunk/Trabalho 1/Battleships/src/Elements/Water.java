@@ -2,6 +2,8 @@ package Elements;
 
 import java.awt.Point;
 import java.util.Collection;
+import Engine.Settings.ElementStatus;
+import Engine.Settings.ElementType;
 
 public class Water implements IElement {
 

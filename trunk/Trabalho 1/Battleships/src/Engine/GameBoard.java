@@ -1,25 +1,21 @@
 package Engine;
 
+import Engine.Settings.ElementType;
+import Engine.Settings.ElementStatus;
 import Elements.IElement;
 import Elements.Water;
-import Elements.ElementType;
 import java.awt.Point;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 
 /**
- * Classe que representa o tabuleiro de jogo.<br>
- * Contém informação acerca do ponto de fim, considerando-se sempre o ponto inicial (0,0).<br>
- * Guarda também informação acerca do número de elementos "alive" contidos no mesmo.<br>
+ * Classe que representa o tabuleiro de jogo.<br> 
+ * Guarda informação acerca do número de elementos "alive" contidos no mesmo.<br>
  */
 public class GameBoard {
 
-// Atributos
-    /**
-     * Coordenadas de fim do tabuleiro.<br>
-     */
-    private Point _end;
+// Atributos   
     /**
      * Referência para um objecto do tipo Water, evitando assim instanciação
      *  de vários objectos deste tipo.<br>
@@ -37,49 +33,19 @@ public class GameBoard {
 
 // Construtor
     /**
-     * Construtor que recebe o número de linhas e colunas do tabuleiro,
-     *  traduzindo-se no ponto de fim do mesmo.<br>
-     *
-     * @param lines Número de linhas do tabuleiro.
-     * @param cols Número de colunas do tabuleiro.
+     * Construtor do tabuleiro de jogo.<br>
+     * Inicia as estruturas de dados de suporte à gestão do tabuleiro.<br>
      */
-    public GameBoard(Point bounds) {
+    public GameBoard() {
         _board = new Hashtable<Point, IElement>();
-        _receivedShots = new Hashtable<Point, IElement>();
-        _end = bounds;
+        _receivedShots = new Hashtable<Point, IElement>();        
     }
 
 // Métodos Privados
     /**
-     * Verifica se o ponto está dentro dos limites do tabuleiro.
-     *
-     * @param p Ponto sobre o qual se vai fazer a verificação.
-     * @return True caso o ponto esteja dentro dos limites.
-     */
-    private boolean isInBounds(Point p) {
-        return (p.x < _end.x && p.y < _end.y && p.x >= 0 && p.y >= 0);
-    }
-    /**
-     * Verifica se todos os pontos de um Element estão dentro dos limites
-     * do tabuleiro.
-     *
-     * @param elem Element sobre o qual se vai fazer a verificação.
-     * @return True caso o Element esteja dentro dos limites.
-     */
-    private boolean isInBounds(IElement elem) {
-        Iterator<Point> it = elem.getPoints().iterator();
-        while(it.hasNext()){
-            Point p = it.next();
-            if(!isInBounds(p))
-                return false;
-        }
-        return true;
-    }
-
-    /**
      * Verifica se um Elemento é posicionável no tabuleiro.<br>
      * Para tal, o Elemento terá que disponibilizar informação acerca de quais
-     *  os pontos que vai ocupar quando posicionado, bem como de quais os
+     * os pontos que vai ocupar quando posicionado, bem como de quais os
      * seus pontos adjacentes.<br>
      *
      * @param e Elemento a verificar posicionamento.
@@ -110,16 +76,22 @@ public class GameBoard {
      *          limites do tabuleiro
      */
     public IElement shoot(Point p) {
-        if (!isInBounds(p)) {
+        if (!Settings.isInBounds(p)) {
+            System.out.println("Coordenadas Inválidas!!");
+            System.out.println("As coordenadas devem pertencer a" +
+                    " (x=[1..10]; y=[A..J]).");
             return null;
         }
         IElement elem = _board.get(p);
         if (elem == null) {
             _receivedShots.put(p, _water);
+            System.out.println("Acertou na água");
             return _water;
         }
         elem.hit();
         _receivedShots.put(p, _board.remove(p));
+        System.out.println((elem.getStatus()==ElementStatus.SUNK?"Afundou um ":
+            "Acertou num ") + elem.getType());
         return elem;
     }
 
@@ -140,7 +112,7 @@ public class GameBoard {
      * @return boolean True caso o elemento tenha sido adicionado.
      */
     public boolean addElement(IElement e) {
-        if(!isInBounds(e)){
+        if(!Settings.isInBounds(e)){
             System.out.println("Coordenadas Inválidas!!");
             System.out.println("Todos os pontos do elemento devem pertencer a" +
                     " (x=[1..10]; y=[A..J]).");
@@ -167,10 +139,10 @@ public class GameBoard {
             System.out.print(i);
         }
         System.out.print("\n");
-        for (int y = 0; y < _end.y; y++) {
+        for (int y = 0; y < Settings.BOUNDS.y; y++) {
             //Imprime a coluna das Letras
             System.out.print((char)('A' + y));
-            for (int x = 0; x < _end.x; x++) {                
+            for (int x = 0; x < Settings.BOUNDS.x; x++) {
                 Point temp = new Point(x, y);
                 if(drawHuman){
                     if(_board.containsKey(temp))
@@ -178,8 +150,7 @@ public class GameBoard {
                     else if(_receivedShots.containsKey(temp))
                             { _receivedShots.get(temp).drawDamage();}
                     else{ _water.draw(); }
-                }else
-                {
+                }else {
                     if(_receivedShots.containsKey(temp)){
                         if(_receivedShots.get(temp).getType() == ElementType.WATER){
                             _receivedShots.get(temp).drawDamage();
@@ -190,24 +161,9 @@ public class GameBoard {
                     }else
                     { _water.draw();}
                 }
-//                if (drawAll & _board.containsKey(temp)) {
-//                    _board.get(temp).draw();
-//                } else if (_receivedShots.containsKey(temp)) {
-//                    _receivedShots.get(temp).drawDamage();
-//                } else {
-//                    _water.draw();
-//                }
             }
             System.out.print("\n");
         }        
-        System.out.println("\n");
-        //Temos que de alguma forma saber se estamos a desenhar os elementos
-        //do Human Player ou do Computer, porque queremos que:
-        //quando estamos a desenhar o Human Board representar os barcos com
-        //os numeros e os já atingidos com, por exemplo "o", para sabermos
-        //onde é que o computer já acertou, enquanto que ao imprimirmos o board
-        //do Computer queremos que ele mostre os atingidos com o seu número
-
-        //Se ninguém aqui vier mexer entretanto, vou tentar agilizar isto.
+        System.out.println("\n");        
     }
 }
