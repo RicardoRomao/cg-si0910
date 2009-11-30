@@ -4,9 +4,11 @@ package Elements;
  * Classe constructora de Elemento do jogo.
  * Qualquer barco é construído com recurso e esta classe
  */
+import Engine.Settings;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 /**
  *
@@ -53,6 +55,38 @@ public class Element implements IElement {
      */
     public ElementStatus getStatus() {
         return _status;
+    }
+    /**
+     * Método responsável por retornar os pontos ocupados pelo Element
+     * juntamente com os seus adjacentes
+     * @return
+     * Retorna uma collection de Point
+     */
+    public Collection<Point> getPointsWithAdjacent(){
+        Collection<Point> retPoints = new ArrayList<Point>();
+        Collection<Point> elemPoints = getPoints();
+        retPoints.addAll(elemPoints);
+        Iterator<Point> it = elemPoints.iterator();
+        while(it.hasNext()){
+            retPoints.addAll(GetAdjacentCells(it.next()));
+        }
+        return retPoints;
+    }
+    private Collection<Point> GetAdjacentCells(Point p)
+    {
+        ArrayList retList = new ArrayList();
+        for (int i = -1; i < 2; i++)
+        {
+            for (int j = -1; j < 2; j++)
+            {
+                if ((i != 0 || j != 0) && Settings.isInBounds(new Point(p.x + i, p.y + j)))
+                {
+                    retList.add(new Point(p.x + i, p.y + j));
+                }
+            }
+
+        }
+        return retList;
     }
 
     /**

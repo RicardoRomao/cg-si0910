@@ -18,8 +18,7 @@ public class Player implements IPlayer {
     public Point[] getElement(ElementType elem)
     {
 	Point[] pos = new Point[2];
-	System.out.println("Posicione o seu " + TypeDescriptor(elem));
-        System.out.println("Tamanho do array " + pos.length);
+	System.out.println("Posicione o seu " + TypeDescriptor(elem));        
 	pos[0] = chooseAnchor();
 	pos[1] = DirectionDescriptor(chooseDirection());
         return pos;
@@ -66,11 +65,11 @@ public class Player implements IPlayer {
      * jogador
      * @return Point Ponto escolhido
      */
-    private Point chooseAnchor() {
+    private Point chooseAnchor() {        
 	Point p = new Point();
-	Scanner in = new Scanner(System.in);
-        System.out.print("\nCoordenada x: "); p.x = in.nextInt();
-        System.out.print("\nCoordenada y: "); p.y = in.nextInt();
+	Scanner in = new Scanner(System.in);        
+        System.out.print("\nCoordenada x: "); p.x = in.nextInt() - 1;
+        System.out.print("\nCoordenada y: "); p.y = in.next().charAt(0) - 'A';
 	return p;
     }
 

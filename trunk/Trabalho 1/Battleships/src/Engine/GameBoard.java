@@ -2,6 +2,7 @@ package Engine;
 
 import Elements.IElement;
 import Elements.Water;
+import Elements.ElementType;
 import java.awt.Point;
 import java.util.Collection;
 import java.util.Hashtable;
@@ -56,23 +57,40 @@ public class GameBoard {
      * @return True caso o ponto esteja dentro dos limites.
      */
     private boolean isInBounds(Point p) {
-        return (p.x <= _end.x && p.y <= _end.y && p.x >= 0 && p.y >= 0);
+        return (p.x < _end.x && p.y < _end.y && p.x >= 0 && p.y >= 0);
+    }
+    /**
+     * Verifica se todos os pontos de um Element estão dentro dos limites
+     * do tabuleiro.
+     *
+     * @param elem Element sobre o qual se vai fazer a verificação.
+     * @return True caso o Element esteja dentro dos limites.
+     */
+    private boolean isInBounds(IElement elem) {
+        Iterator<Point> it = elem.getPoints().iterator();
+        while(it.hasNext()){
+            Point p = it.next();
+            if(!isInBounds(p))
+                return false;
+        }
+        return true;
     }
 
     /**
      * Verifica se um Elemento é posicionável no tabuleiro.<br>
      * Para tal, o Elemento terá que disponibilizar informação acerca de quais
-     *  os pontos que vai ocupar quando posicionado.<br>
+     *  os pontos que vai ocupar quando posicionado, bem como de quais os
+     * seus pontos adjacentes.<br>
      *
      * @param e Elemento a verificar posicionamento.
      * @return boolean True caso seja possível posicionar o Elemento.
      */
     private boolean isPlaceable(IElement e) {
-        Collection<Point> elemPts = e.getPoints();
+        Collection<Point> elemPts = e.getPointsWithAdjacent();
         Iterator<Point> it = elemPts.iterator();
         while (it.hasNext()) {
             Point p = it.next();
-            if (_board.contains(p) || !isInBounds(p)) {
+            if (_board.containsKey(p)) {
                 return false;
             }
         }
@@ -122,6 +140,12 @@ public class GameBoard {
      * @return boolean True caso o elemento tenha sido adicionado.
      */
     public boolean addElement(IElement e) {
+        if(!isInBounds(e)){
+            System.out.println("Coordenadas Inválidas!!");
+            System.out.println("Todos os pontos do elemento devem pertencer a" +
+                    " (x=[1..10]; y=[A..J]).");
+            return false;
+        }
         if (isPlaceable(e)) {
             Collection<Point> elemPts = e.getPoints();
             Iterator<Point> it = elemPts.iterator();
@@ -130,37 +154,49 @@ public class GameBoard {
             }
             return true;
         }
+        System.out.println("Conflicto com outro elemento já posicionado.");
         return false;
     }
 
     /**
      * Desenha o tabuleiro de jogo.
-     */
-    private void drawLetters(){
+     */    
+    public void draw(boolean drawHuman) {
         System.out.print(" ");
-        System.out.print(" ");
-        char [] a  = new char[1];
-        a[0] = 'A' - 1;
-        for (int i = 0; i <= _end.x; i++) {
-            a[0]++;
-            System.out.print(new String(a));
+        for(int i = 1; i <= 10; i++){
+            System.out.print(i);
         }
-        System.out.println(" ");
-    }
-    public void draw(boolean drawAll) {
-        drawLetters();
-        for (int y = 0; y <= _end.y; y++) {
-            //Imprime a coluna dos numeros
-            System.out.print((y + 1)<10?" " + (y + 1):y + 1);
-            for (int x = 0; x <= _end.x; x++) {                
+        System.out.print("\n");
+        for (int y = 0; y < _end.y; y++) {
+            //Imprime a coluna das Letras
+            System.out.print((char)('A' + y));
+            for (int x = 0; x < _end.x; x++) {                
                 Point temp = new Point(x, y);
-                if (drawAll & _board.containsKey(temp)) {                
-                    _board.get(temp).draw();
-                } else if (_receivedShots.containsKey(temp)) {
-                    _receivedShots.get(temp).drawDamage();
-                } else {
-                    _water.draw();
+                if(drawHuman){
+                    if(_board.containsKey(temp))
+                    { _board.get(temp).draw();}
+                    else if(_receivedShots.containsKey(temp))
+                            { _receivedShots.get(temp).drawDamage();}
+                    else{ _water.draw(); }
+                }else
+                {
+                    if(_receivedShots.containsKey(temp)){
+                        if(_receivedShots.get(temp).getType() == ElementType.WATER){
+                            _receivedShots.get(temp).drawDamage();
+                        }else
+                        {
+                            _receivedShots.get(temp).draw();
+                        }
+                    }else
+                    { _water.draw();}
                 }
+//                if (drawAll & _board.containsKey(temp)) {
+//                    _board.get(temp).draw();
+//                } else if (_receivedShots.containsKey(temp)) {
+//                    _receivedShots.get(temp).drawDamage();
+//                } else {
+//                    _water.draw();
+//                }
             }
             System.out.print("\n");
         }        

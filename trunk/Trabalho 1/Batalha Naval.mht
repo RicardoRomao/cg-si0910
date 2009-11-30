@@ -1,0 +1,512 @@
+From: "Saved by Windows Internet Explorer 8"
+Subject: Batalha Naval
+Date: Mon, 30 Nov 2009 02:49:37 -0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_0000_01CA7167.C18305C0"
+X-MimeOLE: Produced By Microsoft MimeOLE V6.0.6002.18005
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_0000_01CA7167.C18305C0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.civil.ist.utl.pt/~jcoelho/batalhanaval.html
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Batalha Naval</TITLE>
+<META content=3D"text/html; charset=3Dwindows-1252" =
+http-equiv=3DContent-Type>
+<META name=3Dkeywords content=3D"vbscript, batalha naval">
+<META name=3Ddescription=20
+content=3D"O jogo da Batalha Naval consiste em afundar toda a frota =
+inimiga, atrav=E9s&#10;de uma sequ=EAncia de rajadas. Cada rajada tem 3 =
+tiros, existindo informa=E7=E3o&#10;sobre o tipo de barco destruido. =
+Ap=F3s serem destruidos todos os barcos de&#10;um determinado tipo, a =
+sua posi=E7=E3o =E9 revelada."><LINK=20
+rel=3Dstylesheet type=3Dtext/css=20
+href=3D"http://www.civil.ist.utl.pt/~jcoelho/estilo2.css">
+<SCRIPT language=3DJavaScript>=0A=
+<!--=0A=
+	if(navigator.appName !=3D 'Microsoft Internet Explorer') {=0A=
+		window.open("browser.html")=0A=
+	}=0A=
+//-->=0A=
+</SCRIPT>
+
+<SCRIPT language=3DVBScript>=0A=
+<!--=0A=
+Dim =
+tab1(10,10),tab2(10,10),njog,ntiro,jogada(3,2),pa(3,3),count,ttiros(6)=0A=
+njog=3D0=0A=
+ntiro=3D0=0A=
+=0A=
+Sub click(x,y)=0A=
+	If ttiros(2)=3D0 Then=0A=
+		MsgBox "Voc=EA afundou o hospital, n=E3o pode comandar a frota nem =
+mais um minuto!"=0A=
+		Exit Sub=0A=
+	End If=0A=
+=0A=
+	If ntiro=3D0 Then ' primeiro lance=0A=
+		njog=3Dnjog+1=0A=
+	End If=0A=
+	ntiro=3Dntiro+1=0A=
+	jogada(ntiro,1)=3Dx=0A=
+	jogada(ntiro,2)=3Dy=0A=
+	document.all.item("c"&x&"l"&y).style.background=3D"lightblue"=0A=
+	document.all.item("c"&x&"l"&y).innerHTML=3DCStr(njog)=0A=
+	If ntiro=3D3 Then ' fazer a jogada=0A=
+		Dim tiros(6),barco=0A=
+		For i=3D0 To 6=0A=
+			tiros(i)=3D0=0A=
+		Next=0A=
+		For i=3D1 To 3=0A=
+			barco=3Dtab1(jogada(i,1),jogada(i,2))=0A=
+			tiros(barco)=3Dtiros(barco)+1=0A=
+			tab1(jogada(i,1),jogada(i,2))=3D0 ' resta =E1gua=0A=
+		Next=0A=
+		For i=3D1 To 6=0A=
+			ttiros(i)=3Dttiros(i)-tiros(i)=0A=
+		Next=0A=
+		=0A=
+		Dim ss=0A=
+		If tiros(0)=3D3 Then=0A=
+			ss=3D"Tudo na =E1gua."=0A=
+		Else=0A=
+			If tiros(1)>0 Then=0A=
+				ss=3Dss&tiros(1)&" no porta-avi=F5es "&vbCrLf=0A=
+				If ttiros(1)=3D0 Then=0A=
+					ss=3Dss&"(Porta-avi=F5es afundado) "&vbCrLf=0A=
+					Cores 1=0A=
+				End If=0A=
+			End If=0A=
+			If tiros(2)>0 Then=0A=
+				ss=3Dss&tiros(2)&" no hospital "&vbCrLf=0A=
+				If ttiros(2)=3D0 Then=0A=
+					ss=3Dss&"(Hospital afundado!) "&vbCrLf=0A=
+					Cores 2=0A=
+				End If=0A=
+			End If=0A=
+			If tiros(3)>0 Then=0A=
+				ss=3Dss&tiros(3)&" no barco de 4 canos "&vbCrLf=0A=
+				If ttiros(3)=3D0 Then=0A=
+					ss=3Dss&"(Barco de 4 canos afundado) "&vbCrLf=0A=
+					Cores 3=0A=
+				End If=0A=
+			End If=0A=
+			If tiros(4)>0 Then=0A=
+				ss=3Dss&tiros(4)&" num barco de 3 canos "&vbCrLf=0A=
+				If ttiros(4)=3D0 Then=0A=
+					ss=3Dss&"(Barcos de 3 canos ambos afundados) "&vbCrLf=0A=
+					Cores 4=0A=
+				End If=0A=
+			End If=0A=
+			If tiros(5)>0 Then=0A=
+				ss=3Dss&tiros(5)&" num barco de 2 canos "&vbCrLf=0A=
+				If ttiros(5)=3D0 Then=0A=
+					ss=3Dss&"(Barcos de 2 canos todos afundados) "&vbCrLf=0A=
+					Cores 5=0A=
+				End If=0A=
+			End If=0A=
+			If tiros(6)>0 Then=0A=
+				ss=3Dss&tiros(6)&" num submarino "&vbCrLf=0A=
+				If ttiros(6)=3D0 Then=0A=
+					ss=3Dss&"(Submarinos todos afundados) "&vbCrLf=0A=
+					Cores 6=0A=
+				End If=0A=
+			End If=0A=
+		End If=0A=
+		res.innerHTML=3Dres.innerHTML&"<li>"&ss&"</li>"&vbCrLf=0A=
+		MsgBox "Rajada "&njog&vbCrLf&ss=0A=
+		ntiro=3D0=0A=
+		If ttiros(1)=3D0 And ttiros(2)>0 And ttiros(3)=3D0 And ttiros(4)=3D0 =
+And ttiros(5)=3D0 And ttiros(6)=3D0 Then=0A=
+			MsgBox "Voc=EA levou "&njog&" rajadas a meter toda a frota inimiga no =
+fundo do mar."=0A=
+			njog=3D0=0A=
+			GerarMapa=0A=
+		End If=0A=
+	End If	=0A=
+End Sub=0A=
+=0A=
+Sub Cores (v)=0A=
+	For i=3D1 To 10=0A=
+		For j=3D1 To 10=0A=
+			If tab2(j,i)=3Dv Then=0A=
+				document.all.item("c"&j&"l"&i).style.background=3D"#FF7777"=0A=
+			End If=0A=
+		Next=0A=
+	Next=0A=
+End Sub=0A=
+=0A=
+Sub RodarPA(r)=0A=
+	If r=3D1 Then=0A=
+pa(1,1)=3D1=0A=
+pa(1,2)=3D1=0A=
+pa(1,3)=3D1=0A=
+pa(2,1)=3D0=0A=
+pa(2,2)=3D1=0A=
+pa(2,3)=3D0=0A=
+pa(3,1)=3D0=0A=
+pa(3,2)=3D1=0A=
+pa(3,3)=3D0=0A=
+	ElseIf r=3D2 Then =0A=
+pa(1,1)=3D0=0A=
+pa(1,2)=3D1=0A=
+pa(1,3)=3D0=0A=
+pa(2,1)=3D0=0A=
+pa(2,2)=3D1=0A=
+pa(2,3)=3D0=0A=
+pa(3,1)=3D1=0A=
+pa(3,2)=3D1=0A=
+pa(3,3)=3D1=0A=
+	ElseIf r=3D3 Then=0A=
+pa(1,1)=3D1=0A=
+pa(1,2)=3D0=0A=
+pa(1,3)=3D0=0A=
+pa(2,1)=3D1=0A=
+pa(2,2)=3D1=0A=
+pa(2,3)=3D1=0A=
+pa(3,1)=3D1=0A=
+pa(3,2)=3D0=0A=
+pa(3,3)=3D0=0A=
+	ElseIf r=3D4 Then=0A=
+pa(1,1)=3D0=0A=
+pa(1,2)=3D0=0A=
+pa(1,3)=3D1=0A=
+pa(2,1)=3D1=0A=
+pa(2,2)=3D1=0A=
+pa(2,3)=3D1=0A=
+pa(3,1)=3D0=0A=
+pa(3,2)=3D0=0A=
+pa(3,3)=3D1=0A=
+	End If=0A=
+End Sub=0A=
+=0A=
+Function Pode (x,y,r,n)=0A=
+	Dim i,j=0A=
+	If r=3D1 Then=0A=
+		For i=3D-1 To 1=0A=
+			If x+i>=3D1 And x+i<=3D10 Then=0A=
+				For j=3D-1 To n=0A=
+					If y+j>=3D1 And y+j<=3D10 Then=0A=
+						If tab1(x+i,y+j)<>0 Then=0A=
+							Pode=3DFalse=0A=
+							Exit Function=0A=
+						End If=0A=
+					End If=0A=
+				Next=0A=
+			End If=0A=
+		Next=0A=
+	Else=0A=
+		For i=3D-1 To 1=0A=
+			If x+i>=3D1 And x+i<=3D10 Then=0A=
+				For j=3D-1 To n=0A=
+					If y+j>=3D1 And y+j<=3D10 Then=0A=
+						If tab1(y+j,x+i)<>0 Then=0A=
+							Pode=3DFalse=0A=
+							Exit Function=0A=
+						End If=0A=
+					End If=0A=
+				Next=0A=
+			End If=0A=
+		Next=0A=
+	End If=0A=
+	Pode=3DTrue=0A=
+End Function=0A=
+=0A=
+Function Mete (x,y,r,n,v)=0A=
+	Dim i,j=0A=
+	If r=3D1 Then=0A=
+		For j=3D0 To n-1=0A=
+			tab1(x,y+j)=3Dv=0A=
+		Next=0A=
+	Else=0A=
+		For j=3D0 To n-1=0A=
+			tab1(y+j,x)=3Dv=0A=
+		Next=0A=
+	End If=0A=
+End Function=0A=
+=0A=
+Sub Gerar (n,v)=0A=
+	Dim x,y,r=0A=
+	Do=0A=
+		count=3Dcount+1=0A=
+		If count>100 Then=0A=
+			Exit Sub=0A=
+		End If=0A=
+		=0A=
+		x=3DInt(Rnd*10)+1=0A=
+		y=3DInt(Rnd*7)+1=0A=
+		r=3DInt(Rnd*2)+1=0A=
+	Loop Until Pode(x,y,r,n) =0A=
+	Mete x,y,r,n,v=0A=
+End Sub=0A=
+=0A=
+Sub GerarMapa()=0A=
+	Dim i,j,x,y,r=0A=
+	' limpar o tabuleiro=0A=
+	For i=3D1 To 10=0A=
+		For j=3D1 To 10=0A=
+			tab1(j,i)=3D0=0A=
+		Next=0A=
+	Next=0A=
+=0A=
+	res.innerHTML=3D""=0A=
+=0A=
+	Randomize=0A=
+	=0A=
+	' gerar o porta-avi=F5es=0A=
+	x=3DInt(Rnd*8)+1=0A=
+	y=3DInt(Rnd*8)+1=0A=
+	r=3DInt(Rnd*4)+1 ' orienta=E7=E3o=0A=
+	RodarPA(r)=0A=
+	For i=3D0 To 2=0A=
+		For j=3D0 To 2=0A=
+			tab1(x+j,y+i)=3Dpa(j+1,i+1)=0A=
+		Next=0A=
+	Next=0A=
+	=0A=
+	' o resto dos barcos=0A=
+	count=3D0=0A=
+	Gerar 4,2 ' hospital=0A=
+	Gerar 4,3 ' barco de 4 canos=0A=
+	Gerar 3,4 ' barco de 3 canos=0A=
+	Gerar 3,4 ' barco de 3 canos=0A=
+	Gerar 2,5 ' barco de 2 canos=0A=
+	Gerar 2,5 ' barco de 2 canos=0A=
+	Gerar 2,5 ' barco de 2 canos=0A=
+	Gerar 1,6 ' submarino=0A=
+	Gerar 1,6 ' submarino=0A=
+	Gerar 1,6 ' submarino=0A=
+	Gerar 1,6 ' submarino=0A=
+	=0A=
+	If count>100 Then=0A=
+		GerarMapa=0A=
+	Else=0A=
+		MostrarMapa=0A=
+	End If=0A=
+	=0A=
+	ttiros(0)=3D0=0A=
+	ttiros(1)=3D5 ' porta-avi=F5es=0A=
+	ttiros(2)=3D4 ' hospital=0A=
+	ttiros(3)=3D4 ' barco 4 canos=0A=
+	ttiros(4)=3D6 ' barco 3 canos=0A=
+	ttiros(5)=3D6 ' barco 4 canos=0A=
+	ttiros(6)=3D4 ' submarino=0A=
+	For i=3D1 To 10=0A=
+		For j=3D1 To 10=0A=
+			tab2(j,i)=3Dtab1(j,i)=0A=
+		Next=0A=
+	Next=0A=
+End Sub=0A=
+=0A=
+Sub MostrarMapa ()=0A=
+	For i=3D1 To 10=0A=
+		For j=3D1 To 10=0A=
+			document.all.item("c"&j&"l"&i).style.background=3D"white"=0A=
+'			If tab1(j,i)=3D0 Then=0A=
+				document.all.item("c"&j&"l"&i).innerHTML=3D""=0A=
+'			Else=0A=
+'				document.all.item("c"&j&"l"&i).innerHTML=3Dtab1(j,i)=0A=
+'			End If=0A=
+		Next=0A=
+	Next=0A=
+End Sub=0A=
+-->=0A=
+</SCRIPT>
+
+<META name=3DGENERATOR content=3D"MSHTML 8.00.6001.18852"></HEAD>
+<BODY>
+<H1>Batalha Naval</H1>
+<P>O jogo da Batalha Naval consiste em afundar toda a frota inimiga, =
+atrav=E9s de=20
+uma sequ=EAncia de rajadas. Cada rajada tem 3 tiros, existindo =
+informa=E7=E3o sobre o=20
+tipo de barco destruido. Ap=F3s serem destruidos todos os barcos de um =
+determinado=20
+tipo, a sua posi=E7=E3o =E9 revelada. </P>
+<P>Existe 1 porta-avi=F5es, um hospital que n=E3o deve ser destruido, um =
+barco de 4=20
+canos, dois barcos de 3 canos, 3 barcos de 2 canos e 4 submarinos. O=20
+porta-avi=F5es ocupa o espa=E7o de um T, o hospital ocupa o espa=E7o de =
+um barco de 4=20
+canos, e os barcos de N canos ocupam o espa=E7o em fila de N quadrados. =
+Os barcos=20
+est=E3o em qualquer posi=E7=E3o no mapa, e n=E3o se tocam, nem sequer em =
+diagonal. </P>
+<P>Para jogar, clique nos quadrados em que pretende efectuar a jogada. =
+</P>
+<TABLE>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE border=3D2>
+        <SCRIPT language=3DVBScript>=0A=
+<!--=0A=
+	For i=3D1 To 11=0A=
+		document.write "<tr>"=0A=
+		If i=3D11 Then=0A=
+			For j=3D1 To 11=0A=
+				If j=3D1 Then=0A=
+					document.write "<td style=3D'width=3D30;height=3D30;'></td>"=0A=
+				Else=0A=
+					document.write "<td bgcolor=3D'blue' =
+style=3D'width=3D30;height=3D30;'>"&j-1&"</td>"=0A=
+				End If=0A=
+			Next=0A=
+		Else =0A=
+			For j=3D1 To 11=0A=
+				If j=3D1 Then=0A=
+					document.write "<td bgcolor=3D'blue' =
+style=3D'width=3D30;height=3D30;'>"&Chr(Asc("A")+i-1)&"</td>"=0A=
+				Else=0A=
+					document.write "<td id=3D'c"&j-1&"l"&i&"' language=3D'VBScript' =
+onclick=3D'click "&j-1&","&i&"' style=3D'width=3D30;height=3D30;'></td>"=0A=
+				End If=0A=
+			Next=0A=
+		End If=0A=
+		document.writeln "</tr>"=0A=
+	Next=0A=
+-->=0A=
+</SCRIPT>
+
+        <TBODY></TBODY></TABLE></TD>
+    <TD align=3Dleft><FONT size=3D2>
+      <OL id=3Dres></OL></FONT></TD></TR></TBODY></TABLE>
+<SCRIPT language=3DVBScript>=0A=
+<!--=0A=
+	GerarMapa=0A=
+-->=0A=
+</SCRIPT>
+
+<HR>
+
+<P><A href=3D"http://www.civil.ist.utl.pt/~jcoelho/index.html">P=E1gina=20
+Inicial</A></P><!-- BEGIN WEBSIDESTORY CODE --><!-- COPYRIGHT 1997-2000 =
+WEBSIDESTORY, INC. ALL RIGHTS RESERVED. U.S.PATENT PENDING. Privacy =
+notice at: http://websidestory.com/privacy --><!-- webbot =
+bot=3D"HTMLMarkup" startspan -->
+<P align=3Dcenter><A=20
+href=3D"http://rd1.hitbox.com/rd?acct=3DWQ500722M6VC81PO0&amp;p=3Ds"><IMG=
+ border=3D0=20
+alt=3D"Click Here!"=20
+src=3D"http://hg1.hitbox.com/HG?hc=3Dwf102&amp;l=3Dy&amp;hb=3DWQ500722M6V=
+C81PO0&amp;cd=3D1&amp;n=3DBATALHANAVAL"=20
+width=3D1 height=3D1></A></P><!-- webbot bot=3D"HTMLMarkup" endspan =
+--><!-- END WEBSIDESTORY CODE  --></BODY></HTML>
+
+------=_NextPart_000_0000_01CA7167.C18305C0
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
+Content-Location: http://hg1.hitbox.com/HG?hc=wf102&l=y&hb=WQ500722M6VC81PO0&cd=1&n=BATALHANAVAL
+
+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
+YDpYdTVqbG0zfl1aSWElIQA7
+
+------=_NextPart_000_0000_01CA7167.C18305C0
+Content-Type: text/css;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.civil.ist.utl.pt/~jcoelho/estilo2.css
+
+BODY {
+	BACKGROUND-COLOR: teal; FONT-FAMILY: Arial, 'Courier New', 'Times New =
+Roman'; COLOR: white; FONT-SIZE: medium; LIST-STYLE-IMAGE: =
+url(bullet.gif)
+}
+TABLE {
+	TEXT-ALIGN: center; BACKGROUND-COLOR: mediumpurple; FONT-WEIGHT: bold
+}
+
+------=_NextPart_000_0000_01CA7167.C18305C0--
