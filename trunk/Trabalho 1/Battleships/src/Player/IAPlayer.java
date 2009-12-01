@@ -7,6 +7,7 @@ import java.util.Random;
 import Engine.Settings;
 import Engine.Settings.ElementStatus;
 import Engine.Settings.ElementType;
+import java.util.Iterator;
 
 /**
  * Classe que representa o jogador "inteligente"
@@ -65,6 +66,7 @@ public class IAPlayer implements IPlayer {
         }
         return false;
     }
+
     /**
      * Gera os pontos possíveis da previsão da localização
      * do elemento de tipo <em>t</em>
@@ -107,58 +109,76 @@ public class IAPlayer implements IPlayer {
 	else {
             // Vamos eliminar os pontos em excesso
             Point dir = new Point(lastHit.x - lastPlay.x, lastHit.y - lastPlay.y);
+	    Point rem;
             if (t == ElementType.AIRCRAFT) {
                 // AIRCRAFT
                 limit /= 2;
                 init = -(limit);
                 int refX, refY;
                 if (dir.x < 0) {
-                    refX = Math.min(lastHit.x, lastPlay.x);
+                    refX = Math.min(lastHit.x, lastPlay.x - limit);
                 }
                 else {
-                    refX = Math.max(lastHit.x, lastPlay.x);
+                    refX = Math.max(lastHit.x, lastPlay.x + limit);
                 }
                 if (dir.y < 0) {
-                    refY = Math.min(lastHit.y, lastPlay.y);
+                    refY = Math.min(lastHit.y, lastPlay.y - limit);
                 }
                 else {
-                    refY = Math.max(lastHit.y, lastPlay.y);
+                    refY = Math.max(lastHit.y, lastPlay.y + limit);
                 }
-                for(int n=0;n<planedMoves.size();n++) {
+		Iterator<Point> iter = planedMoves.iterator();
+		while (iter.hasNext()) {
+		    rem = iter.next();
                     if (dir.x < 0 && dir.y < 0) {
+			if (rem.x < refX && rem.y < refY) {
+			    iter.remove();
+			}
                     }
                     else if (dir.x < 0 && dir.y > 0) {
+			if (rem.x < refX && rem.y > refY) {
+			    iter.remove();
+			}
                     }
                     else if (dir.x > 0 && dir.y < 0) {
+			if (rem.x > refX && rem.y < refY) {
+			    iter.remove();
+			}
                     }
                     else {
+			if (rem.x > refX && rem.y > refY) {
+			    iter.remove();
+			}
                     }
-                } // for
+		} // while
             } // if
             else {
                 boolean vertical = false;
                 init = -limit;
                 vertical = (Math.abs(dir.x) == 0);
+		int offset = 0;
                 if (vertical) {
                     // Eliminar todos os pontos desnecessários
+		    offset = -(dir.y / Math.abs(dir.y));
                     for(int n=init;n<=limit;n++) {
-                        gen = new Point(lastPlay.x + n, lastPlay.y);
+                        gen = new Point(lastHit.x + n, lastHit.y);
                         planedMoves.remove(gen);
                         if (dir.y != 0) {
-                            gen = new Point(lastHit.x, lastHit.y + dir.y);
-                            dir.translate(0, -(dir.y / Math.abs(dir.y)));
+                            gen = new Point(lastHit.x, lastHit.y + dir.y - offset);
+                            dir.translate(0, offset);
                             planedMoves.remove(gen);
                         }
                     } // for
                 } // if
                 else {
                     // Eliminar todos os pontos desnecessários
+		    offset = -(dir.x / Math.abs(dir.x));
                     for(int n=init;n<=limit;n++) {
-                        gen = new Point(lastPlay.x, lastPlay.y + n);
+                        gen = new Point(lastHit.x, lastHit.y + n);
                         planedMoves.remove(gen);
                         if (dir.x != 0) {
-                            gen = new Point(lastHit.x + dir.x, lastHit.y);
-                            dir.translate(-(dir.x / Math.abs(dir.x)), 0);
+                            gen = new Point(lastHit.x + dir.x - offset, lastHit.y);
+                            dir.translate(offset, 0);
                             planedMoves.remove(gen);
                         }
                     } // for
@@ -200,6 +220,10 @@ public class IAPlayer implements IPlayer {
 	return null;
     }
 
+    /**
+     * Simula uma jogada pelo IAPLayer
+     * @return Point Localização da jogada no tabuleiro
+     */
     public Point play() {
 	Point next = null;
 	if (!planedMoves.isEmpty()) {
