@@ -71,10 +71,11 @@ public class IAPlayer implements IPlayer {
      * @param t Tipo de Elemento
      */
     private void planMoves(ElementType t) {
+        int limit = t.ordinal() - 1;
+        int init;
+        Point gen;
+
 	if (planedMoves.isEmpty()) {
-            int limit = t.ordinal() - 1;
-            int init;
-            Point gen;
             if (t == ElementType.AIRCRAFT) {
                 limit /= 2;
                 init = -(limit);
@@ -104,29 +105,62 @@ public class IAPlayer implements IPlayer {
             } // else
 	} // if
 	else {
-            int limit = t.ordinal() - 1;
-            int init;
-            Point gen;
+            // Vamos eliminar os pontos em excesso
+            Point dir = new Point(lastHit.x - lastPlay.x, lastHit.y - lastPlay.y);
             if (t == ElementType.AIRCRAFT) {
                 // AIRCRAFT
+                limit /= 2;
+                init = -(limit);
+                int refX, refY;
+                if (dir.x < 0) {
+                    refX = Math.min(lastHit.x, lastPlay.x);
+                }
+                else {
+                    refX = Math.max(lastHit.x, lastPlay.x);
+                }
+                if (dir.y < 0) {
+                    refY = Math.min(lastHit.y, lastPlay.y);
+                }
+                else {
+                    refY = Math.max(lastHit.y, lastPlay.y);
+                }
+                for(int n=0;n<planedMoves.size();n++) {
+                    if (dir.x < 0 && dir.y < 0) {
+                    }
+                    else if (dir.x < 0 && dir.y > 0) {
+                    }
+                    else if (dir.x > 0 && dir.y < 0) {
+                    }
+                    else {
+                    }
+                } // for
             } // if
             else {
                 boolean vertical = false;
                 init = -limit;
-                Point dir = new Point(lastHit.x - lastPlay.x, lastHit.y - lastPlay.y);
                 vertical = (Math.abs(dir.x) == 0);
                 if (vertical) {
-                    // Eliminar todos os pontos horizontais
+                    // Eliminar todos os pontos desnecessários
                     for(int n=init;n<=limit;n++) {
                         gen = new Point(lastPlay.x + n, lastPlay.y);
                         planedMoves.remove(gen);
+                        if (dir.y != 0) {
+                            gen = new Point(lastHit.x, lastHit.y + dir.y);
+                            dir.translate(0, -(dir.y / Math.abs(dir.y)));
+                            planedMoves.remove(gen);
+                        }
                     } // for
                 } // if
                 else {
-                    // Eliminar todos os pontos verticais
+                    // Eliminar todos os pontos desnecessários
                     for(int n=init;n<=limit;n++) {
                         gen = new Point(lastPlay.x, lastPlay.y + n);
                         planedMoves.remove(gen);
+                        if (dir.x != 0) {
+                            gen = new Point(lastHit.x + dir.x, lastHit.y);
+                            dir.translate(-(dir.x / Math.abs(dir.x)), 0);
+                            planedMoves.remove(gen);
+                        }
                     } // for
                 } // else
             } // else
