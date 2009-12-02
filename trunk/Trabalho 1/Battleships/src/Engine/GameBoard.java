@@ -38,7 +38,7 @@ public class GameBoard {
      */
     public GameBoard() {
         _board = new Hashtable<Point, IElement>();
-        _receivedShots = new Hashtable<Point, IElement>();        
+        _receivedShots = new Hashtable<Point, IElement>();
     }
 
 // Métodos Privados
@@ -90,8 +90,7 @@ public class GameBoard {
         }
         elem.hit();
         _receivedShots.put(p, _board.remove(p));
-        System.out.println((elem.getStatus()==ElementStatus.SUNK?"Afundou um ":
-            "Acertou num ") + elem.getType());
+        System.out.println((elem.getStatus() == ElementStatus.SUNK ? "Afundou um " : "Acertou num ") + elem.getType());
         return elem;
     }
 
@@ -112,7 +111,7 @@ public class GameBoard {
      * @return boolean True caso o elemento tenha sido adicionado.
      */
     public boolean addElement(IElement e) {
-        if(!Settings.isInBounds(e)){
+        if (!Settings.isInBounds(e)) {
             System.out.println("Coordenadas Inválidas!!");
             System.out.println("Todos os pontos do elemento devem pertencer a" +
                     " (x=[1..10]; y=[A..J]).");
@@ -132,38 +131,42 @@ public class GameBoard {
 
     /**
      * Desenha o tabuleiro de jogo.
-     */    
+     *
+     * @param drawHuman Determina se o tabuleiro do jogador humano deverá ser desenhado.
+     */
     public void draw(boolean drawHuman) {
         System.out.print(" ");
-        for(int i = 1; i <= 10; i++){
+        for (int i = 1; i <= 10; i++) {
             System.out.print(i);
         }
         System.out.print("\n");
         for (int y = 0; y < Settings.BOUNDS.y; y++) {
             //Imprime a coluna das Letras
-            System.out.print((char)('A' + y));
+            System.out.print((char) ('A' + y));
             for (int x = 0; x < Settings.BOUNDS.x; x++) {
                 Point temp = new Point(x, y);
-                if(drawHuman){
-                    if(_board.containsKey(temp))
-                    { _board.get(temp).draw();}
-                    else if(_receivedShots.containsKey(temp))
-                            { _receivedShots.get(temp).drawDamage();}
-                    else{ _water.draw(); }
-                }else {
-                    if(_receivedShots.containsKey(temp)){
-                        if(_receivedShots.get(temp).getType() == ElementType.WATER){
+                if (drawHuman) {
+                    if (_board.containsKey(temp)) {
+                        _board.get(temp).draw();
+                    } else if (_receivedShots.containsKey(temp)) {
+                        _receivedShots.get(temp).drawDamage();
+                    } else {
+                        _water.draw();
+                    }
+                } else {
+                    if (_receivedShots.containsKey(temp)) {
+                        if (_receivedShots.get(temp).getType() == ElementType.WATER) {
                             _receivedShots.get(temp).drawDamage();
-                        }else
-                        {
+                        } else {
                             _receivedShots.get(temp).draw();
                         }
-                    }else
-                    { _water.draw();}
+                    } else {
+                        _water.draw();
+                    }
                 }
             }
             System.out.print("\n");
-        }        
-        System.out.println("\n");        
+        }
+        System.out.println("\n");
     }
 }

@@ -6,15 +6,16 @@ import Elements.IElement;
 import java.awt.Point;
 import java.util.Scanner;
 
+/**
+ * Classe que representa um jogador humano.
+ */
 public class Player implements IPlayer {
-    String _name;
 
     /**
-     * Promove o retorno pelo jogador de uma localização e
-     * direcção para um elemento
-     * @param elem Tipo do elemento
-     * @return Point[] Array de âncora e Direcção
+     * Nome do jogador.
      */
+    String _name;
+
     public Point[] getElement(ElementType elem)
     {
 	Point[] pos = new Point[2];
@@ -25,9 +26,10 @@ public class Player implements IPlayer {
     }
 
     /**
-     * Retorna um Poit correspodente a uma direcção
-     * @param direction Valor int ed direcção
-     * @return Point Direcção
+     * Retorna um Poit correspodente a uma direcção.
+     *
+     * @param direction Valor int ed direcção.
+     * @return Point Direcção.
      */
     private Point DirectionDescriptor(int direction) {
 	switch (direction) {
@@ -44,8 +46,9 @@ public class Player implements IPlayer {
     }
 
     /**
-     * Promove a escolha de uma direcção
-     * @return int Direcção escolhida
+     * Promove a escolha de uma direcção.
+     *
+     * @return int Direcção escolhida.
      */
     private int chooseDirection() {
 	int res = 0;
@@ -62,8 +65,9 @@ public class Player implements IPlayer {
 
     /**
      * Promove a escolha de um Ponto por parte do
-     * jogador
-     * @return Point Ponto escolhido
+     * jogador.
+     *
+     * @return Point Ponto escolhido.
      */
     private Point chooseAnchor() {        
 	Point p = new Point();
@@ -75,9 +79,10 @@ public class Player implements IPlayer {
 
     /**
      * Retorna uma representação literal de um tipo de
-     * navio
-     * @param type Tipo de navio
-     * @return String tipo literal de navio
+     * navio.
+     *
+     * @param type Tipo de navio.
+     * @return String Tipo literal de navio.
      */
     private String TypeDescriptor(ElementType type) {
 	String elem = null;
@@ -119,9 +124,9 @@ public class Player implements IPlayer {
     }
 
     /**
-     * Em player não é suportada
-     * retorna sempre
-     * @param shot Element onde se acertou
+     * O jogador humano não necessita da informação, como tal, não faz nada.
+
+     * @param shot IElement onde se acertou
      */
     public void notifyHit(IElement shot) {
 	return;

@@ -10,24 +10,23 @@ import Engine.Settings.ElementType;
 import java.util.Iterator;
 
 /**
- * Classe que representa o jogador "inteligente"
- * @author RNR
+ * Classe que representa o jogador "inteligente".
  */
 public class IAPlayer implements IPlayer {
     ArrayList<Point> availMoves;
     ArrayList<Point> planedMoves;
-    Point lastPlay; // Auxiliar para no caso de ter um hit tentar calcular direcções
-    Point lastHit; // Pode ser util para calcular direcções
+    Point lastPlay; // Auxiliar para no caso de ter um hit tentar calcular direcções.
+    Point lastHit; // Pode ser util para calcular direcções.
 
     /**
-     * Constructor de IAPLayer
+     * Construtor de IAPLayer.
      */
     public IAPlayer() {
 	initAI();
     }
 
     /**
-     * Inicializa o movimentos disponíveis
+     * Inicializa o movimentos disponíveis.
      */
     private void initAI() {
 	availMoves = new ArrayList<Point>();
@@ -40,9 +39,10 @@ public class IAPlayer implements IPlayer {
     }
 
     /**
-     * Retorna um ponto aleatório da lista passada como parâmetro
-     * @param list ArrayList<Point> Lista <em>source</em> de pontos
-     * @return
+     * Retorna um ponto aleatório da lista passada como parâmetro.
+     *
+     * @param list ArrayList<Point> Lista <em>source</em> de pontos.
+     * @return Point ponto aleatório.
      */
     private Point getRandomPointOfList(ArrayList<Point> list) {
 	Random rnd = new Random();
@@ -54,10 +54,11 @@ public class IAPlayer implements IPlayer {
     /**
      * Verfica de um determinado Ponto está dentro 
      * dos limites da arena.<br />
-     * Auxiliar na previsão da localização de um navio
-     * @param p Ponto a verficar
+     * Auxiliar na previsão da localização de um navio.
+     *
+     * @param p Ponto a verficar.
      * @return <code>True</code> se o Ponto está na arena, 
-     * <code>False</code> se o contrário
+     * <code>False</code> se o contrário.
      */
     private boolean isInBounds(Point p) {
         if (((p.x >= 0) && (p.x < Settings.BOUNDS.x)) &&
@@ -69,7 +70,8 @@ public class IAPlayer implements IPlayer {
 
     /**
      * Gera os pontos possíveis da previsão da localização
-     * do elemento de tipo <em>t</em>
+     * do elemento de tipo <em>t</em>.
+     *
      * @param t Tipo de Elemento
      */
     private void planMoves(ElementType t) {
@@ -190,6 +192,7 @@ public class IAPlayer implements IPlayer {
     /**
      * Gera aleatoriamente uma localização e direcção para
      * um elemento
+     *
      * @param elem Tipo do elemento
      * @return Point[] Array de âncora e Direcção
      */
@@ -202,7 +205,8 @@ public class IAPlayer implements IPlayer {
     }
 
     /**
-     * Retorna um Poit correspodente a uma direcção
+     * Retorna um Point correspodente a uma direcção
+     *
      * @param direction Valor int ed direcção
      * @return Point Direcção
      */
@@ -222,6 +226,7 @@ public class IAPlayer implements IPlayer {
 
     /**
      * Simula uma jogada pelo IAPLayer
+     *
      * @return Point Localização da jogada no tabuleiro
      */
     public Point play() {
@@ -243,7 +248,8 @@ public class IAPlayer implements IPlayer {
     }
 
     /**
-     * Notificação lançada quando existe hit num navio
+     * Notificação acerca do IElement em que se acertou na última jogada.
+     *
      * @param shot Elemento acertado
      */
     public void notifyHit(IElement shot) {
