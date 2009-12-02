@@ -9,9 +9,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * Classe constructora de Elemento do jogo.
+ * Classe construtora de Elemento do jogo.
  * Qualquer barco é construído com recurso e esta classe.<br>
- * @author RNR
  */
 public class Element implements IElement {
 
@@ -24,12 +23,9 @@ public class Element implements IElement {
     /**
      * Construtor de elementos do jogo a juntar ao tabuleiro
      *
-     * @param type Engine.Settings.ElementType
-     *      O Tipo de Elemento a construir.
-     * @param anchor
-     *      O ponto inicial do Elemento
-     * @param direction
-     *      A direcção do elemento
+     * @param type Tipo de Element a construir dado por ElementType.
+     * @param anchor Ponto inicial de Element dado por Point.
+     * @param direction Direcção de Element dada por Point.
      */
     public Element(ElementType type, Point anchor, Point direction) {
         _type = type;
@@ -41,7 +37,7 @@ public class Element implements IElement {
     /**
      * Retorna o ElementType do Element
      * @return
-     * ElementType do Element
+     * ElementType do IElement
      */
     public ElementType getType() {
         return _type;
@@ -50,13 +46,13 @@ public class Element implements IElement {
     /**
      * Retorna o ElementStatus do Element
      * @return
-     * ElementStatus do Element
+     * ElementStatus do IElement
      */
     public ElementStatus getStatus() {
         return _status;
     }
     /**
-     * Método responsável por retornar os pontos ocupados pelo Element
+     * Método responsável por retornar os pontos ocupados por Element
      * juntamente com os seus adjacentes
      * @return
      * Retorna uma collection de Point
@@ -72,7 +68,7 @@ public class Element implements IElement {
         return retPoints;
     }
     /**
-     * Método responsável por retornar os pontos adjacentes ao Element
+     * Método responsável por retornar os pontos adjacentes de Element
      * @return
      * Retorna uma collection de Point
      */
@@ -94,7 +90,7 @@ public class Element implements IElement {
     }
 
     /**
-     * Método responsável por retornar os pontos ocupados pelo Element
+     * Método responsável por retornar os pontos ocupados por Element
      * @return
      * Retorna uma collection de Point
      */
@@ -147,8 +143,9 @@ public class Element implements IElement {
     }
 
     /**
-     * Método responsável pela definição do estado de Element(ElementStatus)
-     * com base no incremento do número de vezes que o Element foi atingido
+     * Método a ser chamado em cada vez que se acerta no Element.
+     * Responsável por definir o estado de Element(ElementStatus)
+     * com base no incremento do número de vezes que foi atingido
      * e o seu tamanho.
      */
     public void hit() {

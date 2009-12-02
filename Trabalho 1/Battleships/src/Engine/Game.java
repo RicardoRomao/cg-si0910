@@ -25,7 +25,7 @@ public class Game {
     GameBoard[] _boards;
     IPlayer[] _players;
     int _currPlayer;
-    GameStatus _status = GameStatus.Invalid;
+    GameStatus _status = GameStatus.INVALID;
 
     /**
      * Construtor sem parâmetros.
@@ -46,7 +46,7 @@ public class Game {
             setPlayer(i, _players[i], elemRules);
         }
         _currPlayer = 0;
-        _status = GameStatus.Ready;
+        _status = GameStatus.READY;
     }
 
     /**
@@ -97,6 +97,7 @@ public class Game {
      * Caso id = 0 retorna um Player, caso id = 1 retorna um IAPlayer.
      *
      * @param  id Id do jogador.
+     * @return IPlayer instância de jogador
      */
     public IPlayer getPlayer(int id) {
         if (id == 0)
@@ -128,14 +129,14 @@ public class Game {
         } else {
             System.out.println("Computer player won!");
         }
-        _status = GameStatus.Ended;
+        _status = GameStatus.ENDED;
     }
 
     /**
      * Recolhe jogadas dos jogadores, informando-os do seu alvo.
      */
     public void play() {
-        if (_status != GameStatus.Ready) {
+        if (_status != GameStatus.READY) {
             System.out.println("Game not ready! Make sure init occurred.");
             return;
         }

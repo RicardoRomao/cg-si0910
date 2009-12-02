@@ -11,11 +11,15 @@ import Player.Player;
 import Engine.Settings.GameStatus;
 
 /**
- *
- * @author RNR
+ *  Classe que permite testar as funcionalidades do motor.
  */
 public class Battleships {
 
+    /**
+     * Ponto de entrada da aplicação.
+     * 
+     * @param args Argumentos da linha de comandos
+     */
     public static void main(String[] args){
 
         printTittle();
@@ -27,7 +31,7 @@ public class Battleships {
         IPlayer compPlayer = new IAPlayer();
         _game._players[1] = compPlayer;
         _game.init();
-        while(_game._status != GameStatus.Ended){
+        while(_game._status != GameStatus.ENDED){
             _game.play();
         }
         

@@ -15,6 +15,10 @@ public class Settings {
     /**
      * Estrutura que guarda as regras do jogo, ou seja, que e quantos elementos
      * cada jogador deve ter no seu tabuleiro.<br>
+     *
+     * @return Hashtable<ElementType, Integer>
+     * Regras que definem quais os Elements que devem ser colocados no tabuleiro
+     * &nbsp;e quais as respectivas quantidades.
      */
     public static Hashtable<ElementType,Integer> getElemRules()
     {
@@ -75,31 +79,75 @@ public class Settings {
     }
     /**
      * Enumerado representativo dos possíveis estados do jogo
-     * Invalid, Ready, Started e Ended.
      */
     public enum GameStatus {
-    Invalid, Ready, Started, Ended;
+
+        /**
+         * INVALID - Jogo ainda sem estruturas iniciadas.
+         */
+        INVALID,
+        /**
+         * READY - Jogo com estruturas iniciadas, pronto a jogar
+         */
+        READY,
+        /**
+         * STARTED - Jogo com batalha a decorrer.
+         */
+        STARTED,
+        /**
+         * ENDED - Jogo terminado.
+         */
+        ENDED;
         private static final long serialVersionUID = 1L;
     }
     /**
-     * Enumerado representativo dos possíveis estados de um elemento do jogo
-     * Alive, Hitted e Sunk.
+     * Enumerado representativo dos possíveis estados de um elemento do jogo.
      */
     public enum ElementStatus {
-    ALIVE, HITTED, SUNK;
+
+        /**
+         * ALIVE - IElement que existe no tabuleiro de jogo.
+         */
+        ALIVE,
+        /**
+         * HITTED - IElement que já foi atingido.
+         */
+        HITTED,
+        /**
+         * SUNK - IElement que já foi afundado.
+         */
+        SUNK;
         private static final long serialVersionUID = 1L;
     }
     /**
      * Enumerado representativo dos tipos de Element e seu tamanho
-     * - Water (0 canos)
-     * - Submarine (1 cano)
-     * - Patrol_Boat (2 canos)
-     * - Destroyer (3 canos)
-     * - Battleship (4 canos)
-     * - Aircraft (5 canos em T)
      */
     public enum ElementType {
-    WATER, SUBMARINE , PATROL_BOAT, DESTROYER, BATTLESHIP, AIRCRAFT;
+
+        /**
+         * Water (0 canos)
+         */
+        WATER,
+        /**
+         * Submarine (1 cano)
+         */
+        SUBMARINE,
+        /**
+         * Patrol_Boat (2 canos)
+         */
+        PATROL_BOAT,
+        /**
+         * Destroyer (3 canos)
+         */
+        DESTROYER,
+        /**
+         * Battleship (4 canos)
+         */
+        BATTLESHIP,
+        /**
+         * Aircraft (5 canos em T)
+         */
+        AIRCRAFT;
         private static final long serialVersionUID = 1L;
     }
 }
