@@ -6,6 +6,8 @@ import battleshipwarfare.Gamepackage.GamePlayer;
 import battleshipwarfare.PlayerPackage.HumanPlayer;
 import com.sun.j3d.utils.applet.MainFrame;
 import com.sun.j3d.utils.behaviors.keyboard.KeyNavigatorBehavior;
+import com.sun.j3d.utils.picking.PickCanvas;
+import com.sun.j3d.utils.picking.PickResult;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import java.applet.Applet;
 import java.awt.BorderLayout;
@@ -29,10 +31,10 @@ public class BSW extends Applet implements MouseListener {
 
     Game game;
     //private Appearance appearance;
-    //private PickCanvas pc;
+    private PickCanvas pc; // É preciso para fazer o picking
 
     public static void main(String[] args){
-        MainFrame mf = new MainFrame(new BSW(), 1200, 700);
+        MainFrame mf = new MainFrame(new BSW(), 800, 600);
         mf.setResizable(false);
         mf.setVisible(true);
     }
@@ -48,6 +50,12 @@ public class BSW extends Applet implements MouseListener {
         setLayout(new BorderLayout());
         add(canvas, BorderLayout.CENTER);
         BranchGroup bg = createSceneGraph();
+	// BEGIN Ricardo Romão
+	// É preciso para fazer o picking
+	pc = new PickCanvas(canvas, bg);
+	pc.setMode(PickCanvas.BOUNDS);
+	canvas.addMouseListener(this);
+	// END Ricardo Romão
         bg.compile();
         SimpleUniverse su = new SimpleUniverse(canvas);
         su.getViewingPlatform().setNominalViewingTransform();
@@ -67,6 +75,11 @@ public class BSW extends Applet implements MouseListener {
         Shape3D boardShape = gp.getBoard().getShape();
 	Appearance appearance = new Appearance();
 	appearance.setMaterial(new Material());
+	// BEGIN Ricardo Romão
+	// Adicionei isto aqui só para fazer um teste com mudança de cores
+	appearance.setCapability(Appearance.ALLOW_COLORING_ATTRIBUTES_WRITE);
+	boardShape.setCapability(Shape3D.ALLOW_APPEARANCE_WRITE);
+	// END Ricardo Romão
 	boardShape.setAppearance(appearance);
 
         Background bg = new Background(1.0f, 1.0f, 1.0f);
@@ -86,7 +99,12 @@ public class BSW extends Applet implements MouseListener {
         
         for(int i = 0; i <= gp.getBoard().getEndPoint().getX(); i++){
             for(int j = 0; j <= gp.getBoard().getEndPoint().getY(); j++){
-                spin.addChild(gp.getBoard().getElementShape(new Point(i, j), true));
+		// BEGIN Ricardo Romão
+		// Adicionei isto aqui só para fazer um teste com mudança de cores
+		Shape3D shapezorro = gp.getBoard().getElementShape(new Point(i, j), true);
+		shapezorro.setCapability(Shape3D.ALLOW_APPEARANCE_WRITE);
+		// END Ricardo Romão
+                spin.addChild(shapezorro);
             }
         }
         root.addChild(spin);
@@ -99,6 +117,30 @@ public class BSW extends Applet implements MouseListener {
     public void stop() {}
     
     public void mouseClicked(java.awt.event.MouseEvent mouseEvent) {
+	// BEGIN Ricardo Romão
+	// Teste para ver como está o picking a funcionar
+	// Para as células não me parece grande coisa,
+	// deve faltar qualquer coisa :(
+	pc.setShapeLocation(mouseEvent);
+	PickResult result = pc.pickClosest();
+
+	if (result == null) {
+	    System.out.println("Nothing picked");
+	}
+	else {
+	    Shape3D s = (Shape3D)result.getNode(PickResult.SHAPE3D);
+	    if (s != null) {
+		Color3f c1 = new Color3f(0.6f, 0.6f, 1.0f);
+		Appearance app = new Appearance();
+		app.setMaterial(new Material(c1, c1, c1, c1, 80.0f));
+		s.setAppearance(app);
+		System.out.println(s.getClass().getName());
+	    }
+	    else {
+		System.out.println("null");
+	    }
+	}
+	// END Ricard Romão
 //        pc.setShapeLocation(mouseEvent);
 //        PickResult[] results = pc.pickAll();
 //        for (int i = 0; (results != null) && (i < results.length); i++) {
