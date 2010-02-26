@@ -1,0 +1,93 @@
+//    public void init2(){
+//        GraphicsConfiguration gc = SimpleUniverse.getPreferredConfiguration();
+//        Canvas3D canvas = new Canvas3D(gc);
+//
+//        setLayout(new BorderLayout());
+//        add(canvas, BorderLayout.CENTER);
+//
+//        View view = constructView(canvas);
+//        Locale myLocale = constructViewBranch(view);
+//        constructContentBranch(myLocale);
+//    }
+//    private void constructContentBranch(Locale locale){
+//        Font myFont = new Font("TimesRoman",Font.PLAIN,10);
+//        Font3D myFont3D = new Font3D(myFont,new FontExtrusion());
+//        Text3D myText3D = new Text3D(myFont3D, "JavaWorld");
+//        Shape3D myShape3D = new Shape3D(myText3D, new Appearance());
+//
+//        int x = game.getGameRules().getRows() * DEFAULT_CELL_SIZE;
+//        int y = game.getGameRules().getCols() * DEFAULT_CELL_SIZE;
+//        Box b = new Box(x, y, 0.2f, new Appearance());
+//
+//        Appearance a = new Appearance();
+//        a.setColoringAttributes(new ColoringAttributes(new Color3f(Color.GREEN), 1));
+//        Box b1 = new Box(DEFAULT_CELL_SIZE, DEFAULT_CELL_SIZE, 0.1f, a);
+//
+//        BranchGroup contentBranchGroup = new BranchGroup();
+//
+//        Transform3D myTransform3D = new Transform3D();
+//        //myTransform3D.setTranslation(new Vector3f(0.0f,0.0f,-(2*y)));
+//        myTransform3D.setTranslation(new Vector3f(0.0f,0.0f,0.5f));
+//        myTransform3D.setScale(0.5);
+//
+//        Transform3D tempTransform3D = new Transform3D();
+//        tempTransform3D.rotX(-Math.PI/4.0d);
+//        myTransform3D.mul(tempTransform3D);
+//        TransformGroup contentTransformGroup = new TransformGroup(myTransform3D);
+//
+//        Transform3D trans = new Transform3D();
+//        trans.setTranslation(new Vector3f(0.0f, 1.0f, -(2*y)));
+//        trans.setScale(0.5);
+//        trans.mul(tempTransform3D);
+//
+//        TransformGroup group = new TransformGroup(trans);
+//
+//
+//        TransformGroup spin = new TransformGroup();
+//        spin.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+//        spin.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+//
+//        BoundingSphere bounds = new BoundingSphere();
+//
+//        KeyNavigatorBehavior behavior = new KeyNavigatorBehavior(spin);
+//        behavior.setSchedulingBounds(bounds);
+//        spin.addChild(behavior);
+//
+//        //contentTransformGroup.addChild(myShape3D);
+//        //contentTransformGroup.addChild(b);
+//        contentTransformGroup.addChild(new Board3D());
+//        //contentTransformGroup.addChild(b1);
+//
+//        group.addChild(b1);
+//        spin.addChild(contentTransformGroup);
+//        //spin.addChild(group);
+//
+//
+//        //contentBranchGroup.addChild(contentTransformGroup);
+//        //contentBranchGroup.addChild(group);
+//        contentBranchGroup.addChild(spin);
+//        locale.addBranchGraph(contentBranchGroup);
+//
+//    }
+//    private Locale constructViewBranch(View view){
+//        VirtualUniverse myUniverse = new VirtualUniverse();
+//        Locale myLocale = new Locale(myUniverse);
+//        BranchGroup myBranchGroup = new BranchGroup();
+//        TransformGroup myTransformGroup = new TransformGroup();
+//        ViewPlatform myViewPlatform = new ViewPlatform();
+//
+//        myTransformGroup.addChild(myViewPlatform);
+//        myBranchGroup.addChild(myTransformGroup);
+//        myLocale.addBranchGraph(myBranchGroup);
+//
+//        view.attachViewPlatform(myViewPlatform);
+//
+//        return(myLocale);
+//    }
+//    private View constructView(Canvas3D cv){
+//        View myView = new View();
+//        myView.addCanvas3D(cv);
+//        myView.setPhysicalBody(new PhysicalBody());
+//        myView.setPhysicalEnvironment(new PhysicalEnvironment());
+//        return myView;
+//    }
