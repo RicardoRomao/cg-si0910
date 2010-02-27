@@ -11,7 +11,7 @@ package battleshipwarfare;
  */
 public class Settings3D {
 
-    private static double _boardCellMargin = 0.01;
+    private static double _boardCellMargin = 0.035;
     private static double _cellSize = 0.1;
 
     public static double getBoardCellMargin(){
@@ -20,7 +20,7 @@ public class Settings3D {
     public static double getCellSize(){
         return _cellSize;
     }
-    public static double getBoardStartPointX(){
+    public static double getOwnBoardStartPointX(){
         return getBoardEndPointX()*(-1);
     }
     public static double getBoardEndPointX(){
