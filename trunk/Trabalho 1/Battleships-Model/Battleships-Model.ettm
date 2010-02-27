@@ -26,12 +26,12 @@
 	<!ELEMENT Irresolvable ANY>
 	<!ATTLIST Irresolvable 
 		   id CDATA #IMPLIED >
-]--><TypeManagement projectID="DCE.6EC14DAB-CDF6-6047-F731-A061C06FB77C">
+]--><TypeManagement projectID="DCE.E7A10755-C37B-EA41-C800-3C523E51F409">
 	<Locations nextID="1">
 	<Location locID="T.0" href=".\Battleships-Model.etup"/></Locations>
 
    <Types>
-   <Type id="DCE.B83728C1-E1BC-0D32-AA6A-F9DF10978610" location="T.0" name="Unnamed"/></Types>
+   <Type id="DCE.09B84000-1460-0605-7FE1-D5F978251650" location="T.0" name="Unnamed"/></Types>
 
 	<IrresolvableTypes>
 	</IrresolvableTypes>

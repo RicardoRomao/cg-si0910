@@ -87,7 +87,7 @@ public class Board implements IBoard{
 //        double deltaY = ((GameRules.getCurrentRules().getRows()/2))*Settings3D.getBoardCellMargin() +
 //                Settings3D.getBoardCellMargin()/2;
 
-        double startX = Settings3D.getBoardStartPointX();
+        double startX = Settings3D.getOwnBoardStartPointX();
         double startY = Settings3D.getBoardStartPointY();
         double endX = Settings3D.getBoardEndPointX();
         double endY = Settings3D.getBoardEndPointY();

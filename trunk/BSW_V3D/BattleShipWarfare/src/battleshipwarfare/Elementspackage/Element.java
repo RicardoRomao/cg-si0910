@@ -80,15 +80,18 @@ public abstract class Element implements IElement{
     }
     public Shape3D getShape(Point p, boolean own){
         Shape3D sh = new Shape3D();
-        Appearance appearance = new Appearance();
-        appearance.setMaterial(new Material(new Color3f(Color.BLUE), new Color3f(Color.BLUE)
-                ,new Color3f(Color.BLUE),new Color3f(Color.BLUE), 0.5f));
-        sh.setAppearance(appearance);
+        sh.setName(p.getX() + "," + p.getY());
+        if(!own){
+            Appearance appearance = new Appearance();
+            if(!isHit(p)){
+                appearance.setMaterial(new Material(new Color3f(Color.BLUE), new Color3f(Color.BLUE)
+                    ,new Color3f(Color.BLUE),new Color3f(Color.BLUE), 0.5f));
 
-        if(!isHit(p)){
-            sh.setGeometry(getUnHittedPoint(p).getIndexedGeometryArray());
-        }else{
-            sh.setGeometry(getGeometryInfo(own).getIndexedGeometryArray());
+                sh.setAppearance(appearance);
+                sh.setGeometry(getUnHittedPoint(p).getIndexedGeometryArray());
+            }else{
+                sh.setGeometry(getGeometryInfo(own).getIndexedGeometryArray());
+            }
         }
         return sh;
     }
@@ -103,7 +106,7 @@ public abstract class Element implements IElement{
         double deltaY = (GameRules.getCurrentRules().getRows() - p.getY()-1)*Settings3D.getCellSize() +
                 (GameRules.getCurrentRules().getRows() - p.getY())*Settings3D.getBoardCellMargin();
         
-        double startX = Settings3D.getBoardStartPointX();
+        double startX = Settings3D.getOwnBoardStartPointX();
         double startY = Settings3D.getBoardStartPointY();
 
 
