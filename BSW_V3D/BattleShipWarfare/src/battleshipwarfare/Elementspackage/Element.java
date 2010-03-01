@@ -101,27 +101,27 @@ public abstract class Element implements IElement{
 
         Point3d[] vertices  = new Point3d[8];
 
-        double deltaX = (p.getX()*Settings3D.getCellSize()) +
-                (p.getX()+1)*Settings3D.getBoardCellMargin();
-        double deltaY = (GameRules.getCurrentRules().getRows() - p.getY()-1)*Settings3D.getCellSize() +
-                (GameRules.getCurrentRules().getRows() - p.getY())*Settings3D.getBoardCellMargin();
+        double deltaX = (p.getX()*Settings3D.getOwnCellSize()) +
+                (p.getX()+1)*Settings3D.getOwnBoardCellMargin();
+        double deltaY = (GameRules.getCurrentRules().getRows() - p.getY()-1)*Settings3D.getOwnCellSize() +
+                (GameRules.getCurrentRules().getRows() - p.getY())*Settings3D.getOwnBoardCellMargin();
         
         double startX = Settings3D.getOwnBoardStartPointX();
-        double startY = Settings3D.getBoardStartPointY();
+        double startY = Settings3D.getOwnBoardStartPointY();
 
 
         //Pontos das faces [0..7]
         vertices[idx++] = new Point3d(startX+deltaX, startY+deltaY, 0.1);                           //0
-        vertices[idx++] = new Point3d(startX+deltaX, startY+Settings3D.getCellSize()+deltaY, 0.1);  //1     1 3
-        vertices[idx++] = new Point3d(startX+Settings3D.getCellSize()+deltaX, startY+deltaY, 0.1);  //2     0 2
-        vertices[idx++] = new Point3d(startX+Settings3D.getCellSize()+deltaX,
-                startY+Settings3D.getCellSize()+deltaY, 0.1);                                       //3
+        vertices[idx++] = new Point3d(startX+deltaX, startY+Settings3D.getOwnCellSize()+deltaY, 0.1);  //1     1 3
+        vertices[idx++] = new Point3d(startX+Settings3D.getOwnCellSize()+deltaX, startY+deltaY, 0.1);  //2     0 2
+        vertices[idx++] = new Point3d(startX+Settings3D.getOwnCellSize()+deltaX,
+                startY+Settings3D.getOwnCellSize()+deltaY, 0.1);                                       //3
 
         vertices[idx++] = new Point3d(startX+deltaX, startY+deltaY, 0.12);                           //4
-        vertices[idx++] = new Point3d(startX+deltaX, startY+Settings3D.getCellSize()+deltaY, 0.12);  //5     5 7
-        vertices[idx++] = new Point3d(startX+Settings3D.getCellSize()+deltaX, startY+deltaY, 0.12);  //6     4 6
-        vertices[idx++] = new Point3d(startX+Settings3D.getCellSize()+deltaX,
-                startY+Settings3D.getCellSize()+deltaY, 0.12);                                       //7
+        vertices[idx++] = new Point3d(startX+deltaX, startY+Settings3D.getOwnCellSize()+deltaY, 0.12);  //5     5 7
+        vertices[idx++] = new Point3d(startX+Settings3D.getOwnCellSize()+deltaX, startY+deltaY, 0.12);  //6     4 6
+        vertices[idx++] = new Point3d(startX+Settings3D.getOwnCellSize()+deltaX,
+                startY+Settings3D.getOwnCellSize()+deltaY, 0.12);                                       //7
 
         gi.setCoordinates(vertices);
 
