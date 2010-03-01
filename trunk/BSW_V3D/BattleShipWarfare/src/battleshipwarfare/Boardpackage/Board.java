@@ -1,7 +1,6 @@
 package battleshipwarfare.Boardpackage;
 
 import battleshipwarfare.Elementspackage.IElement;
-import battleshipwarfare.GameRules;
 import battleshipwarfare.Settings3D;
 import com.sun.j3d.utils.geometry.GeometryInfo;
 import com.sun.j3d.utils.geometry.NormalGenerator;
@@ -18,7 +17,7 @@ public class Board implements IBoard{
         this(IBoard.DEFAULT_ROWS, IBoard.DEFAULT_COLS);
     }
     public Board(int rows, int cols){
-        _endPoint = new Point(rows - 1, cols - 1);
+        _endPoint = new Point(cols - 1, rows - 1);
         _elements = new Hashtable<Point, IElement>();
     }
 
@@ -88,9 +87,9 @@ public class Board implements IBoard{
 //                Settings3D.getBoardCellMargin()/2;
 
         double startX = Settings3D.getOwnBoardStartPointX();
-        double startY = Settings3D.getBoardStartPointY();
-        double endX = Settings3D.getBoardEndPointX();
-        double endY = Settings3D.getBoardEndPointY();
+        double startY = Settings3D.getOwnBoardStartPointY();
+        double endX = Settings3D.getOwnBoardEndPointX();
+        double endY = Settings3D.getOwnBoardEndPointY();
 
         //Pontos das faces [0..7]
         vertices[idx++] = new Point3d(startX, startY, 0);     //0
