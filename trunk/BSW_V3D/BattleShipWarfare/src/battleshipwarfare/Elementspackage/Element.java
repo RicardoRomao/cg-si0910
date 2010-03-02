@@ -18,13 +18,35 @@ import javax.media.j3d.Shape3D;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 
+/**
+ * Abstract class that represents a Game element.
+ * @author RNR
+ */
 public abstract class Element implements IElement{
 
+    /**
+     * The element anchor point.
+     */
     protected Point _anchor;
+    /**
+     * The element type.
+     */
     protected ElementType _type;
+    /**
+     * The element status.
+     */
     protected ElementStatus _status;
+    /**
+     * The element area.
+     */
     protected Point[] _area;
+    /**
+     * The hitted points of the element.
+     */
     protected Point[] _hitted;
+    /**
+     * How many unhitted points.
+     */
     protected int _liveCells;
 
     private boolean isHit(Point p){
@@ -179,5 +201,10 @@ public abstract class Element implements IElement{
         return gi;
     }
 
+    /**
+     * Gets the element GeometryInfo to build the element Shape3D
+     * @param own boolean indicating if the element is of current player or not.
+     * @return GeometryInfo The element geometryInfo.
+     */
     public abstract GeometryInfo getGeometryInfo(boolean own);
 }

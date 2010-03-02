@@ -3,8 +3,17 @@ package battleshipwarfare.Elementspackage;
 import battleshipwarfare.Boardpackage.Point;
 import com.sun.j3d.utils.geometry.GeometryInfo;
 
+/**
+ * Class that represents a Aircraft element.
+ * @author RNR
+ */
 public class AircraftElement extends Element {
         
+    /**
+     * Constructs a new Aircraft Element.
+     * @param anchor The element anchor point.
+     * @param direction The element direction.
+     */
     public AircraftElement(Point anchor, Point direction){
         _type = ElementType.AIRCRAFT;                
         _anchor = anchor;

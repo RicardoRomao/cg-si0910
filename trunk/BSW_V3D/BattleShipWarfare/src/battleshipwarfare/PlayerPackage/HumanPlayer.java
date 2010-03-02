@@ -2,21 +2,39 @@ package battleshipwarfare.PlayerPackage;
 
 import battleshipwarfare.Boardpackage.*;
 import battleshipwarfare.Elementspackage.*;
+import battleshipwarfare.GameRules;
+import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * Class representing a human player.
+ * It implements the IPlayer interface
+ * @author RNR
+ */
 public class HumanPlayer implements IPlayer {
 
     private String _playerName;
     private IBoard _shootingBoard;
     private PlayerType _playerType;
+    private Point _endPoint;
 
+    /**
+     * Parameterless Constructor.
+     * Constructs a human player named "Human Player"
+     */
     public HumanPlayer(){
         this("Human Player");
     }
+    /**
+     * Constructs a human player with the specified name
+     * @param playerName
+     * The player Name
+     */
     public HumanPlayer(String playerName){
         _playerName = playerName;
         _shootingBoard = new Board();
         _playerType = PlayerType.HUMAN;
+        _endPoint = new Point(GameRules.getCurrentRules().getRows() - 1, GameRules.getCurrentRules().getCols() - 1);
     }
 
     private boolean validInput(int x, int y, int d){
@@ -40,11 +58,22 @@ public class HumanPlayer implements IPlayer {
     public String getName(){
         return _playerName;
     }
+    
     public PlayerType getPlayerType(){
         return _playerType;
     }
-
-    public IElement getNewElement(ElementType type) {
+    /**
+     * Used to be the getNewElement
+     * @param type
+     * Player type
+     * @return
+     * A game element
+     *
+     * @deprecated
+     * Needed to be changed due to the automation of the board construction
+     */
+    @Deprecated
+    public IElement getElement(ElementType type) {
         Scanner s = new Scanner(System.in);
         int x, y, d;
         do{
@@ -66,8 +95,28 @@ public class HumanPlayer implements IPlayer {
             return new AircraftElement(new Point(x, y), direction);
         return new LineElement(type, new Point(x, y), direction);
     }
+    
+    public IElement getNewElement(ElementType type){
+        Random rnd = new Random();
+	Point anchor = new Point(rnd.nextInt(_endPoint.getX()), rnd.nextInt(_endPoint.getY()));
+	Point direction = IElement.cardinalPoints[(rnd.nextInt(4))];
+        if(type == ElementType.AIRCRAFT){
+            return new AircraftElement(anchor, direction);
+        }else{
+            return new LineElement(type, anchor, direction);
+        }
+    }
 
-    public Point Play() {
+    /**
+     * Represents a game play
+     * @return
+     * The Point witch player choose to be his play
+     * @deprecated
+     * Needed to be changed due to the fact that in the 3D version
+     * the point is returned by picking
+     */
+    @Deprecated
+    public Point oldPlay() {
         Scanner s = new Scanner(System.in);
         while(true){
             System.out.println("Indique a sua jogada (x, y)");
@@ -83,9 +132,12 @@ public class HumanPlayer implements IPlayer {
 
         
     }
+    
+    public Point Play(){
+        return null;
+    }
+    
     public void notifyHit(ElementType type, ElementStatus status){
         return;
     }
-
-    
 }

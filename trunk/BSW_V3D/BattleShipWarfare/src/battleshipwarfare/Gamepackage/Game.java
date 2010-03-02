@@ -1,6 +1,5 @@
 package battleshipwarfare.Gamepackage;
 
-import battleshipwarfare.GameRules;
 import battleshipwarfare.Boardpackage.Point;
 import battleshipwarfare.Elementspackage.IElement;
 import battleshipwarfare.PlayerPackage.IAPlayer;
@@ -8,6 +7,10 @@ import battleshipwarfare.PlayerPackage.IPlayer;
 import battleshipwarfare.PlayerPackage.PlayerType;
 import java.util.Random;
 
+/**
+ * Class that represents a BattleShipWarfare Game
+ * @author RNR
+ */
 public class Game {
 
     private static int NUM_PLAYERS = 2;
@@ -16,6 +19,9 @@ public class Game {
     private GamePlayer[] _gamePlayers;    
     private int _currentPlayer = 0;
 
+    /**
+     * Constructs and initializes a game object.
+     */
     public Game(){
         _gamePlayers = new GamePlayer[NUM_PLAYERS];
         _gameStatus = GameStatus.WAITING_FOR_PLAYER;
@@ -69,6 +75,14 @@ public class Game {
         return;
     }
 
+    /**
+     * Adds a player to the game.<br>
+     * Since it is a one player game, this method is responsable for
+     * building the computer player.
+     * @param player The Human player to be added.
+     * @return boolean indicating that the player has been succesfully
+     * added to the game.
+     */
     public boolean addPlayer(IPlayer player){
         if(_gameStatus != GameStatus.WAITING_FOR_PLAYER)
             return false;
@@ -81,6 +95,9 @@ public class Game {
         _gameStatus = GameStatus.WAITING_FOR_BOATS;
         return true;
     }
+    /**
+     * Initiates the game.
+     */
     public void Start(){
         if(_gameStatus != GameStatus.WAITING_FOR_BOATS){
             System.out.println("You must add a player!!");
@@ -89,9 +106,16 @@ public class Game {
         buildBoards();
         play();
     }
+    /**
+     * Gets the winner player of the game.
+     * @return GamePlayer The player who won the game.
+     */
     public GamePlayer getWinner(){
         return _gamePlayers[_currentPlayer];
     }
+    /**
+     * Restarts the game.
+     */
     public void restart(){
         _gameStatus = GameStatus.WAITING_FOR_BOATS;
         buildBoards();
