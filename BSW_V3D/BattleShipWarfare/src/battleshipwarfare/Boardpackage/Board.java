@@ -8,14 +8,27 @@ import java.util.Hashtable;
 import javax.media.j3d.Shape3D;
 import javax.vecmath.Point3d;
 
+/**
+ * Class that represents a game board.
+ * @author RNR
+ */
 public class Board implements IBoard{
         
     private Hashtable<Point, IElement> _elements;
     private Point _endPoint;
 
+    /**
+     * Parameterless constructor.<br>
+     * Initiates a board with the default size.
+     */
     public Board(){
         this(IBoard.DEFAULT_ROWS, IBoard.DEFAULT_COLS);
     }
+    /**
+     * Constructs a board with the specified Rows and Cols.
+     * @param rows The number of Rows.
+     * @param cols The number of Cols
+     */
     public Board(int rows, int cols){
         _endPoint = new Point(cols - 1, rows - 1);
         _elements = new Hashtable<Point, IElement>();

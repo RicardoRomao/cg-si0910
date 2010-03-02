@@ -3,8 +3,19 @@ package battleshipwarfare.Elementspackage;
 import battleshipwarfare.Boardpackage.Point;
 import com.sun.j3d.utils.geometry.GeometryInfo;
 
+/**
+ * Class the represents a LineElement
+ * @author RNR
+ */
 public class LineElement extends Element{
 
+    /**
+     * Constructs a new LineElement that starts in the <b>anchor</b> point,
+     * in the <b>direction</b> direction and of <b>type</b> element type.
+     * @param type The element type
+     * @param anchor The element anchor.
+     * @param direction The element directoin
+     */
     public LineElement(ElementType type, Point anchor, Point direction){
         _type = type;
         _liveCells = type.ordinal();

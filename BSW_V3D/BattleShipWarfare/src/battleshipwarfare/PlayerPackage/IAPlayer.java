@@ -10,6 +10,10 @@ import battleshipwarfare.GameRules;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Class representing the computer player
+ * @author RNR
+ */
 public class IAPlayer implements IPlayer {
 
     String _playerName;
@@ -20,6 +24,9 @@ public class IAPlayer implements IPlayer {
     Point _lastPlay; // Auxiliar para no caso de ter um hit tentar calcular direcções
     Point _lastHit;
 
+    /**
+     * Constructs a new player with IA
+     */
     public IAPlayer() {
         _endPoint = new Point(GameRules.getCurrentRules().getRows() - 1, GameRules.getCurrentRules().getCols() - 1);
         initAI();
@@ -147,6 +154,7 @@ public class IAPlayer implements IPlayer {
     public String getName(){
         return _playerName;
     }
+    
     public PlayerType getPlayerType(){
         return _playerType;
     }
@@ -160,8 +168,8 @@ public class IAPlayer implements IPlayer {
         }else{
             return new LineElement(type, anchor, direction);
         }
-    }    
-
+    }
+    
     public Point Play() {
         Point next = null;
 	if (!_planedMoves.isEmpty()) {
@@ -175,6 +183,7 @@ public class IAPlayer implements IPlayer {
 	_lastPlay = next;
         return next;
     }
+    
     public void notifyHit(ElementType type, ElementStatus status) {
         if (type == ElementType.WATER) {
             return;

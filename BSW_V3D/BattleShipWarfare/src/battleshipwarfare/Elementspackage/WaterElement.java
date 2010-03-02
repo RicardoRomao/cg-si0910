@@ -5,11 +5,23 @@ import com.sun.j3d.utils.geometry.GeometryInfo;
 import com.sun.j3d.utils.geometry.NormalGenerator;
 import javax.vecmath.Point3d;
 
+/**
+ * Class represnting a Water element.
+ * @author RNR
+ */
 public class WaterElement extends Element {
 
+    /**
+     * Parameterless Constructor.<br>
+     * Constructs a Water element in the origin point.
+     */
     public WaterElement(){
         this(new Point());
     }
+    /**
+     * Constructs a Water element is the specified point.
+     * @param anchor Point that determines the element position.
+     */
     public WaterElement(Point anchor){
         _type = ElementType.WATER;
         _anchor = anchor;
