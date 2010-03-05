@@ -2,18 +2,23 @@ package battleshipwarfare.Boardpackage;
 
 import battleshipwarfare.Elementspackage.IElement;
 import battleshipwarfare.Settings3D;
+import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.geometry.GeometryInfo;
 import com.sun.j3d.utils.geometry.NormalGenerator;
 import java.util.Hashtable;
+import javax.media.j3d.Appearance;
+import javax.media.j3d.ColoringAttributes;
+import javax.media.j3d.Material;
 import javax.media.j3d.Shape3D;
+import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 
 /**
  * Class that represents a game board.
  * @author RNR
  */
-public class Board implements IBoard{
-        
+public class Board implements IBoard {
+
     private Hashtable<Point, IElement> _elements;
     private Point _endPoint;
 
@@ -21,26 +26,28 @@ public class Board implements IBoard{
      * Parameterless constructor.<br>
      * Initiates a board with the default size.
      */
-    public Board(){
+    public Board() {
         this(IBoard.DEFAULT_ROWS, IBoard.DEFAULT_COLS);
     }
+
     /**
      * Constructs a board with the specified Rows and Cols.
      * @param rows The number of Rows.
      * @param cols The number of Cols
      */
-    public Board(int rows, int cols){
+    public Board(int rows, int cols) {
         _endPoint = new Point(cols - 1, rows - 1);
         _elements = new Hashtable<Point, IElement>();
     }
 
-    public Point getEndPoint(){
+    public Point getEndPoint() {
         return _endPoint;
-    }    
-    public boolean addElement(IElement elem, boolean withAdjacent){
-        if(isPlaceable(elem, withAdjacent)){
+    }
+
+    public boolean addElement(IElement elem, boolean withAdjacent) {
+        if (isPlaceable(elem, withAdjacent)) {
             Point[] area = elem.getArea();
-            for(int i = 0; i < area.length; i++){
+            for (int i = 0; i < area.length; i++) {
                 _elements.put(area[i], elem);
             }
             System.out.println("Added " + elem.getType().name());
@@ -48,52 +55,56 @@ public class Board implements IBoard{
         }
         return false;
     }
-    public IElement shoot(Point p){
+
+    public IElement shoot(Point p) {
         IElement elem;
-        if((elem = _elements.get(p)) != null){
+        if ((elem = _elements.get(p)) != null) {
             elem.hit(p);
             return elem;
         }
         return null;
     }
-    public void drawInConsole(boolean own){
+
+    public void drawInConsole(boolean own) {
         Point p;
-        System.out.println(own?"My Board":"Opponent Board");
+        System.out.println(own ? "My Board" : "Opponent Board");
         System.out.println();
         System.out.print(" ");
-        for(int i = 0; i <= _endPoint.getY(); i++){
+        for (int i = 0; i <= _endPoint.getY(); i++) {
             System.out.print(i + 1);
         }
         System.out.println();
-        for(int i = 0; i <= _endPoint.getY(); i++){
-            System.out.print((char)('A' + i));
-            for(int j = 0; j <= _endPoint.getX(); j++){
+        for (int i = 0; i <= _endPoint.getY(); i++) {
+            System.out.print((char) ('A' + i));
+            for (int j = 0; j <= _endPoint.getX(); j++) {
                 p = new Point(j, i);
                 _elements.get(p).drawInConsole(p, own);
             }
             System.out.println(("|"));
         }
-        for(int i = 0; i <= _endPoint.getY(); i++){
+        for (int i = 0; i <= _endPoint.getY(); i++) {
             System.out.print("-");
         }
         System.out.println("-");
     }
-    public boolean isInBounds(Point p){
+
+    public boolean isInBounds(Point p) {
         return p.getX() >= 0 && p.getY() >= 0 && p.getX() <= _endPoint.getX()
                 && p.getY() <= _endPoint.getY();
     }
-    public Shape3D getShape(){
+
+    public Shape3D getShape() {
         Shape3D sh = new Shape3D();
 
         int idx = 0;
 
         GeometryInfo gi = new GeometryInfo(GeometryInfo.POLYGON_ARRAY);
-        Point3d[] vertices  = new Point3d[8];
+        Point3d[] vertices = new Point3d[8];
 
         //É necessário contemplar na definição das dimensões do Board a margem entre cells
         //(n cols / 2) + (n cols / 2)= cols margens, mas é necessária mais uma
         //visto 10 cols terem 9 maergens + 2 exteriores
-        
+
 //        double deltaX = ((GameRules.getCurrentRules().getCols()/2))*Settings3D.getBoardCellMargin() +
 //                Settings3D.getBoardCellMargin()/2;
 //        double deltaY = ((GameRules.getCurrentRules().getRows()/2))*Settings3D.getBoardCellMargin() +
@@ -122,40 +133,40 @@ public class Board implements IBoard{
         int[] indices = new int[24];
 
         //Face de trás (4)
-        indices[idx++]=0;
-        indices[idx++]=1;
-        indices[idx++]=3;
-        indices[idx++]=2;
+        indices[idx++] = 0;
+        indices[idx++] = 1;
+        indices[idx++] = 3;
+        indices[idx++] = 2;
 
         //Face da frente (4)
-        indices[idx++]=7;
-        indices[idx++]=5;
-        indices[idx++]=4;
-        indices[idx++]=6;
+        indices[idx++] = 7;
+        indices[idx++] = 5;
+        indices[idx++] = 4;
+        indices[idx++] = 6;
 
         //Face Esquerda (4)
-        indices[idx++]=5;
-        indices[idx++]=1;
-        indices[idx++]=0;
-        indices[idx++]=4;
+        indices[idx++] = 5;
+        indices[idx++] = 1;
+        indices[idx++] = 0;
+        indices[idx++] = 4;
 
         //Face Direita (4)
-        indices[idx++]=2;
-        indices[idx++]=3;
-        indices[idx++]=7;
-        indices[idx++]=6;
+        indices[idx++] = 2;
+        indices[idx++] = 3;
+        indices[idx++] = 7;
+        indices[idx++] = 6;
 
         //Face Superior (4)
-        indices[idx++]=3;
-        indices[idx++]=1;
-        indices[idx++]=5;
-        indices[idx++]=7;
+        indices[idx++] = 3;
+        indices[idx++] = 1;
+        indices[idx++] = 5;
+        indices[idx++] = 7;
 
         //Face Inferior (4)
-        indices[idx++]=4;
-        indices[idx++]=0;
-        indices[idx++]=2;
-        indices[idx++]=6;
+        indices[idx++] = 4;
+        indices[idx++] = 0;
+        indices[idx++] = 2;
+        indices[idx++] = 6;
 
         gi.setCoordinateIndices(indices);
 
@@ -168,31 +179,44 @@ public class Board implements IBoard{
         NormalGenerator ng = new NormalGenerator();
         ng.generateNormals(gi);
 
+        Material material = new Material();
+        material.setLightingEnable(true);
+
+        Appearance appearance = new Appearance();
+        appearance.setMaterial(material);
+        appearance.setCapability(Appearance.ALLOW_COLORING_ATTRIBUTES_WRITE);
+        appearance.setColoringAttributes(new ColoringAttributes(new Color3f(1f, 0.3f, 0.2f), ColoringAttributes.NICEST));
+
         sh.setGeometry(gi.getIndexedGeometryArray());
+        sh.setCapability(Shape3D.ALLOW_APPEARANCE_WRITE);
+        sh.setAppearance(appearance);
 
         return sh;
     }
-    public Shape3D getElementShape(Point p, boolean own){
+
+    public Shape3D getElementShape(Point p, boolean own) {
         return _elements.get(p).getShape(p, own);
     }
 
-    private boolean isPlaceable(IElement elem, boolean withAdjacent){
-        if(!isInBounds(elem.getArea()))
+    private boolean isPlaceable(IElement elem, boolean withAdjacent) {
+        if (!isInBounds(elem.getArea())) {
             return false;
-        Point[] area = withAdjacent ? elem.getAreaWithAdjacent() : elem.getArea();
-        for(int i = 0; i < area.length; i++){
-            if(_elements.containsKey(area[i]))
-                return false;
         }
-        return true;
-    }
-    private boolean isInBounds(Point[] area){
-        for(int i = 0; i < area.length && area[i] != null; i++){
-            if(!isInBounds(area[i]))
+        Point[] area = withAdjacent ? elem.getAreaWithAdjacent() : elem.getArea();
+        for (int i = 0; i < area.length; i++) {
+            if (_elements.containsKey(area[i])) {
                 return false;
+            }
         }
         return true;
     }
 
-    
+    private boolean isInBounds(Point[] area) {
+        for (int i = 0; i < area.length && area[i] != null; i++) {
+            if (!isInBounds(area[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
