@@ -11,6 +11,7 @@ import battleshipwarfare.Elementspackage.ElementType;
 import battleshipwarfare.Elementspackage.IElement;
 import battleshipwarfare.Elementspackage.WaterElement;
 import battleshipwarfare.PlayerPackage.IAPlayer;
+import battleshipwarfare.PlayerPackage.PlayerType;
 
 /**
  * Class that represents a BattleShipWarfare Player
@@ -46,10 +47,11 @@ public class GamePlayer {
     /**
      * Fills the empty spaces of this player board with water elements.
      */
-    public void fillWater(){
+    private void fillWater(){
         for(int i = 0; i < _board.getEndPoint().getX() + 1; i++){
             for(int j = 0; j < _board.getEndPoint().getY() + 1; j++){
-                _board.addElement(new WaterElement(new Point(i, j)), false);
+                _board.addElement(new WaterElement(new Point(i, j),
+                        _player.getPlayerType()==PlayerType.HUMAN?true:false), false);
             }
         }
     }
