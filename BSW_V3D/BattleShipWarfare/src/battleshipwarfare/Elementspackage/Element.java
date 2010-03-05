@@ -17,6 +17,7 @@ import javax.media.j3d.Material;
 import javax.media.j3d.Shape3D;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
+import java.util.Map;
 
 /**
  * Abstract class that represents a Game element.
@@ -48,6 +49,10 @@ public abstract class Element implements IElement{
      * How many unhitted points.
      */
     protected int _liveCells;
+    /**
+     * The element Shapes
+     */    
+    protected Map<Point, Shape3D> _shapes;
 
     private boolean isHit(Point p){
         for(int i = 0; _hitted[i] != null && i < _type.ordinal(); i++){
@@ -101,24 +106,10 @@ public abstract class Element implements IElement{
             System.out.print(own ? _type.ordinal() : " ");
     }
 
-    public Shape3D getShape(Point p, boolean own){
-        Shape3D sh = new Shape3D();
-        sh.setName(p.getX() + "," + p.getY());
-        if(!own){
-            Appearance appearance = new Appearance();
-            if(!isHit(p)){
-                appearance.setMaterial(new Material(new Color3f(Color.BLUE), new Color3f(Color.BLUE)
-                    ,new Color3f(Color.BLUE),new Color3f(Color.BLUE), 0.5f));
-
-                sh.setAppearance(appearance);
-                sh.setGeometry(getUnHittedPoint(p).getIndexedGeometryArray());
-            }else{
-                sh.setGeometry(getGeometryInfo(own).getIndexedGeometryArray());
-            }
-        }
-        return sh;
+    public Shape3D getShape(Point p){
+        return _shapes.get(p);
     }
-    private GeometryInfo getUnHittedPoint(Point p){
+    protected GeometryInfo getGeometryInfo(Point p){
         int idx = 0;
         GeometryInfo gi = new GeometryInfo(GeometryInfo.POLYGON_ARRAY);
 
@@ -201,11 +192,10 @@ public abstract class Element implements IElement{
 
         return gi;
     }
-
+    
     /**
-     * Gets the element GeometryInfo to build the element Shape3D
-     * @param own boolean indicating if the element is of current player or not.
-     * @return GeometryInfo The element geometryInfo.
+     * Sets the points ocuppied by the element.
+     * @param direction Point indicating in witch direction is the element.
      */
-    public abstract GeometryInfo getGeometryInfo(boolean own);
+    public abstract void setArea(Point direction);
 }

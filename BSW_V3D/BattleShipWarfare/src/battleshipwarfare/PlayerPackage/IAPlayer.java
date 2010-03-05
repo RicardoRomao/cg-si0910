@@ -164,9 +164,9 @@ public class IAPlayer implements IPlayer {
 	Point anchor = new Point(rnd.nextInt(_endPoint.getX()), rnd.nextInt(_endPoint.getY()));
 	Point direction = IElement.cardinalPoints[(rnd.nextInt(4))];
         if(type == ElementType.AIRCRAFT){
-            return new AircraftElement(anchor, direction);
+            return new AircraftElement(anchor, direction, false);
         }else{
-            return new LineElement(type, anchor, direction);
+            return new LineElement(type, anchor, direction, false);
         }
     }
     

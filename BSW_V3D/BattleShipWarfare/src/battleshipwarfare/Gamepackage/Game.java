@@ -2,6 +2,7 @@ package battleshipwarfare.Gamepackage;
 
 import battleshipwarfare.Boardpackage.Point;
 import battleshipwarfare.Elementspackage.IElement;
+import battleshipwarfare.PlayerPackage.HumanPlayer;
 import battleshipwarfare.PlayerPackage.IAPlayer;
 import battleshipwarfare.PlayerPackage.IPlayer;
 import battleshipwarfare.PlayerPackage.PlayerType;
@@ -17,21 +18,27 @@ public class Game {
 
     private GameStatus _gameStatus;    
     private GamePlayer[] _gamePlayers;    
-    private int _currentPlayer = 0;
+    private int _currentPlayer = 0; //??
 
     /**
      * Constructs and initializes a game object.
      */
     public Game(){
         _gamePlayers = new GamePlayer[NUM_PLAYERS];
-        _gameStatus = GameStatus.WAITING_FOR_PLAYER;
-    }   
+        _gamePlayers[0] = new GamePlayer(new HumanPlayer());
+        _gamePlayers[1] = new GamePlayer(new IAPlayer());
+        _gameStatus = GameStatus.WAITING_FOR_BOATS;
+        //_gameStatus = GameStatus.WAITING_FOR_PLAYER;
+    }
+    public void init(){
+        if(_gameStatus == GameStatus.WAITING_FOR_BOATS)
+            buildBoards();
+    }
     private void buildBoards(){
         System.out.println("Starting to build the Board Games...");
 
-        for(int i = 0; i < _gamePlayers.length; i++)
-            _gamePlayers[i].buildBoard();
-
+        _gamePlayers[0].buildBoard();
+        _gamePlayers[1].buildBoard();
         _gameStatus = GameStatus.READY;
     }
     private void play(){
@@ -74,6 +81,9 @@ public class Game {
         _currentPlayer = rnd.nextInt(_gamePlayers.length);
         return;
     }
+    public GamePlayer getPlayer(PlayerType type){
+        return _gamePlayers[type.ordinal()];
+    }
 
     /**
      * Adds a player to the game.<br>
@@ -83,17 +93,18 @@ public class Game {
      * @return boolean indicating that the player has been succesfully
      * added to the game.
      */
+    @Deprecated
     public boolean addPlayer(IPlayer player){
-        if(_gameStatus != GameStatus.WAITING_FOR_PLAYER)
-            return false;
-        //Adding IAPlayer
-        IPlayer iaPlayer = new IAPlayer();
-        _gamePlayers[0] = new GamePlayer(iaPlayer);
-        //Adding Human Player
-        _gamePlayers[1] = new GamePlayer(player);
-
-        _gameStatus = GameStatus.WAITING_FOR_BOATS;
-        return true;
+//        if(_gameStatus != GameStatus.WAITING_FOR_PLAYER)
+//            return false;
+//        //Adding IAPlayer
+//        IPlayer iaPlayer = new IAPlayer();
+//        _gamePlayers[0] = new GamePlayer(iaPlayer);
+//        //Adding Human Player
+//        _gamePlayers[1] = new GamePlayer(player);
+//
+//        _gameStatus = GameStatus.WAITING_FOR_BOATS;
+        return false;
     }
     /**
      * Initiates the game.

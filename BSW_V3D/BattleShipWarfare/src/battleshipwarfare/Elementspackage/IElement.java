@@ -35,11 +35,6 @@ public interface IElement {
      * @return Point[] All points ocuppied by the element plus adjacent points.
      */
     public Point[] getAreaWithAdjacent();
-    /**
-     * Sets the points ocuppied by the element.
-     * @param direction Point indicating in witch direction is the element.
-     */
-    public void setArea(Point direction);
 
     /**
      * Sets a hitted point in the element.
@@ -59,5 +54,5 @@ public interface IElement {
      * @param own boolean indicating if the element is of current player or not.
      * @return Shape3D The Shape3D representing a point of the element.
      */
-    public Shape3D getShape(Point p, boolean own);
+    public Shape3D getShape(Point p);
 }
