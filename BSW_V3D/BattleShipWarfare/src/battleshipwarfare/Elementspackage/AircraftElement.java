@@ -2,6 +2,7 @@ package battleshipwarfare.Elementspackage;
 
 import battleshipwarfare.Boardpackage.Point;
 import java.awt.Color;
+import java.util.Hashtable;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Material;
 import javax.media.j3d.Shape3D;
@@ -24,6 +25,7 @@ public class AircraftElement extends Element {
         _anchor = anchor;
         _own = own;
         setArea(direction);
+        _shapes = new Hashtable<Point, Shape3D>();
         setShapes();
         _hitted = new Point[_type.ordinal()];
         _liveCells = _type.ordinal();
@@ -78,6 +80,8 @@ public class AircraftElement extends Element {
 
             sh.setAppearance(appearance);
         }
+
+        _shapes.put(p, sh);
     }
     public void hit(Point p) {
         _hitted[_type.ordinal() - _liveCells] = p;

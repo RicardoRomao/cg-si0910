@@ -3,6 +3,7 @@ package battleshipwarfare.Elementspackage;
 import battleshipwarfare.Boardpackage.Point;
 import com.sun.j3d.utils.geometry.GeometryInfo;
 import java.awt.Color;
+import java.util.Hashtable;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Material;
 import javax.media.j3d.Shape3D;
@@ -33,6 +34,7 @@ public class LineElement extends Element{
         _status = ElementStatus.ALIVE;
         _own = own;
         setArea(direction);
+        _shapes = new Hashtable<Point, Shape3D>();
         setShapes();
         _hitted = new Point[type.ordinal()];
     }
@@ -69,6 +71,7 @@ public class LineElement extends Element{
 
             sh.setAppearance(appearance);
         }
+        _shapes.put(p, sh);
     }
     public void hit(Point p) {
         _hitted[_type.ordinal() - _liveCells] = p;

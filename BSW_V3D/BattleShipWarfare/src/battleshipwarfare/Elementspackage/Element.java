@@ -10,12 +10,8 @@ import battleshipwarfare.GameRules;
 import battleshipwarfare.Settings3D;
 import com.sun.j3d.utils.geometry.GeometryInfo;
 import com.sun.j3d.utils.geometry.NormalGenerator;
-import java.awt.Color;
 import java.util.ArrayList;
-import javax.media.j3d.Appearance;
-import javax.media.j3d.Material;
 import javax.media.j3d.Shape3D;
-import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import java.util.Map;
 
