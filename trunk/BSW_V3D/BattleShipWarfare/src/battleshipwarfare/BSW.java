@@ -54,6 +54,7 @@ import javax.vecmath.Vector3f;
 //Mas devolve-me uma excepção e não percebo porquê...(Linhas 117 a 124)
 public class BSW extends Applet implements MouseListener {
 
+    private Shape3D theShape;
     private Game game;                  //Game Object
     private PickCanvas pc;              //Picking
     private static MainFrame mf;        //MainFrame:needs to be shared to allow changing contents
@@ -170,6 +171,8 @@ public class BSW extends Applet implements MouseListener {
                 // BEGIN Ricardo Romão
                 // Adicionei isto aqui só para fazer um teste com mudança de cores
                 Shape3D shapezorro = player.getBoard().getElementShape(new Point(i, j), false);
+                if (i==5 && j==5)
+                    theShape = shapezorro;
                 shapezorro.setCapability(Shape3D.ALLOW_APPEARANCE_WRITE | Shape3D.ALLOW_GEOMETRY_READ);
                 // END Ricardo Romão
                 transformGroup.addChild(shapezorro);
@@ -316,6 +319,7 @@ public class BSW extends Applet implements MouseListener {
                 Appearance app = new Appearance();
                 app.setMaterial(new Material(c1, c1, c1, c1, 80.0f));
                 s.setAppearance(app);
+                theShape.setAppearance(app);
                 //(Aqui algo está(va) mal, retorna coordenadas malucas!!)
                 //Resolvido
                 System.out.println("Tipo: " + s.getClass().getName() + "; Valor: " + s.getName());
