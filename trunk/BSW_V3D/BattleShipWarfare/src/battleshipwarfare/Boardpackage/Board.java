@@ -2,7 +2,6 @@ package battleshipwarfare.Boardpackage;
 
 import battleshipwarfare.Elementspackage.IElement;
 import battleshipwarfare.Settings3D;
-import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.geometry.GeometryInfo;
 import com.sun.j3d.utils.geometry.NormalGenerator;
 import java.util.Hashtable;
@@ -194,8 +193,8 @@ public class Board implements IBoard {
         return sh;
     }
 
-    public Shape3D getElementShape(Point p, boolean own) {
-        return _elements.get(p).getShape(p, own);
+    public Shape3D getElementShape(Point p) {
+        return _elements.get(p).getShape(p);
     }
 
     private boolean isPlaceable(IElement elem, boolean withAdjacent) {

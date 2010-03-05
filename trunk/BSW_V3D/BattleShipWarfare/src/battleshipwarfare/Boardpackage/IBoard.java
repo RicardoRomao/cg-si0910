@@ -59,5 +59,5 @@ public interface IBoard {
      * @param own boolean indicating if the board is of current player or not.
      * @return Shape3D representing the element in <b>p</b> position.
      */
-    public Shape3D getElementShape(Point p, boolean own);
+    public Shape3D getElementShape(Point p);
 }

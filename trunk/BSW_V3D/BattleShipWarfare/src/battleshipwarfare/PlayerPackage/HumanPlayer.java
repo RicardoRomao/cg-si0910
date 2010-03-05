@@ -92,8 +92,8 @@ public class HumanPlayer implements IPlayer {
 
         Point direction = IElement.cardinalPoints[d];
         if(type == ElementType.AIRCRAFT)
-            return new AircraftElement(new Point(x, y), direction);
-        return new LineElement(type, new Point(x, y), direction);
+            return new AircraftElement(new Point(x, y), direction, true);
+        return new LineElement(type, new Point(x, y), direction, true);
     }
     
     public IElement getNewElement(ElementType type){
@@ -101,9 +101,9 @@ public class HumanPlayer implements IPlayer {
 	Point anchor = new Point(rnd.nextInt(_endPoint.getX()), rnd.nextInt(_endPoint.getY()));
 	Point direction = IElement.cardinalPoints[(rnd.nextInt(4))];
         if(type == ElementType.AIRCRAFT){
-            return new AircraftElement(anchor, direction);
+            return new AircraftElement(anchor, direction, true);
         }else{
-            return new LineElement(type, anchor, direction);
+            return new LineElement(type, anchor, direction, true);
         }
     }
 
