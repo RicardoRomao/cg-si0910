@@ -76,10 +76,6 @@ public class BSW extends Applet implements MouseListener {
         SimpleUniverse humanUniverse = new SimpleUniverse(humanCanvas);
         humanUniverse.addBranchGraph(humanScene);
 
-        pc = new PickCanvas(humanCanvas, humanScene);
-        pc.setMode(PickCanvas.GEOMETRY); //NS - resolve o problema das coordenadas malucas!
-        humanCanvas.addMouseListener(this);
-
         /* Computer Canvas */
         Canvas3D computerCanvas = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
         computerCanvas.setSize(400, 400);
@@ -89,6 +85,10 @@ public class BSW extends Applet implements MouseListener {
 
         SimpleUniverse computerUniverse = new SimpleUniverse(computerCanvas);
         computerUniverse.addBranchGraph(computerScene);
+
+        pc = new PickCanvas(computerCanvas, computerScene);
+        pc.setMode(PickCanvas.GEOMETRY); //NS - resolve o problema das coordenadas malucas!
+        computerCanvas.addMouseListener(this);
 
         container.add(humanCanvas);
         container.add(computerCanvas);
@@ -178,10 +178,14 @@ public class BSW extends Applet implements MouseListener {
         } else {
             Shape3D s = (Shape3D) result.getNode(PickResult.SHAPE3D);
             if (s != null) {
-                Color3f c1 = new Color3f(0.6f, 0.6f, 1.0f);
-                Appearance app = new Appearance();
-                app.setMaterial(new Material(c1, c1, c1, c1, 80.0f));
-                s.setAppearance(app);
+                String strPoint = s.getName();
+                String[] strPointArr = strPoint.split(",");
+                Point p = new Point(Integer.parseInt(strPointArr[0]), Integer.parseInt(strPointArr[1]));
+                game.playHuman(p);
+//                Color3f c1 = new Color3f(0.6f, 0.6f, 1.0f);
+//                Appearance app = new Appearance();
+//                app.setMaterial(new Material(c1, c1, c1, c1, 80.0f));
+//                s.setAppearance(app);
                 System.out.println("Tipo: " + s.getClass().getName() + "; Valor: " + s.getName());
             } else {
                 System.out.println("null");

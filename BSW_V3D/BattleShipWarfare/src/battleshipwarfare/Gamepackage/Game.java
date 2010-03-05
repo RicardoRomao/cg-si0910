@@ -1,6 +1,8 @@
 package battleshipwarfare.Gamepackage;
 
 import battleshipwarfare.Boardpackage.Point;
+import battleshipwarfare.Elementspackage.ElementStatus;
+import battleshipwarfare.Elementspackage.ElementType;
 import battleshipwarfare.Elementspackage.IElement;
 import battleshipwarfare.PlayerPackage.HumanPlayer;
 import battleshipwarfare.PlayerPackage.IAPlayer;
@@ -85,6 +87,15 @@ public class Game {
         return _gamePlayers[type.ordinal()];
     }
 
+    public void playHuman(Point p){
+        _gamePlayers[PlayerType.IA.ordinal()].Hit(p);
+        playIA();
+    }
+    private void playIA(){
+        Point play = _gamePlayers[PlayerType.IA.ordinal()].Play();
+        IElement elem = _gamePlayers[PlayerType.HUMAN.ordinal()].Hit(play);
+        _gamePlayers[PlayerType.IA.ordinal()].notifyHit(elem.getType(), elem.getStatus());
+    }
     /**
      * Adds a player to the game.<br>
      * Since it is a one player game, this method is responsable for
