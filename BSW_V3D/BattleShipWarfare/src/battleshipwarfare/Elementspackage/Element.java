@@ -100,6 +100,7 @@ public abstract class Element implements IElement{
         else
             System.out.print(own ? _type.ordinal() : " ");
     }
+
     public Shape3D getShape(Point p, boolean own){
         Shape3D sh = new Shape3D();
         sh.setName(p.getX() + "," + p.getY());
