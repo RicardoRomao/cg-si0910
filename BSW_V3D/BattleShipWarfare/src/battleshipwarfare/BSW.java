@@ -2,7 +2,8 @@ package battleshipwarfare;
 
 import battleshipwarfare.Boardpackage.IBoard;
 import battleshipwarfare.Boardpackage.Point;
-import battleshipwarfare.Gamepackage.Game;
+import battleshipwarfare.Gamepackage.Game_3D;
+import battleshipwarfare.Gamepackage.GameStatus;
 import battleshipwarfare.PlayerPackage.PlayerType;
 import com.sun.j3d.utils.applet.MainFrame;
 import com.sun.j3d.utils.behaviors.mouse.MouseRotate;
@@ -39,7 +40,7 @@ import javax.vecmath.Vector3f;
 
 public class BSW extends Applet implements MouseListener {
     
-    private Game game;                  //Game Object
+    private Game_3D game;                  //Game Object
     private PickCanvas pc;              //Picking Tool
 
     //Build in Game
@@ -56,7 +57,7 @@ public class BSW extends Applet implements MouseListener {
     public void init() {
 
         //Game Object
-        game = new Game();
+        game = new Game_3D();
         game.init();
 
         //Panel
@@ -136,7 +137,7 @@ public class BSW extends Applet implements MouseListener {
         MouseZoom myMouseZoom = new MouseZoom(transformGroup);
         myMouseZoom.setSchedulingBoundingLeaf(boundingLeaf);
 
-        IBoard board = game.getPlayer(playerType).getBoard();
+        IBoard board = (playerType==PlayerType.HUMAN?game.getHumanPlayer():game.getIAPlayer()).getBoard();
         Shape3D boardShape = board.getShape();
 
         PickTool.setCapabilities(boardShape, PickTool.INTERSECT_TEST);
@@ -182,11 +183,14 @@ public class BSW extends Applet implements MouseListener {
                 String[] strPointArr = strPoint.split(",");
                 Point p = new Point(Integer.parseInt(strPointArr[0]), Integer.parseInt(strPointArr[1]));
                 game.playHuman(p);
+                if(game.getStatus() == GameStatus.ENDED){
+                    //Call the ?? getGameOverScene ??
+                }
 //                Color3f c1 = new Color3f(0.6f, 0.6f, 1.0f);
 //                Appearance app = new Appearance();
 //                app.setMaterial(new Material(c1, c1, c1, c1, 80.0f));
 //                s.setAppearance(app);
-                System.out.println("Tipo: " + s.getClass().getName() + "; Valor: " + s.getName());
+                //System.out.println("Tipo: " + s.getClass().getName() + "; Valor: " + s.getName());
             } else {
                 System.out.println("null");
             }

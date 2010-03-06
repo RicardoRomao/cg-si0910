@@ -1,7 +1,6 @@
 package battleshipwarfare.Elementspackage;
 
 import battleshipwarfare.Boardpackage.Point;
-import com.sun.j3d.utils.geometry.GeometryInfo;
 import java.awt.Color;
 import java.util.Hashtable;
 import javax.media.j3d.Appearance;
