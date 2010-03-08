@@ -43,6 +43,13 @@ public class GamePlayer {
     public IBoard getBoard(){
         return _board;
     }
+    /**
+     * Gets the amount of living boat points. The unhitted boat cells.
+     * @return int The living units
+     */
+    public int getAlivePoints(){
+        return _alivePoints;
+    }
 
     /**
      * Fills the empty spaces of this player board with water elements.
