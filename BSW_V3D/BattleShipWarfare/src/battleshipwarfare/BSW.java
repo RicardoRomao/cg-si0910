@@ -258,6 +258,9 @@ public class BSW extends Applet implements MouseListener {
             Shape3D s = (Shape3D) result.getNode(PickResult.SHAPE3D);
             if (s != null) {
                 String strPoint = s.getName();
+		// Sem esta linha era laçada excepção
+		// se fosse feito o click na board
+		if (strPoint == null) return;
                 String[] strPointArr = strPoint.split(",");
                 Point p = new Point(Integer.parseInt(strPointArr[0]), Integer.parseInt(strPointArr[1]));
                 game.playHuman(p);
