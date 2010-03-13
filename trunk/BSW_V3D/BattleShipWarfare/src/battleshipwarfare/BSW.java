@@ -2,8 +2,8 @@ package battleshipwarfare;
 
 import battleshipwarfare.Boardpackage.IBoard;
 import battleshipwarfare.Boardpackage.Point;
-import battleshipwarfare.Gamepackage.Game_3D;
 import battleshipwarfare.Gamepackage.GameStatus;
+import battleshipwarfare.Gamepackage.Game_3D;
 import battleshipwarfare.PlayerPackage.PlayerType;
 import com.sun.j3d.utils.applet.MainFrame;
 import com.sun.j3d.utils.behaviors.mouse.MouseRotate;
@@ -13,42 +13,64 @@ import com.sun.j3d.utils.picking.PickResult;
 import com.sun.j3d.utils.picking.PickTool;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import java.applet.Applet;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.media.j3d.Appearance;
 import javax.media.j3d.Background;
 import javax.media.j3d.BoundingLeaf;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
-import javax.media.j3d.Font3D;
-import javax.media.j3d.FontExtrusion;
-import javax.media.j3d.Material;
 import javax.media.j3d.PointLight;
 import javax.media.j3d.Shape3D;
-import javax.media.j3d.Text3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
 import javax.vecmath.Vector3f;
 
 public class BSW extends Applet implements MouseListener {
-    
+
+    private static final int BTN_QUIT = 1;
+    private static final String BTN_QUIT_IMG = "images/RB.png";
+    private static final String BTN_QUIT_IMG_OVER = "images/RBO.png";
+    private static final String BTN_QUIT_IMG_DOWN = "images/RBD.png";
+    private static final int BTN_RESTART = 2;
+    private static final String BTN_RESTART_IMG = "images/PB.png";
+    private static final String BTN_RESTART_IMG_OVER = "images/PBO.png";
+    private static final String BTN_RESTART_IMG_DOWN = "images/PBD.png";
+    private static final int BTN_HELP = 3;
+    private static final String BTN_HELP_IMG = "images/GB.png";
+    private static final String BTN_HELP_IMG_OVER = "images/GBO.png";
+    private static final String BTN_HELP_IMG_DOWN = "images/GBD.png";
     private Game_3D game;                  //Game Object
     private PickCanvas pc;              //Picking Tool
+    private static MainFrame mf;
+    private final Panel headContainer;
+    private final Panel mainContainer;        //Panel containing the boards
+    private final Panel footContainer;
+    Color3f white = new Color3f(1.0f, 1.0f, 1.0f);
+    Color3f red = new Color3f(1.0f, 0.0f, 0.0f);
+    Color3f darkGray = new Color3f(0.2f, 0.2f, 0.2f);
+    Color3f bgColor = new Color3f(0.4f, 0.4f, 0.4f);
 
-    //Build in Game
-    //private GamePlayer human = new GamePlayer(new HumanPlayer("Humanoid"));
-    //private GamePlayer computer = new GamePlayer(new IAPlayer());
+    public BSW() {
+        headContainer = new Panel();
+        mainContainer = new Panel();
+        footContainer = new Panel();
+    }
 
     public static void main(String[] args) {
-        MainFrame mf = new MainFrame(new BSW(), 800, 600);
+        mf = new MainFrame(new BSW(), 800, 600);
+        mf.setBackground(Color.black);
         mf.setResizable(false);
         mf.setVisible(true);
     }
@@ -60,52 +82,108 @@ public class BSW extends Applet implements MouseListener {
         game = new Game_3D();
         game.init();
 
-        //Panel
-        Panel container = new Panel();
-        container.setSize(800, 400);
-        container.setLocation(0, 100);
-        container.setVisible(true);
-        container.setLayout(null);
+        setLayout(null);
+
+        headContainer.setVisible(false);
+        mainContainer.setVisible(false);
+        footContainer.setVisible(false);
+
+        buildHeadContainer();
+        add(headContainer);
+        buildMainContainer();
+        add(mainContainer);
+        buildFootContainer();
+        add(footContainer);
+        
+        Runtime.getRuntime().gc();
+    }
+
+    private void buildHeadContainer() {
+
+        headContainer.removeAll();
+        headContainer.setBounds(5, 0, 800, 100);
+        headContainer.setLayout(null);
+
+        JLabel backGround = new JLabel(new ImageIcon("images/HeaderBackGround.png"));
+        backGround.setBounds(0, 0, 800, 100);
+
+        JButton restart = getCustomButton("Start", "BTN_RESTART",
+                BTN_RESTART_IMG, BTN_RESTART_IMG_OVER,
+                BTN_RESTART_IMG_DOWN, 460, 0, 100, 100);
+
+        JButton help = getCustomButton("Help", "BTN_HELP",
+                BTN_HELP_IMG, BTN_HELP_IMG_OVER,
+                BTN_HELP_IMG_DOWN, 570, 0, 100, 100);
+
+        JButton quit = getCustomButton("Quit", "BTN_QUIT",
+                BTN_QUIT_IMG, BTN_QUIT_IMG_OVER,
+                BTN_QUIT_IMG_DOWN, 680, 0, 100, 100);
+
+        headContainer.add(quit);
+        headContainer.add(restart);
+        headContainer.add(help);
+        headContainer.add(backGround);
+        headContainer.setVisible(true);
+    }
+
+    private void buildFootContainer() {
+
+        footContainer.removeAll();
+        footContainer.setBounds(5, 500, 800, 100);
+        footContainer.setVisible(true);
+        footContainer.setLayout(null);
+
+        /* Head Canvas holding UI controls */
+        Canvas3D canvas = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
+        canvas.setBounds(0, 0, 800, 100);
+        canvas.setBackground(Color.black);
+        footContainer.add(canvas);
+
+    }
+
+    private void buildMainContainer() {
+
+        mainContainer.removeAll();
+        mainContainer.setBounds(5, 100, 800, 400);
+        mainContainer.setVisible(true);
+        mainContainer.setLayout(null);
+
+        /* Human scene branchgroup creation */
+        BranchGroup humanScene = getPlayerScene(PlayerType.HUMAN);
 
         /* Human Canvas */
         Canvas3D humanCanvas = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
         humanCanvas.setSize(400, 400);
-        humanCanvas.setLocation(0, 100);
-
-        BranchGroup humanScene = getPlayerScene(PlayerType.HUMAN);
+        humanCanvas.setLocation(0, 0);
 
         SimpleUniverse humanUniverse = new SimpleUniverse(humanCanvas);
         humanUniverse.addBranchGraph(humanScene);
 
+
+        /* Computer scene branchgroup creation */
+        BranchGroup computerScene = getPlayerScene(PlayerType.IA);
+
         /* Computer Canvas */
         Canvas3D computerCanvas = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
         computerCanvas.setSize(400, 400);
-        computerCanvas.setLocation(410, 100);
-
-        BranchGroup computerScene = getPlayerScene(PlayerType.IA);
+        computerCanvas.setLocation(410, 0);
 
         SimpleUniverse computerUniverse = new SimpleUniverse(computerCanvas);
         computerUniverse.addBranchGraph(computerScene);
 
+        /* Assign picking to the computer board, where humans will play */
         pc = new PickCanvas(computerCanvas, computerScene);
-        pc.setMode(PickCanvas.GEOMETRY); //NS - resolve o problema das coordenadas malucas!
+        pc.setMode(PickCanvas.GEOMETRY);
         computerCanvas.addMouseListener(this);
 
-        container.add(humanCanvas);
-        container.add(computerCanvas);
-        setLayout(new BorderLayout());
-        add(container);
+        mainContainer.add(humanCanvas);
+        mainContainer.add(computerCanvas);
     }
 
     private BranchGroup getPlayerScene(PlayerType playerType) {
 
         BranchGroup root = new BranchGroup();
 
-        Color3f white = new Color3f(1.0f, 1.0f, 1.0f);
-        Color3f red = new Color3f(1.0f, 0.0f, 0.0f);
-        Color3f darkGray = new Color3f(0.2f, 0.2f, 0.2f);
-        Color3f bgColor = new Color3f(0.4f,0.4f,0.4f);
-        
         //Bounding leaf node ?
         BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0, 0.0),
                 1000.0);
@@ -137,8 +215,9 @@ public class BSW extends Applet implements MouseListener {
         MouseZoom myMouseZoom = new MouseZoom(transformGroup);
         myMouseZoom.setSchedulingBoundingLeaf(boundingLeaf);
 
-        IBoard board = (playerType==PlayerType.HUMAN?game.getHumanPlayer():game.getIAPlayer()).getBoard();
+        IBoard board = (playerType == PlayerType.HUMAN ? game.getHumanPlayer() : game.getIAPlayer()).getBoard();
         Shape3D boardShape = board.getShape();
+        //boardShape = getButton();
 
         PickTool.setCapabilities(boardShape, PickTool.INTERSECT_TEST);
 
@@ -151,7 +230,6 @@ public class BSW extends Applet implements MouseListener {
         transformGroup.addChild(myMouseRotate);
         transformGroup.addChild(myMouseZoom);
         transformGroup.addChild(boardShape);
-
 
         Shape3D sh;
         for (int i = 0; i <= board.getEndPoint().getX(); i++) {
@@ -183,13 +261,13 @@ public class BSW extends Applet implements MouseListener {
                 String[] strPointArr = strPoint.split(",");
                 Point p = new Point(Integer.parseInt(strPointArr[0]), Integer.parseInt(strPointArr[1]));
                 game.playHuman(p);
-                if(game.getStatus() == GameStatus.ENDED){
+                if (game.getStatus() == GameStatus.ENDED) {
                     //Call the ?? getGameOverScene ??
                 }
-//                Color3f c1 = new Color3f(0.6f, 0.6f, 1.0f);
-//                Appearance app = new Appearance();
-//                app.setMaterial(new Material(c1, c1, c1, c1, 80.0f));
-//                s.setAppearance(app);
+                //                Color3f c1 = new Color3f(0.6f, 0.6f, 1.0f);
+                //                Appearance app = new Appearance();
+                //                app.setMaterial(new Material(c1, c1, c1, c1, 80.0f));
+                //                s.setAppearance(app);
                 //System.out.println("Tipo: " + s.getClass().getName() + "; Valor: " + s.getName());
             } else {
                 System.out.println("null");
@@ -197,15 +275,44 @@ public class BSW extends Applet implements MouseListener {
         }
     }
 
-    //May be useful!?!
-    private Shape3D getText(String text) {
-        Appearance a = new Appearance();
-        a.setMaterial(new Material());
-        Font font = new Font("Verdana", Font.PLAIN, 1);
-        Font3D font3D = new Font3D(font, new FontExtrusion());
-        Text3D text3D = new Text3D(font3D, text);
-        Shape3D textShape = new Shape3D(text3D);
-        return textShape;
+    private void processButton(Object o) {
+
+        JButton btn = (JButton) o;
+        String btnCode = btn.getName();
+
+        if (btnCode == null ? "BTN_QUIT" == null : btnCode.equals("BTN_QUIT")) {
+            mf.dispose();
+            System.exit(0);
+        } else if (btnCode == null ? "BTN_RESTART" == null : btnCode.equals("BTN_RESTART")) {
+            init();
+        }
+    }
+
+    private JButton getCustomButton(String text, String name, String img,
+            String overImg, String downImg,
+            int x0, int y0, int x1, int y1) {
+        JButton btn = new JButton(text);
+        btn.setForeground(new Color(255, 255, 255));
+        btn.setBounds(x0, y0, x1, y1);
+        btn.setName(name);
+        btn.setBackground(new Color(0, 0, 0, 0));
+        btn.setBorderPainted(false);
+        btn.setContentAreaFilled(false);
+        btn.setFocusPainted(false);
+        btn.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
+        btn.setIcon(new ImageIcon(img));
+        btn.setPressedIcon(new ImageIcon(overImg));
+        btn.setRolloverIcon(new ImageIcon(downImg));
+        btn.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                processButton(e.getSource());
+            }
+        });
+        btn.setVerticalTextPosition(JButton.CENTER);
+        btn.setHorizontalTextPosition(JButton.CENTER);
+        btn.setVisible(true);
+        return btn;
     }
 
     @Override

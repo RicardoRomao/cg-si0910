@@ -69,10 +69,10 @@ public class Game_3D {
      * Sets the game ready to play
      */
     public void init(){
-        if(_gameStatus == GameStatus.WAITING_FOR_BOATS){
+       // if(_gameStatus == GameStatus.WAITING_FOR_BOATS){
             buildBoards();
             _gameStatus = GameStatus.RUNNING;
-        }
+        //}
     }
     /**
      * A human play by a click in the canvas
