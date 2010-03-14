@@ -64,37 +64,38 @@ public class BSW extends Applet implements MouseListener {
 
     public BSW() {
         headContainer = new Panel();
+        headContainer.setBackground(Color.black);
+        headContainer.setVisible(false);
         mainContainer = new Panel();
+        mainContainer.setBackground(Color.black);
         footContainer = new Panel();
+        footContainer.setBackground(Color.black);
     }
 
     public static void main(String[] args) {
         mf = new MainFrame(new BSW(), 800, 600);
         mf.setBackground(Color.black);
         mf.setResizable(false);
-        mf.setVisible(true);
     }
 
     @Override
     public void init() {
 
-        //Game Object
         game = new Game_3D();
         game.init();
 
         setLayout(null);
 
-        headContainer.setVisible(false);
-        mainContainer.setVisible(false);
-        footContainer.setVisible(false);
-
-        buildHeadContainer();
-        add(headContainer);
+        if (!headContainer.isVisible()) {
+            buildHeadContainer();
+            add(headContainer);
+        }
         buildMainContainer();
         add(mainContainer);
         buildFootContainer();
         add(footContainer);
-        
+        mf.setVisible(true);
+
         Runtime.getRuntime().gc();
     }
 
@@ -159,7 +160,6 @@ public class BSW extends Applet implements MouseListener {
         SimpleUniverse humanUniverse = new SimpleUniverse(humanCanvas);
         humanUniverse.addBranchGraph(humanScene);
 
-
         /* Computer scene branchgroup creation */
         BranchGroup computerScene = getPlayerScene(PlayerType.IA);
 
@@ -191,13 +191,13 @@ public class BSW extends Applet implements MouseListener {
         root.addChild(boundingLeaf);
 
         //Background
-        Background bckg = new Background(darkGray);
+        Background bckg = new Background(new Color3f(new Color(19,19,19)));
         bckg.setApplicationBounds(bounds);
         root.addChild(bckg);
 
         //Transform3D
         Transform3D trans3D = new Transform3D();
-        trans3D.rotX(-Math.PI / 4.0d);
+        trans3D.rotX(-Math.PI / 12.0d);
         trans3D.setScale(7.5f);
         trans3D.setTranslation(new Vector3f(0.0f, 0.0f, -30f));
 
@@ -217,15 +217,13 @@ public class BSW extends Applet implements MouseListener {
 
         IBoard board = (playerType == PlayerType.HUMAN ? game.getHumanPlayer() : game.getIAPlayer()).getBoard();
         Shape3D boardShape = board.getShape();
-        //boardShape = getButton();
 
         PickTool.setCapabilities(boardShape, PickTool.INTERSECT_TEST);
 
-        PointLight ptlight = new PointLight(new Color3f(Color.red),
-                new Point3f(-1f, -1f, 2f),
-                new Point3f(1f, 0f, 0f));
-        ptlight.setInfluencingBounds(bounds);
-        root.addChild(ptlight);
+        PointLight pLight = new PointLight(new Color3f(Color.orange),
+            new Point3f(2f,2f,0.1f), new Point3f(0f,0f,0f));
+        pLight.setInfluencingBounds(bounds);
+        root.addChild(pLight);
 
         transformGroup.addChild(myMouseRotate);
         transformGroup.addChild(myMouseZoom);
@@ -234,15 +232,9 @@ public class BSW extends Applet implements MouseListener {
         Shape3D sh;
         for (int i = 0; i <= board.getEndPoint().getX(); i++) {
             for (int j = 0; j <= board.getEndPoint().getY(); j++) {
-                sh = board.getElementShape(new Point(i, j));
-                PickTool.setCapabilities(sh, PickTool.INTERSECT_FULL);
-                //spin.addChild(sh);
-                // BEGIN Ricardo Romão
-                // Adicionei isto aqui só para fazer um teste com mudança de cores
-                Shape3D shapezorro = board.getElementShape(new Point(i, j));
-                shapezorro.setCapability(Shape3D.ALLOW_APPEARANCE_WRITE | Shape3D.ALLOW_GEOMETRY_READ);
-                // END Ricardo Romão
-                transformGroup.addChild(shapezorro);
+                Shape3D elemShape = board.getElementShape(new Point(i, j));
+                elemShape.setCapability(Shape3D.ALLOW_APPEARANCE_WRITE | Shape3D.ALLOW_GEOMETRY_READ);
+                transformGroup.addChild(elemShape);
             }
         }
         return root;

@@ -4,6 +4,7 @@ import battleshipwarfare.Elementspackage.IElement;
 import battleshipwarfare.Settings3D;
 import com.sun.j3d.utils.geometry.GeometryInfo;
 import com.sun.j3d.utils.geometry.NormalGenerator;
+import java.awt.Color;
 import java.util.Hashtable;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.ColoringAttributes;
@@ -49,7 +50,7 @@ public class Board implements IBoard {
             for (int i = 0; i < area.length; i++) {
                 _elements.put(area[i], elem);
             }
-            System.out.println("Added " + elem.getType().name());
+            //System.out.println("Added " + elem.getType().name());
             return true;
         }
         return false;
@@ -115,10 +116,10 @@ public class Board implements IBoard {
         double endY = Settings3D.getOwnBoardEndPointY();
 
         //Pontos das faces [0..7]
-        vertices[idx++] = new Point3d(startX, startY, 0);     //0
-        vertices[idx++] = new Point3d(startX, endY, 0);       //1     1 3
-        vertices[idx++] = new Point3d(endX, startY, 0);       //2     0 2
-        vertices[idx++] = new Point3d(endX, endY, 0);         //3
+        vertices[idx++] = new Point3d(startX, startY, -0.1);     //0
+        vertices[idx++] = new Point3d(startX, endY, -0.1);       //1     1 3
+        vertices[idx++] = new Point3d(endX, startY, -0.1);       //2     0 2
+        vertices[idx++] = new Point3d(endX, endY, -0.1);         //3
 
         vertices[idx++] = new Point3d(startX, startY, 0.1);   //4
         vertices[idx++] = new Point3d(startX, endY, 0.1);     //5     5 7
@@ -178,18 +179,40 @@ public class Board implements IBoard {
         NormalGenerator ng = new NormalGenerator();
         ng.generateNormals(gi);
 
-        Material material = new Material();
+        Material material = new Material(new Color3f(Color.white),
+                new Color3f(0f,0.3f,0f),new Color3f(0f,0.2f,0f),
+                new Color3f(Color.yellow),64f);
         material.setLightingEnable(true);
 
         Appearance appearance = new Appearance();
         appearance.setMaterial(material);
         appearance.setCapability(Appearance.ALLOW_COLORING_ATTRIBUTES_WRITE);
+        
+/*        appearance.setCapability(Appearance.ALLOW_TEXTURE_READ);
+        appearance.setCapability(Appearance.ALLOW_TEXTURE_WRITE);
+
+        URL filename =
+            getClass().getClassLoader().getResource("images/water.jpg");
+        BufferedImage bi = new BufferedImage(4, 4, BufferedImage.TYPE_INT_RGB);
+        TextureLoader loader = new TextureLoader(bi);
+        ImageComponent2D image = loader.getImage();
+        if(image == null) {
+          System.out.println("can't find texture file.");
+        }
+        Texture2D texture = new Texture2D(Texture.BASE_LEVEL, Texture.RGBA,
+        image.getWidth(), image.getHeight());
+        texture.setImage(0, image);
+        texture.setEnable(true);
+//        texture.setMagFilter(Texture.BASE_LEVEL_LINEAR);
+  //      texture.setMinFilter(Texture.BASE_LEVEL_LINEAR);
+        appearance.setTexture(texture);
+*/
+
         appearance.setColoringAttributes(new ColoringAttributes(new Color3f(1f, 0.3f, 0.2f), ColoringAttributes.NICEST));
 
         sh.setGeometry(gi.getIndexedGeometryArray());
         sh.setCapability(Shape3D.ALLOW_APPEARANCE_WRITE);
         sh.setAppearance(appearance);
-
         return sh;
     }
 

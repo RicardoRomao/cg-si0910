@@ -62,24 +62,32 @@ public class AircraftElement extends Element {
         for(int i = 0; i < _area.length; i++)
             setShape(_area[i]);
     }
+    private Material getMaterial(boolean hitState)
+    {
+        Material material = new Material();
+        if ((_own && !hitState) || (!_own && hitState)) {
+                material.setDiffuseColor(new Color3f(new Color(5,39,2)));
+                material.setEmissiveColor(new Color3f(new Color(6,64,2)));
+        } else if (!_own && !hitState) {
+            material.setDiffuseColor(new Color3f(Color.blue));
+            material.setEmissiveColor(new Color3f(new Color(14,18,66)));
+        } else if (_own && hitState) {
+            material.setEmissiveColor(new Color3f(new Color(248,34,34)));
+            material.setEmissiveColor(new Color3f(new Color(250,79,79)));
+        }
+        material.setLightingEnable(true);
+        material.setShininess(128f);
+        return material;
+    }
     private void setShape(Point p){
         Shape3D sh = new Shape3D();
         sh.setName(p.getX() + "," + p.getY());
         sh.setGeometry(getGeometryInfo(p).getIndexedGeometryArray());
 
-        if(_own){
-            Appearance appearance = new Appearance();
-            appearance.setMaterial(new Material(new Color3f(Color.GREEN), new Color3f(Color.GREEN)
-                    ,new Color3f(Color.GREEN),new Color3f(Color.GREEN), 0.5f));
-
-            sh.setAppearance(appearance);
-        }else{
-            Appearance appearance = new Appearance();
-            appearance.setMaterial(new Material(new Color3f(Color.BLUE), new Color3f(Color.BLUE)
-                    ,new Color3f(Color.BLUE),new Color3f(Color.BLUE), 0.5f));
-
-            sh.setAppearance(appearance);
-        }
+        Appearance appearance = new Appearance();
+        Material material = getMaterial(false);
+        appearance.setMaterial(material);
+        sh.setAppearance(appearance);
 
         _shapes.put(p, sh);
     }
@@ -94,18 +102,8 @@ public class AircraftElement extends Element {
     }
     private void hitShape(Point p){
         Shape3D sh = _shapes.get(p);
-        if(_own){
-            Appearance appearance = new Appearance();
-            appearance.setMaterial(new Material(new Color3f(Color.RED), new Color3f(Color.RED)
-                    ,new Color3f(Color.RED),new Color3f(Color.RED), 0.5f));
-
-            sh.setAppearance(appearance);
-        }else{
-            Appearance appearance = new Appearance();
-            appearance.setMaterial(new Material(new Color3f(Color.YELLOW), new Color3f(Color.YELLOW)
-                    ,new Color3f(Color.YELLOW),new Color3f(Color.YELLOW), 0.5f));
-
-            sh.setAppearance(appearance);
-        }
+        Appearance appearance = new Appearance();
+        appearance.setMaterial(getMaterial(true));
+        sh.setAppearance(appearance);
     }
 }
