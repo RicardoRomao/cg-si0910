@@ -127,11 +127,11 @@ public abstract class Element implements IElement{
         vertices[idx++] = new Point3d(startX+Settings3D.getOwnCellSize()+deltaX,
                 startY+Settings3D.getOwnCellSize()+deltaY, 0.1);                                       //3
 
-        vertices[idx++] = new Point3d(startX+deltaX, startY+deltaY, 0.12);                           //4
-        vertices[idx++] = new Point3d(startX+deltaX, startY+Settings3D.getOwnCellSize()+deltaY, 0.12);  //5     5 7
-        vertices[idx++] = new Point3d(startX+Settings3D.getOwnCellSize()+deltaX, startY+deltaY, 0.12);  //6     4 6
+        vertices[idx++] = new Point3d(startX+deltaX, startY+deltaY, 0.16);                           //4
+        vertices[idx++] = new Point3d(startX+deltaX, startY+Settings3D.getOwnCellSize()+deltaY, 0.16);  //5     5 7
+        vertices[idx++] = new Point3d(startX+Settings3D.getOwnCellSize()+deltaX, startY+deltaY, 0.16);  //6     4 6
         vertices[idx++] = new Point3d(startX+Settings3D.getOwnCellSize()+deltaX,
-                startY+Settings3D.getOwnCellSize()+deltaY, 0.12);                                       //7
+                startY+Settings3D.getOwnCellSize()+deltaY, 0.16);                                       //7
 
         gi.setCoordinates(vertices);
 

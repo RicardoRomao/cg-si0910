@@ -49,9 +49,14 @@ public class WaterElement extends Element {
         sh.setName(_anchor.getX() + "," + _anchor.getY());
         sh.setGeometry(getGeometryInfo(_anchor).getIndexedGeometryArray());
 
+        Material material = new Material();
+        material.setDiffuseColor(new Color3f(Color.blue));
+        material.setEmissiveColor(new Color3f(new Color(14,18,66)));
+        material.setLightingEnable(true);
+        material.setShininess(128f);
+
         Appearance appearance = new Appearance();
-        appearance.setMaterial(new Material(new Color3f(Color.BLUE), new Color3f(Color.BLUE)
-                ,new Color3f(Color.BLUE),new Color3f(Color.BLUE), 0.5f));
+        appearance.setMaterial(material);
 
         sh.setAppearance(appearance);
 
@@ -66,19 +71,14 @@ public class WaterElement extends Element {
     }
     private void hitShape(Point p){
         Shape3D sh = _shapes.get(p);
-        if(_own){
-            Appearance appearance = new Appearance();
-            appearance.setMaterial(new Material(new Color3f(Color.ORANGE), new Color3f(Color.ORANGE)
-                    ,new Color3f(Color.ORANGE),new Color3f(Color.ORANGE), 0.5f));
-
-            sh.setAppearance(appearance);
-        }else{
-            Appearance appearance = new Appearance();
-            appearance.setMaterial(new Material(new Color3f(Color.PINK), new Color3f(Color.PINK)
-                    ,new Color3f(Color.PINK),new Color3f(Color.PINK), 0.5f));
-
-            sh.setAppearance(appearance);
-        }
+        Material material = new Material();
+        material.setDiffuseColor(new Color3f(new Color(15,106,164)));
+        material.setEmissiveColor(new Color3f(new Color(33,48,155)));
+        material.setLightingEnable(true);
+        material.setShininess(128f);
+        Appearance appearance = new Appearance();
+        appearance.setMaterial(material);
+        sh.setAppearance(appearance);
     }
 
     @Override
