@@ -110,13 +110,10 @@ public class HumanPlayer implements IPlayer {
     /**
      * Represents a game play
      * @return
-     * The Point witch player choose to be his play
-     * @deprecated
-     * Needed to be changed due to the fact that in the 3D version
-     * the point is returned by picking
+     * The Point witch player choose to be his play     * 
      */
-    @Deprecated
-    public Point oldPlay() {
+    
+    public Point Play() {
         Scanner s = new Scanner(System.in);
         while(true){
             System.out.println("Indique a sua jogada (x, y)");
@@ -132,11 +129,6 @@ public class HumanPlayer implements IPlayer {
 
         
     }
-    
-    public Point Play(){
-        return null;
-    }
-    
     public void notifyHit(ElementType type, ElementStatus status){
         return;
     }

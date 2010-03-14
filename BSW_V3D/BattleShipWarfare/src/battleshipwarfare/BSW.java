@@ -39,18 +39,6 @@ import javax.vecmath.Vector3f;
 
 public class BSW extends Applet implements MouseListener {
 
-    private static final int BTN_QUIT = 1;
-    private static final String BTN_QUIT_IMG = "images/RB.png";
-    private static final String BTN_QUIT_IMG_OVER = "images/RBO.png";
-    private static final String BTN_QUIT_IMG_DOWN = "images/RBD.png";
-    private static final int BTN_RESTART = 2;
-    private static final String BTN_RESTART_IMG = "images/PB.png";
-    private static final String BTN_RESTART_IMG_OVER = "images/PBO.png";
-    private static final String BTN_RESTART_IMG_DOWN = "images/PBD.png";
-    private static final int BTN_HELP = 3;
-    private static final String BTN_HELP_IMG = "images/GB.png";
-    private static final String BTN_HELP_IMG_OVER = "images/GBO.png";
-    private static final String BTN_HELP_IMG_DOWN = "images/GBD.png";
     private Game_3D game;                  //Game Object
     private PickCanvas pc;              //Picking Tool
     private static MainFrame mf;
@@ -109,16 +97,16 @@ public class BSW extends Applet implements MouseListener {
         backGround.setBounds(0, 0, 800, 100);
 
         JButton restart = getCustomButton("Start", "BTN_RESTART",
-                BTN_RESTART_IMG, BTN_RESTART_IMG_OVER,
-                BTN_RESTART_IMG_DOWN, 460, 0, 100, 100);
+                Settings3D.BTN_RESTART_IMG, Settings3D.BTN_RESTART_IMG_OVER,
+                Settings3D.BTN_RESTART_IMG_DOWN, 460, 0, 100, 100);
 
         JButton help = getCustomButton("Help", "BTN_HELP",
-                BTN_HELP_IMG, BTN_HELP_IMG_OVER,
-                BTN_HELP_IMG_DOWN, 570, 0, 100, 100);
+                Settings3D.BTN_HELP_IMG, Settings3D.BTN_HELP_IMG_OVER,
+                Settings3D.BTN_HELP_IMG_DOWN, 570, 0, 100, 100);
 
         JButton quit = getCustomButton("Quit", "BTN_QUIT",
-                BTN_QUIT_IMG, BTN_QUIT_IMG_OVER,
-                BTN_QUIT_IMG_DOWN, 680, 0, 100, 100);
+                Settings3D.BTN_QUIT_IMG, Settings3D.BTN_QUIT_IMG_OVER,
+                Settings3D.BTN_QUIT_IMG_DOWN, 680, 0, 100, 100);
 
         headContainer.add(quit);
         headContainer.add(restart);

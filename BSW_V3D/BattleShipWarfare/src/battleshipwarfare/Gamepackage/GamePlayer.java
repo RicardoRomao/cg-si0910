@@ -12,6 +12,8 @@ import battleshipwarfare.Elementspackage.IElement;
 import battleshipwarfare.Elementspackage.WaterElement;
 import battleshipwarfare.PlayerPackage.IAPlayer;
 import battleshipwarfare.PlayerPackage.PlayerType;
+import com.sun.j3d.utils.geometry.Cylinder;
+import javax.media.j3d.Shape3D;
 
 /**
  * Class that represents a BattleShipWarfare Player
@@ -23,6 +25,7 @@ public class GamePlayer {
     private IBoard _board;
     private int _alivePoints;
     private GamePlayerStatus _status;
+    private Shape3D _energyBar;
 
     /**
      * Constructs a GamePlayer with the specified player.
@@ -95,6 +98,10 @@ public class GamePlayer {
         }
         fillWater();
         _status = GamePlayerStatus.ALIVE;
+    }
+    private void buildEnergyBar(){
+        //_energyBar = new Cylinder();
+
     }
     /**
      * The player play.
