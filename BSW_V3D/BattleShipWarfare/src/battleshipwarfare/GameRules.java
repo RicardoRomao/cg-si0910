@@ -29,14 +29,9 @@ public class GameRules {
     }
     private void setDefaultNrOfBoats(){
         _nrOfBoats = new Hashtable<ElementType, Integer>();
-//        _nrOfBoats.put(ElementType.SUBMARINE, 4);
-//        _nrOfBoats.put(ElementType.PATROL_BOAT, 3);
-//        _nrOfBoats.put(ElementType.DESTROYER, 2);
-//        _nrOfBoats.put(ElementType.BATTLESHIP, 1);
-//        _nrOfBoats.put(ElementType.AIRCRAFT, 1);
-        _nrOfBoats.put(ElementType.SUBMARINE, 1);
-        _nrOfBoats.put(ElementType.PATROL_BOAT, 1);
-        _nrOfBoats.put(ElementType.DESTROYER, 1);
+        _nrOfBoats.put(ElementType.SUBMARINE, 4);
+        _nrOfBoats.put(ElementType.PATROL_BOAT, 3);
+        _nrOfBoats.put(ElementType.DESTROYER, 2);
         _nrOfBoats.put(ElementType.BATTLESHIP, 1);
         _nrOfBoats.put(ElementType.AIRCRAFT, 1);
     }
