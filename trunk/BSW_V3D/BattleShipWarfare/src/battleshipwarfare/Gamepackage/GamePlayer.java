@@ -12,7 +12,6 @@ import battleshipwarfare.Elementspackage.IElement;
 import battleshipwarfare.Elementspackage.WaterElement;
 import battleshipwarfare.PlayerPackage.IAPlayer;
 import battleshipwarfare.PlayerPackage.PlayerType;
-import com.sun.j3d.utils.geometry.Cylinder;
 import javax.media.j3d.Shape3D;
 
 /**

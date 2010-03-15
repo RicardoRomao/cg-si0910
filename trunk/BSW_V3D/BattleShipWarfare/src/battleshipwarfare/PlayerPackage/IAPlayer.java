@@ -34,39 +34,41 @@ public class IAPlayer implements IPlayer {
 
     private void initAI() {
         _playerName = "IA Player";
-        _playerType = PlayerType.IA;	
-	_planedMoves = new ArrayList<Point>();
+        _playerType = PlayerType.IA;
+        _planedMoves = new ArrayList<Point>();
         _availMoves = new ArrayList<Point>();
-        for(int x=0;x<=_endPoint.getX();x++) {
-	    for(int y=0;y<=_endPoint.getY();y++) {
-		_availMoves.add(new Point(x, y));
-	    }
-	}
-    }    
-    
+        for (int x = 0; x <= _endPoint.getX(); x++) {
+            for (int y = 0; y <= _endPoint.getY(); y++) {
+                _availMoves.add(new Point(x, y));
+            }
+        }
+    }
+
     private Point getRandomPointOfList(ArrayList<Point> list) {
-	Random rnd = new Random();
-	int idx = rnd.nextInt(list.size());
-	rnd = null;
+        Random rnd = new Random();
+        int idx = rnd.nextInt(list.size());
+        rnd = null;
         return list.get(idx);
     }
-    private boolean isInBounds(Point p){
+
+    private boolean isInBounds(Point p) {
         return p.getX() >= 0 && p.getY() >= 0 && p.getX() <= _endPoint.getX() && p.getY() <= _endPoint.getY();
 
     }
+
     private void planMoves(ElementType t) {
         int limit = t.ordinal() - 1;
         int init;
         Point gen;
 
-	if (_planedMoves.isEmpty()) {
+        if (_planedMoves.isEmpty()) {
             if (t == ElementType.AIRCRAFT) {
                 limit /= 2;
                 init = -(limit);
                 int offset;
-                for(int x=init;x<=limit;x++) {
-                    offset = ((x==init) || x==limit)?1:0;
-                    for(int y=(init+offset);y<=(limit-offset);y++) {
+                for (int x = init; x <= limit; x++) {
+                    offset = ((x == init) || x == limit) ? 1 : 0;
+                    for (int y = (init + offset); y <= (limit - offset); y++) {
                         gen = new Point(_lastPlay.getX() + x, _lastPlay.getY() + y);
                         if (isInBounds(gen) && !gen.equals(_lastPlay)) {
                             _planedMoves.add(gen);
@@ -76,7 +78,7 @@ public class IAPlayer implements IPlayer {
             } // if
             else {
                 init = -limit;
-                for(int n=init;n<=limit;n++) {
+                for (int n = init; n <= limit; n++) {
                     gen = new Point(_lastPlay.getX() + n, _lastPlay.getY());
                     if (isInBounds(gen) && !gen.equals(_lastPlay)) {
                         _planedMoves.add(gen);
@@ -87,8 +89,8 @@ public class IAPlayer implements IPlayer {
                     } // if
                 } // for
             } // else
-	} // if
-	else {
+        } // if
+        else {
             // Vamos eliminar os pontos em excesso
             Point dir = new Point(_lastHit.getX() - _lastPlay.getX(), _lastHit.getY() - _lastPlay.getY());
             if (t == ElementType.AIRCRAFT) {
@@ -98,24 +100,19 @@ public class IAPlayer implements IPlayer {
                 int refX, refY;
                 if (dir.getX() < 0) {
                     refX = Math.min(_lastHit.getX(), _lastPlay.getX());
-                }
-                else {
+                } else {
                     refX = Math.max(_lastHit.getX(), _lastPlay.getX());
                 }
                 if (dir.getY() < 0) {
                     refY = Math.min(_lastHit.getY(), _lastPlay.getY());
-                }
-                else {
+                } else {
                     refY = Math.max(_lastHit.getY(), _lastPlay.getY());
                 }
-                for(int n=0;n<_planedMoves.size();n++) {
+                for (int n = 0; n < _planedMoves.size(); n++) {
                     if (dir.getX() < 0 && dir.getY() < 0) {
-                    }
-                    else if (dir.getX() < 0 && dir.getY() > 0) {
-                    }
-                    else if (dir.getX() > 0 && dir.getY() < 0) {
-                    }
-                    else {
+                    } else if (dir.getX() < 0 && dir.getY() > 0) {
+                    } else if (dir.getX() > 0 && dir.getY() < 0) {
+                    } else {
                     }
                 } // for
             } // if
@@ -125,7 +122,7 @@ public class IAPlayer implements IPlayer {
                 vertical = (Math.abs(dir.getX()) == 0);
                 if (vertical) {
                     // Eliminar todos os pontos desnecessários
-                    for(int n=init;n<=limit;n++) {
+                    for (int n = init; n <= limit; n++) {
                         gen = new Point(_lastPlay.getX() + n, _lastPlay.getY());
                         _planedMoves.remove(gen);
                         if (dir.getY() != 0) {
@@ -137,7 +134,7 @@ public class IAPlayer implements IPlayer {
                 } // if
                 else {
                     // Eliminar todos os pontos desnecessários
-                    for(int n=init;n<=limit;n++) {
+                    for (int n = init; n <= limit; n++) {
                         gen = new Point(_lastPlay.getX(), _lastPlay.getY() + n);
                         _planedMoves.remove(gen);
                         if (dir.getX() != 0) {
@@ -148,53 +145,52 @@ public class IAPlayer implements IPlayer {
                     } // for
                 } // else
             } // else
-	} // else
+        } // else
     } // function
 
-    public String getName(){
+    public String getName() {
         return _playerName;
     }
-    
-    public PlayerType getPlayerType(){
+
+    public PlayerType getPlayerType() {
         return _playerType;
     }
-    
+
     public IElement getNewElement(ElementType type) {
         Random rnd = new Random();
-	Point anchor = new Point(rnd.nextInt(_endPoint.getX()), rnd.nextInt(_endPoint.getY()));
-	Point direction = IElement.cardinalPoints[(rnd.nextInt(4))];
-        if(type == ElementType.AIRCRAFT){
+        Point anchor = new Point(rnd.nextInt(_endPoint.getX()), rnd.nextInt(_endPoint.getY()));
+        Point direction = IElement.cardinalPoints[(rnd.nextInt(4))];
+        if (type == ElementType.AIRCRAFT) {
             return new AircraftElement(anchor, direction, false);
-        }else{
+        } else {
             return new LineElement(type, anchor, direction, false);
         }
     }
-    
+
     public Point Play() {
         Point next = null;
-	if (!_planedMoves.isEmpty()) {
-	    next = getRandomPointOfList(_planedMoves);
-	    _planedMoves.remove(next);
-	}
-	else {
-	    next = getRandomPointOfList(_availMoves);
-	}
-	_availMoves.remove(next);
-	_lastPlay = next;
+        if (!_planedMoves.isEmpty()) {
+            next = getRandomPointOfList(_planedMoves);
+            _planedMoves.remove(next);
+        } else {
+            next = getRandomPointOfList(_availMoves);
+        }
+        _availMoves.remove(next);
+        _lastPlay = next;
         return next;
     }
-    
+
     public void notifyHit(ElementType type, ElementStatus status) {
         if (type == ElementType.WATER) {
             return;
         }
-	if (status == ElementStatus.SUNK) {
-	    _planedMoves = new ArrayList<Point>();
-	    _lastHit = null;
-	    _lastPlay = null;
-	    return;
-	}
-	planMoves(type);
+        if (status == ElementStatus.SUNK) {
+            _planedMoves = new ArrayList<Point>();
+            _lastHit = null;
+            _lastPlay = null;
+            return;
+        }
+        planMoves(type);
         _lastHit = _lastPlay;
     }
 }

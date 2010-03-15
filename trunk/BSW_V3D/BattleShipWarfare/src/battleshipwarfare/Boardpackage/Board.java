@@ -187,26 +187,6 @@ public class Board implements IBoard {
         Appearance appearance = new Appearance();
         appearance.setMaterial(material);
         appearance.setCapability(Appearance.ALLOW_COLORING_ATTRIBUTES_WRITE);
-        
-/*        appearance.setCapability(Appearance.ALLOW_TEXTURE_READ);
-        appearance.setCapability(Appearance.ALLOW_TEXTURE_WRITE);
-
-        URL filename =
-            getClass().getClassLoader().getResource("images/water.jpg");
-        BufferedImage bi = new BufferedImage(4, 4, BufferedImage.TYPE_INT_RGB);
-        TextureLoader loader = new TextureLoader(bi);
-        ImageComponent2D image = loader.getImage();
-        if(image == null) {
-          System.out.println("can't find texture file.");
-        }
-        Texture2D texture = new Texture2D(Texture.BASE_LEVEL, Texture.RGBA,
-        image.getWidth(), image.getHeight());
-        texture.setImage(0, image);
-        texture.setEnable(true);
-//        texture.setMagFilter(Texture.BASE_LEVEL_LINEAR);
-  //      texture.setMinFilter(Texture.BASE_LEVEL_LINEAR);
-        appearance.setTexture(texture);
-*/
 
         appearance.setColoringAttributes(new ColoringAttributes(new Color3f(1f, 0.3f, 0.2f), ColoringAttributes.NICEST));
 
