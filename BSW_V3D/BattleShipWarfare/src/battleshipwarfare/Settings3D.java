@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package battleshipwarfare;
 
 /**
+ * Contains all the 3D settings, including image paths and default sizes.
  *
- * @author nuno.sousa
+ * @author RNR
  */
 public class Settings3D {
 
