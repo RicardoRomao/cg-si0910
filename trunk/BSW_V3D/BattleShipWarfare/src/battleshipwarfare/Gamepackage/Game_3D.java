@@ -48,45 +48,29 @@ public class Game_3D {
     public GameStatus getStatus(){
         return _gameStatus;
     }
-
-    private void buildBoards(){
-
-        _humanPlayer.buildBoard();
-        _iaPlayer.buildBoard();
-
-        _gameStatus = GameStatus.READY;
-    }
-    private void playIA(){
-        IElement elem = _humanPlayer.Hit(_iaPlayer.Play());
-        if(_humanPlayer.getStatus() == GamePlayerStatus.DEAD){
-            _gameStatus = GameStatus.ENDED;
-            return;
-        }
-        _iaPlayer.notifyHit(elem.getType(), elem.getStatus());
-    }
-
     /**
      * Sets the game ready to play
      */
     public void init(){
-       // if(_gameStatus == GameStatus.WAITING_FOR_BOATS){
+        if(_gameStatus == GameStatus.WAITING_FOR_BOATS){
             buildBoards();
             _gameStatus = GameStatus.RUNNING;
-        //}
+        }
     }
     /**
      * A human play by a click in the canvas
      * @param the point, in coordinates, that the human player clicked on
      */
     public void playHuman(Point p){
-        _iaPlayer.Hit(p);
-        if(_iaPlayer.getStatus() == GamePlayerStatus.DEAD){
-            _gameStatus = GameStatus.ENDED;
-            return;
+        if(_gameStatus == GameStatus.RUNNING){
+            _iaPlayer.Hit(p);
+            if(_iaPlayer.getStatus() == GamePlayerStatus.DEAD){
+                _gameStatus = GameStatus.ENDED;
+                return;
+            }
+            playIA();
         }
-        playIA();
     }
- 
     /**
      * Gets the winner player of the game.
      * @return GamePlayer The player who won the game.
@@ -102,5 +86,21 @@ public class Game_3D {
     public void restart(){
         buildBoards();
         _gameStatus = GameStatus.RUNNING;
+    }
+
+    private void buildBoards(){
+
+        _humanPlayer.buildBoard();
+        _iaPlayer.buildBoard();
+
+        _gameStatus = GameStatus.READY;
+    }
+    private void playIA(){
+        IElement elem = _humanPlayer.Hit(_iaPlayer.Play());
+        if(_humanPlayer.getStatus() == GamePlayerStatus.DEAD){
+            _gameStatus = GameStatus.ENDED;
+            return;
+        }
+        _iaPlayer.notifyHit(elem.getType(), elem.getStatus());
     }
 }
