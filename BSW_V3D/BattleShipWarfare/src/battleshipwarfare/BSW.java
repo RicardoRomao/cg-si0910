@@ -48,20 +48,6 @@ import javax.vecmath.Vector3f;
 
 public class BSW extends Applet implements MouseListener {
 
-    private static final String HEAD_BACKG = "images/HeaderBackGround.png";
-    private static final String FOOT_BACKG = "images/FooterBackGround.png";
-    private static final int BTN_QUIT = 1;
-    private static final String BTN_QUIT_IMG = "images/RB.png";
-    private static final String BTN_QUIT_IMG_OVER = "images/RBO.png";
-    private static final String BTN_QUIT_IMG_DOWN = "images/RBD.png";
-    private static final int BTN_RESTART = 2;
-    private static final String BTN_RESTART_IMG = "images/PB.png";
-    private static final String BTN_RESTART_IMG_OVER = "images/PBO.png";
-    private static final String BTN_RESTART_IMG_DOWN = "images/PBD.png";
-    private static final int BTN_HELP = 3;
-    private static final String BTN_HELP_IMG = "images/GB.png";
-    private static final String BTN_HELP_IMG_OVER = "images/GBO.png";
-    private static final String BTN_HELP_IMG_DOWN = "images/GBD.png";
     private Game_3D game;                  //Game Object
     private PickCanvas pc;              //Picking Tool
     private static MainFrame mf;
@@ -120,7 +106,7 @@ public class BSW extends Applet implements MouseListener {
         headContainer.setBounds(5, 0, 800, 100);
         headContainer.setLayout(null);
 
-        JLabel backGround = new JLabel(new ImageIcon(HEAD_BACKG));
+        JLabel backGround = new JLabel(new ImageIcon(Settings3D.HEAD_BACKG));
         backGround.setBounds(0, 0, 800, 100);
 
         JButton restart = getCustomButton("Start", "BTN_RESTART",
@@ -420,8 +406,6 @@ public class BSW extends Applet implements MouseListener {
         spin.addChild(textShapeRight);
         spin.addChild(scoreShapeLeft);
         spin.addChild(scoreShapeRight);
-
-
 
         return root;
 

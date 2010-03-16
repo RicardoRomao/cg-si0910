@@ -4,7 +4,7 @@ import battleshipwarfare.Elementspackage.IElement;
 import javax.media.j3d.Shape3D;
 
 /**
- * Definition of a game board.
+ * Interface representative of a game board.
  * @author RNR
  */
 public interface IBoard {
@@ -16,7 +16,6 @@ public interface IBoard {
      * The default number of Cols.
      */
     final int DEFAULT_COLS = 10;
-
     /**
      * Returns the end point of the board.
      * @return Point Representing the end of the board.
@@ -47,7 +46,6 @@ public interface IBoard {
      * @return boolean indicating if the point is in bounds.
      */
     public boolean isInBounds(Point p);
-
     /**
      * Gets a Shape3D representing the current board.
      * @return Shape3D representing the current board.

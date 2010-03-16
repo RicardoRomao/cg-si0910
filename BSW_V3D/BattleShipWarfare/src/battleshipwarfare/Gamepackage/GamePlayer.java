@@ -24,7 +24,6 @@ public class GamePlayer {
     private IBoard _board;
     private int _alivePoints;
     private GamePlayerStatus _status;
-    private Shape3D _energyBar;
 
     /**
      * Constructs a GamePlayer with the specified player.
@@ -52,7 +51,6 @@ public class GamePlayer {
     public int getAlivePoints(){
         return _alivePoints;
     }
-
     /**
      * Fills the empty spaces of this player board with water elements.
      */
@@ -64,7 +62,6 @@ public class GamePlayer {
             }
         }
     }
-
     /**
      * Gets the player associated with this Game Player.
      * @return
@@ -81,7 +78,6 @@ public class GamePlayer {
     public GamePlayerStatus getStatus(){
         return _status;
     }
-
     /**
      * Constructs the current player board.
      */
@@ -98,10 +94,6 @@ public class GamePlayer {
         fillWater();
         _status = GamePlayerStatus.ALIVE;
     }
-    private void buildEnergyBar(){
-        //_energyBar = new Cylinder();
-
-    }
     /**
      * The player play.
      * @return
@@ -110,7 +102,6 @@ public class GamePlayer {
     public Point Play(){
         return _player.Play();
     }
-
     /**
      * The current player is hitted in parameter Point.
      * It returns the element contained in his board in the corresponding point.
@@ -137,7 +128,6 @@ public class GamePlayer {
         if(_player.getClass() == IAPlayer.class)
             _player.notifyHit(type, status);
     }
-    
     /**
      * Draws a board in the console.
      * @param own

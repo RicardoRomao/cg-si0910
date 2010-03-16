@@ -14,6 +14,8 @@ public class Settings3D {
     private static double _ownBoardCellMargin = 0.035;
     private static double _ownCellSize = 0.2;
 
+    public static final String HEAD_BACKG = "images/HeaderBackGround.png";
+    public static final String FOOT_BACKG = "images/FooterBackGround.png";
     public static final int BTN_QUIT = 1;
     public static final String BTN_QUIT_IMG = "images/RB.png";
     public static final String BTN_QUIT_IMG_OVER = "images/RBO.png";
