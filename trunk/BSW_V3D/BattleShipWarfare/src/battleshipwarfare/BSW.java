@@ -48,20 +48,20 @@ import javax.vecmath.Vector3f;
 
 public class BSW extends Applet implements MouseListener {
 
+
     private Game_3D game;                  //Game Object
     private PickCanvas pc;              //Picking Tool
     private static MainFrame mf;
-    private final Panel headContainer;
-    private final Panel mainContainer;        //Panel containing the boards
-    private final Panel footContainer;
+    private Panel headContainer;
+    private Panel mainContainer;        //Panel containing the boards
+    private Panel footContainer;
     private Text3D scoreLeft;
     private Text3D scoreRight;
-    Color3f white = new Color3f(1.0f, 1.0f, 1.0f);
-    Color3f red = new Color3f(1.0f, 0.0f, 0.0f);
-    Color3f darkGray = new Color3f(0.2f, 0.2f, 0.2f);
-    Color3f bgColor = new Color3f(0.4f, 0.4f, 0.4f);
 
     public BSW() {
+        setSize(800, 600);
+        setBackground(Color.black);
+        setLayout(null);
         headContainer = new Panel();
         headContainer.setBackground(Color.black);
         headContainer.setVisible(false);
@@ -83,8 +83,6 @@ public class BSW extends Applet implements MouseListener {
         game = new Game_3D();
         game.init();
 
-        setLayout(null);
-
         if (!headContainer.isVisible()) {
             buildHeadContainer();
             add(headContainer);
@@ -93,10 +91,8 @@ public class BSW extends Applet implements MouseListener {
         add(mainContainer);
         buildFootContainer();
         add(footContainer);
-        mf.setVisible(true);
 
         updateScores();
-
         Runtime.getRuntime().gc();
     }
 
@@ -125,6 +121,7 @@ public class BSW extends Applet implements MouseListener {
         headContainer.add(restart);
         headContainer.add(help);
         headContainer.add(backGround);
+        headContainer.validate();
         headContainer.setVisible(true);
     }
 
@@ -144,38 +141,15 @@ public class BSW extends Applet implements MouseListener {
         footUniverse.addBranchGraph(footerScene);
 
         footContainer.add(canvas);
-
         footContainer.setLayout(null);
+        footContainer.validate();
         footContainer.setVisible(true);
-
-    }
-
-    private void buildGameOverScene(String text) {
-
-        mainContainer.removeAll();
-        mainContainer.setBounds(5, 100, 800, 400);
-        mainContainer.setVisible(true);
-        mainContainer.setLayout(null);
-
-        /* Gameover scene branchgroup creation */
-        BranchGroup gameOverScene = getGameOverScene(text);
-
-        Canvas3D canvas = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
-        canvas.setSize(800, 400);
-        canvas.setLocation(0, 0);
-
-        SimpleUniverse humanUniverse = new SimpleUniverse(canvas);
-        humanUniverse.addBranchGraph(gameOverScene);
-
-        mainContainer.add(canvas);
-
     }
 
     private void buildMainContainer() {
 
         mainContainer.removeAll();
         mainContainer.setBounds(5, 100, 800, 400);
-        mainContainer.setVisible(true);
         mainContainer.setLayout(null);
 
         /* Human scene branchgroup creation */
@@ -207,6 +181,29 @@ public class BSW extends Applet implements MouseListener {
 
         mainContainer.add(humanCanvas);
         mainContainer.add(computerCanvas);
+        mainContainer.validate();
+        mainContainer.setVisible(true);
+    }
+
+    private void buildGameOverScene(String text) {
+
+        mainContainer.removeAll();
+        mainContainer.setBounds(5, 100, 800, 400);
+        mainContainer.setLayout(null);
+
+        /* Gameover scene branchgroup creation */
+        BranchGroup gameOverScene = getGameOverScene(text);
+
+        Canvas3D canvas = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
+        canvas.setSize(800, 400);
+        canvas.setLocation(0, 0);
+
+        SimpleUniverse humanUniverse = new SimpleUniverse(canvas);
+        humanUniverse.addBranchGraph(gameOverScene);
+
+        mainContainer.add(canvas);
+        mainContainer.validate();
+        mainContainer.setVisible(true);
     }
 
     private BranchGroup getPlayerScene(PlayerType playerType) {
@@ -266,6 +263,7 @@ public class BSW extends Applet implements MouseListener {
                 transformGroup.addChild(elemShape);
             }
         }
+        root.compile();
         return root;
     }
 
@@ -327,7 +325,7 @@ public class BSW extends Applet implements MouseListener {
         Background bckg = new Background(new Color3f(new Color(19, 19, 19)));
         bckg.setApplicationBounds(bounds);
         root.addChild(bckg);
-
+        root.compile();
         return root;
 
     }
@@ -407,6 +405,7 @@ public class BSW extends Applet implements MouseListener {
         spin.addChild(scoreShapeLeft);
         spin.addChild(scoreShapeRight);
 
+        root.compile();
         return root;
 
     }
@@ -451,7 +450,7 @@ public class BSW extends Applet implements MouseListener {
             mf.dispose();
             System.exit(0);
         } else if (btnCode == null ? "BTN_RESTART" == null : btnCode.equals("BTN_RESTART")) {
-            init();
+            if (game.getStatus()!=GameStatus.READY) init();
         }
     }
 
